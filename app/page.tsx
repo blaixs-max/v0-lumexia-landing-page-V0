@@ -5,6 +5,7 @@ import { HeroSection } from "@/components/hero-section"
 import { TokenStats } from "@/components/token-stats"
 import { FeaturesGrid } from "@/components/features-grid"
 import { StrategySection } from "@/components/strategy-section"
+import { LeaderboardSection } from "@/components/leaderboard-section"
 import { FaqSection } from "@/components/faq-section"
 import { CommunitySection } from "@/components/community-section"
 import { Footer } from "@/components/footer"
@@ -18,6 +19,7 @@ export default function Home() {
         <TokenStats />
         <FeaturesGrid />
         <StrategySection />
+        <LeaderboardSection />
         <FaqSection />
         <CommunitySection />
       </main>

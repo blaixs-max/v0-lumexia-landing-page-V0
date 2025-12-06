@@ -144,6 +144,26 @@
   background: #ffd700;
 }
 
+/* Custom scrollbar for leaderboard */
+.leaderboard-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.leaderboard-scroll::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 5px;
+}
+
+.leaderboard-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #d4af37 0%, #aa8a2e 100%);
+  border-radius: 5px;
+  border: 2px solid #1a1a1a;
+}
+
+.leaderboard-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ffd700 0%, #d4af37 100%);
+}
+
 /* Add marquee animation for price ticker */
 @keyframes marquee {
   0% {
