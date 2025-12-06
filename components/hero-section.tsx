@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
 import { LiveChart } from "@/components/live-chart"
 
-interface HeroSectionProps {
-  onStartEngine: () => void
-}
+type HeroSectionProps = {}
 
-export function HeroSection({ onStartEngine }: HeroSectionProps) {
+export function HeroSection() {
+  const handleStartGame = () => {
+    window.open("https://newracing.netlify.app", "_blank")
+  }
+
   return (
     <section id="game" className="relative min-h-screen flex items-center justify-center">
       <div className="absolute inset-0">
@@ -51,7 +53,7 @@ export function HeroSection({ onStartEngine }: HeroSectionProps) {
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Button
-                onClick={onStartEngine}
+                onClick={handleStartGame}
                 className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90 transition-all duration-200 uppercase"
               >
                 Start Game Engine
