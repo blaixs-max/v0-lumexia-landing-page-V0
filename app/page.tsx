@@ -1,7 +1,6 @@
 "use client"
 
 import { Header } from "@/components/header"
-import { PriceTicker } from "@/components/price-ticker"
 import { HeroSection } from "@/components/hero-section"
 import { TokenStats } from "@/components/token-stats"
 import { FeaturesGrid } from "@/components/features-grid"
@@ -13,7 +12,6 @@ import { Footer } from "@/components/footer"
 export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <PriceTicker />
       <Header />
       <main>
         <HeroSection />

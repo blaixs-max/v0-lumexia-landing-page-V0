@@ -1,4 +1,4 @@
-import { Gamepad2, Bot, ImageIcon, ShieldCheck, Layers, PiggyBank } from "lucide-react"
+import { Gamepad2, Bot, ImageIcon, ShieldCheck, Layers, PiggyBank, Gift } from "lucide-react"
 
 const strategies = [
   {
@@ -33,6 +33,12 @@ const strategies = [
     title: "Treasury & Value Protection",
     description: "Strategic treasury management and buyback mechanisms to protect and enhance token value.",
   },
+  {
+    icon: Gift,
+    title: "Implement Reward Platform",
+    description:
+      "Complete daily tasks and challenges to earn free coins and unlock exclusive race entries. Stack your rewards and compete in premium tournaments without spending a dime.",
+  },
 ]
 
 export function StrategySection() {
@@ -41,7 +47,12 @@ export function StrategySection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#FFD700] mb-4">PROJECT STRATEGY</h2>
+          <h2
+            className="font-serif text-4xl sm:text-5xl font-black text-[#FFD700] mb-4"
+            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
+          >
+            PROJECT STRATEGY
+          </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
             Our roadmap to building the ultimate blockchain racing ecosystem
           </p>

@@ -2,9 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
-import { LiveChart } from "@/components/live-chart"
-
-type HeroSectionProps = {}
 
 export function HeroSection() {
   const handleStartGame = () => {
@@ -22,54 +19,45 @@ export function HeroSection() {
             backgroundPosition: "center top",
           }}
         />
-        {/* Dark overlay with slight purple/gray tint */}
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          <div className="text-center lg:text-left flex-1">
-            <h1 className="mb-6">
-              <span
-                className="block font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-wide uppercase"
-                style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.8)" }}
-              >
-                RACE FOR
-              </span>
-              <span
-                className="block font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-[#D4AF37] tracking-wide uppercase mt-1"
-                style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.8)" }}
-              >
-                LUMEXIA
-              </span>
-            </h1>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 text-center">
+        <h1 className="mb-6">
+          <span
+            className="block font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-wide uppercase"
+            style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.8)" }}
+          >
+            RACE FOR
+          </span>
+          <span
+            className="block font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-[#D4AF37] tracking-wide uppercase mt-1"
+            style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.8)" }}
+          >
+            LUMEXIA
+          </span>
+        </h1>
 
-            <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed">
-              Dominate the tracks in Binance Smart Chain's reliable and fun racing game. Reach the top of the daily
-              leaderboard to earn automatic <span className="text-[#D4AF37] font-semibold">$LMX</span> airdrops
-              transparently and witness our rise together.
-            </p>
+        <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+          Dominate the tracks in Binance Smart Chain's reliable and fun racing game. Reach the top of the daily
+          leaderboard to earn automatic <span className="text-[#D4AF37] font-semibold">$LMX</span> airdrops
+          transparently and witness our rise together.
+        </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <Button
-                onClick={handleStartGame}
-                className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90 transition-all duration-200 uppercase"
-              >
-                Start Game Engine
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all duration-200 uppercase"
-              >
-                View Leaderboard
-              </Button>
-            </div>
-          </div>
-
-          <div className="w-full lg:w-[420px] hidden lg:block">
-            <LiveChart />
-          </div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Button
+            onClick={handleStartGame}
+            className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90 transition-all duration-200 uppercase"
+          >
+            Start Game Engine
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all duration-200 uppercase"
+          >
+            View Leaderboard
+          </Button>
         </div>
       </div>
 
