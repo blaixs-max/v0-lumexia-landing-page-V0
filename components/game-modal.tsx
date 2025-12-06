@@ -81,8 +81,9 @@ export function GameModal({ isOpen, onClose }: GameModalProps) {
         src="https://newracing.netlify.app"
         className="w-full h-full border-0"
         title="Lumexia Racing Game"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; ethereum; web3"
         allowFullScreen
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation"
       />
     </div>
   )
