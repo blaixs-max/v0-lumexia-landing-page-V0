@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Trophy } from "lucide-react"
+import { Trophy, Coins } from "lucide-react"
 import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 
 function generateMockData() {
@@ -80,13 +80,40 @@ export function LeaderboardSection() {
   const [timeLeft, setTimeLeft] = useState({ hours: 7, minutes: 43, seconds: 7 })
   const [leaderboard, setLeaderboard] = useState<DailyLeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
+  const [poolValue, setPoolValue] = useState<number>(0)
+
+  async function fetchPoolValue() {
+    try {
+      const supabase = getSupabase()
+
+      const today = new Date()
+      today.setUTCHours(0, 0, 0, 0)
+      const todayISO = today.toISOString()
+
+      const { data, error } = await supabase
+        .from("transactions")
+        .select("amount")
+        .eq("status", "success")
+        .gte("created_at", todayISO)
+
+      if (error) {
+        console.error("[v0] Error fetching pool value:", error)
+        return
+      }
+
+      const total = data?.reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0) || 0
+      console.log("[v0] Pool value calculated:", total, "from", data?.length, "transactions")
+      setPoolValue(total)
+    } catch (err) {
+      console.error("[v0] Exception fetching pool value:", err)
+    }
+  }
 
   useEffect(() => {
     async function fetchLeaderboard() {
       try {
         const supabase = getSupabase()
 
-        // Query daily_leaderboard table from the blaixs-max project
         const { data, error } = await supabase
           .from("daily_leaderboard")
           .select("*")
@@ -98,24 +125,19 @@ export function LeaderboardSection() {
           return
         }
 
-        console.log("[v0] Fetched leaderboard data:", data?.length, "entries")
         setLeaderboard(data || [])
         setLoading(false)
 
-        // Subscribe to realtime changes
         const channel = supabase
           .channel("daily_leaderboard_changes")
           .on(
             "postgres_changes",
             {
-              event: "*", // Listen to all events (INSERT, UPDATE, DELETE)
+              event: "*",
               schema: "public",
               table: "daily_leaderboard",
             },
             async (payload) => {
-              console.log("[v0] Realtime update received:", payload)
-
-              // Re-fetch the entire leaderboard to maintain proper sorting
               const { data: updatedData, error: refetchError } = await supabase
                 .from("daily_leaderboard")
                 .select("*")
@@ -129,7 +151,6 @@ export function LeaderboardSection() {
           )
           .subscribe()
 
-        // Cleanup subscription on unmount
         return () => {
           supabase.removeChannel(channel)
         }
@@ -140,9 +161,32 @@ export function LeaderboardSection() {
     }
 
     fetchLeaderboard()
+    fetchPoolValue()
   }, [])
 
-  // Countdown timer
+  useEffect(() => {
+    const supabase = getSupabase()
+
+    const transactionsChannel = supabase
+      .channel("transactions_changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "transactions",
+        },
+        () => {
+          fetchPoolValue()
+        },
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(transactionsChannel)
+    }
+  }, [])
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -153,7 +197,8 @@ export function LeaderboardSection() {
         } else if (prev.hours > 0) {
           return { hours: prev.hours - 1, minutes: 59, seconds: 59 }
         }
-        return { hours: 23, minutes: 59, seconds: 59 } // Reset daily
+        fetchPoolValue()
+        return { hours: 23, minutes: 59, seconds: 59 }
       })
     }, 1000)
 
@@ -181,7 +226,6 @@ export function LeaderboardSection() {
   return (
     <section id="leaderboard" className="py-20 px-4 bg-black">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h2
@@ -198,9 +242,15 @@ export function LeaderboardSection() {
           </div>
 
           <div className="flex items-center gap-4 mt-4 md:mt-0">
+            <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/50 rounded-lg px-4 py-2">
+              <Coins className="w-4 h-4 text-[#D4AF37]" />
+              <span className="text-[#D4AF37] text-sm font-medium">Daily Reward Pool:</span>
+              <span className="text-white font-mono font-bold">{poolValue.toLocaleString()} $LMX</span>
+            </div>
+
             <div className="flex items-center gap-2 bg-red-900/30 border border-red-700/50 rounded-lg px-4 py-2">
               <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-              <span className="text-red-400 text-sm font-medium">Reset:</span>
+              <span className="text-red-400 text-sm font-medium">Remaining Time for Daily Reset:</span>
               <span className="text-white font-mono font-bold">
                 {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
               </span>
@@ -208,9 +258,7 @@ export function LeaderboardSection() {
           </div>
         </div>
 
-        {/* Leaderboard Table */}
         <div className="border border-gray-800 rounded-xl overflow-hidden">
-          {/* Table Header */}
           <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-gray-900/50 border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 font-semibold">
             <div className="col-span-1 text-center">Rank</div>
             <div className="col-span-5 md:col-span-6">Racer</div>
