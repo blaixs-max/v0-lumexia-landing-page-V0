@@ -324,12 +324,19 @@ export function LeaderboardSection() {
         </div>
 
         <div className="border border-gray-800 rounded-xl overflow-hidden">
-          <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-gray-900/50 border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+          <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-3 bg-gray-900/50 border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 font-semibold">
             <div className="col-span-1 text-center">Rank</div>
             <div className="col-span-1">Racer</div>
-            <div className="col-span-4 md:col-span-5">Wallet ID</div>
-            <div className="col-span-3 md:col-span-2 text-center">Score</div>
+            <div className="col-span-5">Wallet ID</div>
+            <div className="col-span-2 text-center">Score</div>
             <div className="col-span-3 text-right">Reward Pool</div>
+          </div>
+
+          <div className="grid md:hidden grid-cols-10 gap-2 px-3 py-3 bg-gray-900/50 border-b border-gray-800 text-[10px] uppercase tracking-wider text-gray-500 font-semibold">
+            <div className="col-span-1 text-center">#</div>
+            <div className="col-span-4 text-center">Wallet</div>
+            <div className="col-span-2 text-center">Score</div>
+            <div className="col-span-3 text-right">Reward</div>
           </div>
 
           <div
@@ -354,34 +361,57 @@ export function LeaderboardSection() {
                 const username = racer.wallet_address || `Racer_${rank}`
 
                 return (
-                  <div
-                    key={racer.id}
-                    className={`grid grid-cols-12 gap-4 px-4 py-4 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(rank)}`}
-                  >
-                    <div className="col-span-1 flex justify-center">{getRankDisplay(rank)}</div>
+                  <div key={racer.id}>
+                    <div
+                      className={`hidden md:grid grid-cols-12 gap-4 px-4 py-4 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(rank)}`}
+                    >
+                      <div className="col-span-1 flex justify-center">{getRankDisplay(rank)}</div>
 
-                    <div className="col-span-1 flex justify-center">
-                      <div
-                        className={`w-10 h-10 rounded-lg ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-white font-bold text-sm`}
-                      >
-                        {username.charAt(0).toUpperCase()}
+                      <div className="col-span-1 flex justify-center">
+                        <div
+                          className={`w-10 h-10 rounded-lg ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-white font-bold text-sm`}
+                        >
+                          {username.charAt(0).toUpperCase()}
+                        </div>
+                      </div>
+
+                      <div className="col-span-5 flex items-center gap-3">
+                        <CopyableWallet wallet={racer.full_wallet} />
+                      </div>
+
+                      <div className="col-span-2 text-center">
+                        <span className="text-[#D4AF37] font-bold text-base">{formatScore(racer.best_score)}</span>
+                      </div>
+
+                      <div className="col-span-3 text-right">
+                        <span className="text-[#D4AF37] font-semibold text-base">{reward.toLocaleString()} TBNB</span>
                       </div>
                     </div>
 
-                    <div className="col-span-4 md:col-span-5 flex items-center gap-3">
-                      <CopyableWallet wallet={racer.full_wallet} />
-                    </div>
+                    <div
+                      className={`grid md:hidden grid-cols-10 gap-2 px-3 py-3 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(rank)}`}
+                    >
+                      <div className="col-span-1 flex justify-center">
+                        {rank <= 3 ? (
+                          <Trophy
+                            className={`w-4 h-4 ${rank === 1 ? "text-yellow-400" : rank === 2 ? "text-gray-300" : "text-amber-600"}`}
+                          />
+                        ) : (
+                          <span className="text-gray-400 font-medium text-xs">#{rank}</span>
+                        )}
+                      </div>
 
-                    <div className="col-span-3 md:col-span-2 text-center">
-                      <span className="text-[#D4AF37] font-bold text-sm md:text-base">
-                        {formatScore(racer.best_score)}
-                      </span>
-                    </div>
+                      <div className="col-span-4 flex justify-center">
+                        <CopyableWallet wallet={racer.full_wallet} />
+                      </div>
 
-                    <div className="col-span-3 text-right">
-                      <span className="text-[#D4AF37] font-semibold text-sm md:text-base">
-                        {reward.toLocaleString()} TBNB
-                      </span>
+                      <div className="col-span-2 text-center">
+                        <span className="text-[#D4AF37] font-bold text-xs">{formatScore(racer.best_score)}</span>
+                      </div>
+
+                      <div className="col-span-3 text-right">
+                        <span className="text-[#D4AF37] font-semibold text-xs">{reward.toLocaleString()}</span>
+                      </div>
                     </div>
                   </div>
                 )
