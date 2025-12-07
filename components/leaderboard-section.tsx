@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Trophy } from "lucide-react"
+import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 
 function generateMockData() {
   const data = [
@@ -47,8 +48,6 @@ function generateMockData() {
   return data
 }
 
-const mockLeaderboardData = generateMockData()
-
 // Avatar placeholder colors
 const avatarColors = [
   "bg-gradient-to-br from-yellow-500 to-orange-600",
@@ -66,13 +65,50 @@ function formatScore(score: number) {
   return score.toLocaleString()
 }
 
+function calculateReward(rank: number): number {
+  if (rank === 1) return 2000
+  if (rank === 2) return 1950
+  if (rank === 3) return 1900
+  return Math.max(2000 - rank * 15, 100)
+}
+
 function formatReward(reward: number) {
   return `${reward.toLocaleString()} $LMX`
 }
 
 export function LeaderboardSection() {
   const [timeLeft, setTimeLeft] = useState({ hours: 7, minutes: 43, seconds: 7 })
-  const [leaderboard] = useState(mockLeaderboardData)
+  const [leaderboard, setLeaderboard] = useState<DailyLeaderboardEntry[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchLeaderboard() {
+      try {
+        const supabase = getSupabase()
+
+        // Query daily_leaderboard table from the blaixs-max project
+        const { data, error } = await supabase
+          .from("daily_leaderboard")
+          .select("*")
+          .order("best_score", { ascending: false })
+          .limit(100)
+
+        if (error) {
+          console.error("[v0] Error fetching leaderboard:", error)
+          return
+        }
+
+        console.log("[v0] Fetched leaderboard data:", data?.length, "entries")
+        setLeaderboard(data || [])
+      } catch (err) {
+        console.error("[v0] Exception fetching leaderboard:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLeaderboard()
+  }, [])
 
   // Countdown timer
   useEffect(() => {
@@ -157,41 +193,52 @@ export function LeaderboardSection() {
               scrollbarColor: "#D4AF37 #1a1a1a",
             }}
           >
-            {leaderboard.map((racer, index) => (
-              <div
-                key={racer.id}
-                className={`grid grid-cols-12 gap-4 px-4 py-4 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(index + 1)}`}
-              >
-                {/* Rank */}
-                <div className="col-span-1 flex justify-center">{getRankDisplay(index + 1)}</div>
-
-                {/* Racer Info */}
-                <div className="col-span-5 md:col-span-6 flex items-center gap-3">
-                  {/* Avatar */}
-                  <div
-                    className={`w-10 h-10 rounded-lg ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-white font-bold text-sm`}
-                  >
-                    {racer.username.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-white font-semibold text-sm md:text-base">{racer.username}</span>
-                    <span className="text-gray-500 text-xs font-mono">{truncateWallet(racer.walletId)}</span>
-                  </div>
-                </div>
-
-                {/* Score */}
-                <div className="col-span-3 md:col-span-2 text-center">
-                  <span className="text-[#D4AF37] font-bold text-sm md:text-base">{formatScore(racer.score)}</span>
-                </div>
-
-                {/* Reward */}
-                <div className="col-span-3 text-right">
-                  <span className="text-[#D4AF37] font-semibold text-sm md:text-base">
-                    {formatReward(racer.reward)}
-                  </span>
-                </div>
+            {loading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="text-[#D4AF37] text-lg">Loading leaderboard...</div>
               </div>
-            ))}
+            ) : leaderboard.length === 0 ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="text-gray-400 text-lg">No racers yet. Be the first!</div>
+              </div>
+            ) : (
+              leaderboard.map((racer, index) => {
+                const rank = index + 1
+                const reward = calculateReward(rank)
+                const username = racer.wallet_address || `Racer_${rank}`
+
+                return (
+                  <div
+                    key={racer.id}
+                    className={`grid grid-cols-12 gap-4 px-4 py-4 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(rank)}`}
+                  >
+                    <div className="col-span-1 flex justify-center">{getRankDisplay(rank)}</div>
+
+                    <div className="col-span-5 md:col-span-6 flex items-center gap-3">
+                      <div
+                        className={`w-10 h-10 rounded-lg ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-white font-bold text-sm`}
+                      >
+                        {username.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-white font-semibold text-sm md:text-base">{username}</span>
+                        <span className="text-gray-500 text-xs font-mono">{truncateWallet(racer.full_wallet)}</span>
+                      </div>
+                    </div>
+
+                    <div className="col-span-3 md:col-span-2 text-center">
+                      <span className="text-[#D4AF37] font-bold text-sm md:text-base">
+                        {formatScore(racer.best_score)}
+                      </span>
+                    </div>
+
+                    <div className="col-span-3 text-right">
+                      <span className="text-[#D4AF37] font-semibold text-sm md:text-base">{formatReward(reward)}</span>
+                    </div>
+                  </div>
+                )
+              })
+            )}
           </div>
         </div>
       </div>
