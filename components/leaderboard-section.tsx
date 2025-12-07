@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Trophy, Coins } from "lucide-react"
+import { Trophy, Coins, Copy, Check } from "lucide-react"
 import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 
 function generateMockData() {
@@ -60,6 +60,33 @@ const avatarColors = [
 function truncateWallet(wallet: string) {
   if (!wallet) return "N/A"
   return `${wallet.slice(0, 6)} ... ${wallet.slice(-4)}`
+}
+
+function CopyableWallet({ wallet }: { wallet: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    if (!wallet) return
+    try {
+      await navigator.clipboard.writeText(wallet)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error("Failed to copy:", err)
+    }
+  }
+
+  if (!wallet) return <span className="text-gray-500 text-xs">N/A</span>
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="flex items-center gap-1.5 px-2 py-1 rounded border border-[#D4AF37]/50 bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 transition-colors"
+    >
+      <span className="text-gray-300 text-xs font-mono">{truncateWallet(wallet)}</span>
+      {copied ? <Check className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3 text-[#D4AF37]" />}
+    </button>
+  )
 }
 
 function formatScore(score: number) {
@@ -355,10 +382,7 @@ export function LeaderboardSection() {
                       >
                         {username.charAt(0).toUpperCase()}
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-white font-semibold text-sm md:text-base">{username}</span>
-                        <span className="text-gray-500 text-xs font-mono">{truncateWallet(racer.full_wallet)}</span>
-                      </div>
+                      <CopyableWallet wallet={racer.full_wallet} />
                     </div>
 
                     <div className="col-span-3 md:col-span-2 text-center">
