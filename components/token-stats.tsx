@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react"
 import { Activity, Users, Coins, BarChart3, Clock, Zap, TrendingUp, TrendingDown } from "lucide-react"
+import { useTimer } from "@/lib/timer-context"
 
 const stats = [
   { label: "Market Cap", value: "$2.4M", icon: BarChart3, suffix: "" },
@@ -26,24 +27,10 @@ const mockTickerData: TickerData[] = [
 ]
 
 export function TokenStats() {
-  const [time, setTime] = useState("04:32:18")
+  const timer = useTimer()
   const [tickerData, setTickerData] = useState(mockTickerData)
   const [chartData, setChartData] = useState<number[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  // Timer countdown
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const [h, m, s] = time.split(":").map(Number)
-      let totalSeconds = h * 3600 + m * 60 + s - 1
-      if (totalSeconds < 0) totalSeconds = 4 * 3600 + 32 * 60 + 18
-      const newH = Math.floor(totalSeconds / 3600)
-      const newM = Math.floor((totalSeconds % 3600) / 60)
-      const newS = totalSeconds % 60
-      setTime(`${String(newH).padStart(2, "0")}:${String(newM).padStart(2, "0")}:${String(newS).padStart(2, "0")}`)
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [time])
 
   // Ticker data update
   useEffect(() => {
@@ -181,7 +168,7 @@ export function TokenStats() {
                     <span className="text-xs text-gray-500 uppercase tracking-wider">{stat.label}</span>
                   </div>
                   <p className="text-xl font-mono font-bold text-white">
-                    {stat.isTimer ? time : stat.value}
+                    {stat.isTimer ? timer.formatted : stat.value}
                     <span className="text-gray-500 text-sm">{stat.suffix}</span>
                   </p>
                   {stat.label === "24h Volume" && (

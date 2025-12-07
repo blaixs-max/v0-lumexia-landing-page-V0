@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Trophy, Coins, Copy, Check } from "lucide-react"
 import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
+import { useTimer } from "@/lib/timer-context"
 
 function generateMockData() {
   const data = [
@@ -143,7 +144,7 @@ function calculateAllRewards(
 }
 
 export function LeaderboardSection() {
-  const [timeLeft, setTimeLeft] = useState({ hours: 7, minutes: 43, seconds: 7 })
+  const timer = useTimer()
   const [leaderboard, setLeaderboard] = useState<DailyLeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [poolValue, setPoolValue] = useState<number>(0)
@@ -260,24 +261,6 @@ export function LeaderboardSection() {
   }, [])
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 }
-        } else if (prev.minutes > 0) {
-          return { ...prev, minutes: prev.minutes - 1, seconds: 59 }
-        } else if (prev.hours > 0) {
-          return { hours: prev.hours - 1, minutes: 59, seconds: 59 }
-        }
-        fetchPoolValue()
-        return { hours: 23, minutes: 59, seconds: 59 }
-      })
-    }, 1000)
-
-    return () => clearInterval(timer)
-  }, [])
-
-  useEffect(() => {
     if (leaderboard.length > 0 && poolValue > 0) {
       const { rewards, netPool, totalShares, unitValue } = calculateAllRewards(leaderboard.length, poolValue)
       setCalculatedRewards(rewards)
@@ -321,20 +304,20 @@ export function LeaderboardSection() {
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mt-4 md:mt-0">
-            <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/50 rounded-lg px-4 py-2">
-              <Coins className="w-4 h-4 text-[#D4AF37]" />
+          <div className="flex flex-col md:flex-row items-stretch gap-4 mt-4 md:mt-0">
+            <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/50 rounded-lg px-4 py-3 min-w-[280px]">
+              <Coins className="w-5 h-5 text-[#D4AF37]" />
               <span className="text-[#D4AF37] text-sm font-medium">Daily Reward Pool:</span>
               <span className="text-white font-mono font-bold">
-                {rewardStats.netPool.toLocaleString(undefined, { maximumFractionDigits: 2 })} TBNB
+                {Math.floor(rewardStats.netPool).toLocaleString()} TBNB
               </span>
             </div>
 
-            <div className="flex items-center gap-2 bg-red-900/30 border border-red-700/50 rounded-lg px-4 py-2">
+            <div className="flex items-center gap-2 bg-red-900/30 border border-red-700/50 rounded-lg px-4 py-3 min-w-[280px]">
               <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
               <span className="text-red-400 text-sm font-medium">Remaining Time for Daily Reset:</span>
               <span className="text-white font-mono font-bold">
-                {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+                {timer.hours}h {timer.minutes}m {timer.seconds}s
               </span>
             </div>
           </div>
@@ -343,7 +326,8 @@ export function LeaderboardSection() {
         <div className="border border-gray-800 rounded-xl overflow-hidden">
           <div className="grid grid-cols-12 gap-4 px-4 py-3 bg-gray-900/50 border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 font-semibold">
             <div className="col-span-1 text-center">Rank</div>
-            <div className="col-span-5 md:col-span-6">Racer</div>
+            <div className="col-span-1">Racer</div>
+            <div className="col-span-4 md:col-span-5">Wallet ID</div>
             <div className="col-span-3 md:col-span-2 text-center">Score</div>
             <div className="col-span-3 text-right">Reward Pool</div>
           </div>
@@ -376,12 +360,15 @@ export function LeaderboardSection() {
                   >
                     <div className="col-span-1 flex justify-center">{getRankDisplay(rank)}</div>
 
-                    <div className="col-span-5 md:col-span-6 flex items-center gap-3">
+                    <div className="col-span-1 flex justify-center">
                       <div
                         className={`w-10 h-10 rounded-lg ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-white font-bold text-sm`}
                       >
                         {username.charAt(0).toUpperCase()}
                       </div>
+                    </div>
+
+                    <div className="col-span-4 md:col-span-5 flex items-center gap-3">
                       <CopyableWallet wallet={racer.full_wallet} />
                     </div>
 
