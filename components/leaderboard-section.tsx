@@ -100,9 +100,41 @@ export function LeaderboardSection() {
 
         console.log("[v0] Fetched leaderboard data:", data?.length, "entries")
         setLeaderboard(data || [])
+        setLoading(false)
+
+        // Subscribe to realtime changes
+        const channel = supabase
+          .channel("daily_leaderboard_changes")
+          .on(
+            "postgres_changes",
+            {
+              event: "*", // Listen to all events (INSERT, UPDATE, DELETE)
+              schema: "public",
+              table: "daily_leaderboard",
+            },
+            async (payload) => {
+              console.log("[v0] Realtime update received:", payload)
+
+              // Re-fetch the entire leaderboard to maintain proper sorting
+              const { data: updatedData, error: refetchError } = await supabase
+                .from("daily_leaderboard")
+                .select("*")
+                .order("best_score", { ascending: false })
+                .limit(100)
+
+              if (!refetchError && updatedData) {
+                setLeaderboard(updatedData)
+              }
+            },
+          )
+          .subscribe()
+
+        // Cleanup subscription on unmount
+        return () => {
+          supabase.removeChannel(channel)
+        }
       } catch (err) {
         console.error("[v0] Exception fetching leaderboard:", err)
-      } finally {
         setLoading(false)
       }
     }
