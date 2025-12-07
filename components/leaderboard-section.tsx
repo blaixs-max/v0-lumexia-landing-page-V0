@@ -76,11 +76,55 @@ function formatReward(reward: number) {
   return `${reward.toLocaleString()} $LMX`
 }
 
+function getSharePoints(rank: number): number {
+  if (rank === 1) return 125
+  if (rank === 2) return 100
+  if (rank === 3) return 75
+  if (rank === 4) return 50
+  if (rank === 5) return 25
+  if (rank >= 6 && rank <= 50) return 8
+  if (rank >= 51 && rank <= 100) return 4
+  return 0 // No reward for ranks > 100
+}
+
+function calculateAllRewards(
+  leaderboardLength: number,
+  totalPool: number,
+): { rewards: number[]; netPool: number; totalShares: number; unitValue: number } {
+  // Net pool = 92.5% of total pool (7.5% fee)
+  const netPool = totalPool * 0.925
+
+  // Calculate total share points for all players
+  let totalShares = 0
+  for (let i = 1; i <= leaderboardLength && i <= 100; i++) {
+    totalShares += getSharePoints(i)
+  }
+
+  // Calculate unit value (value per 1 share point)
+  const unitValue = totalShares > 0 ? netPool / totalShares : 0
+
+  // Calculate reward for each rank
+  const rewards: number[] = []
+  for (let i = 1; i <= leaderboardLength && i <= 100; i++) {
+    const sharePoints = getSharePoints(i)
+    const reward = sharePoints * unitValue
+    rewards.push(Math.floor(reward))
+  }
+
+  return { rewards, netPool, totalShares, unitValue }
+}
+
 export function LeaderboardSection() {
   const [timeLeft, setTimeLeft] = useState({ hours: 7, minutes: 43, seconds: 7 })
   const [leaderboard, setLeaderboard] = useState<DailyLeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [poolValue, setPoolValue] = useState<number>(0)
+  const [calculatedRewards, setCalculatedRewards] = useState<number[]>([])
+  const [rewardStats, setRewardStats] = useState<{
+    netPool: number
+    totalShares: number
+    unitValue: number
+  }>({ netPool: 0, totalShares: 0, unitValue: 0 })
 
   async function fetchPoolValue() {
     try {
@@ -205,6 +249,14 @@ export function LeaderboardSection() {
     return () => clearInterval(timer)
   }, [])
 
+  useEffect(() => {
+    if (leaderboard.length > 0 && poolValue > 0) {
+      const { rewards, netPool, totalShares, unitValue } = calculateAllRewards(leaderboard.length, poolValue)
+      setCalculatedRewards(rewards)
+      setRewardStats({ netPool, totalShares, unitValue })
+    }
+  }, [leaderboard, poolValue])
+
   const getRankDisplay = (rank: number) => {
     if (rank === 1) {
       return <Trophy className="w-5 h-5 text-yellow-400" />
@@ -241,11 +293,13 @@ export function LeaderboardSection() {
             </p>
           </div>
 
-          <div className="flex items-center gap-4 mt-4 md:mt-0">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mt-4 md:mt-0">
             <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/50 rounded-lg px-4 py-2">
               <Coins className="w-4 h-4 text-[#D4AF37]" />
               <span className="text-[#D4AF37] text-sm font-medium">Daily Reward Pool:</span>
-              <span className="text-white font-mono font-bold">{poolValue.toLocaleString()} $LMX</span>
+              <span className="text-white font-mono font-bold">
+                {rewardStats.netPool.toLocaleString(undefined, { maximumFractionDigits: 2 })} TBNB
+              </span>
             </div>
 
             <div className="flex items-center gap-2 bg-red-900/30 border border-red-700/50 rounded-lg px-4 py-2">
@@ -284,7 +338,7 @@ export function LeaderboardSection() {
             ) : (
               leaderboard.map((racer, index) => {
                 const rank = index + 1
-                const reward = calculateReward(rank)
+                const reward = calculatedRewards[index] || 0
                 const username = racer.wallet_address || `Racer_${rank}`
 
                 return (
@@ -313,7 +367,9 @@ export function LeaderboardSection() {
                     </div>
 
                     <div className="col-span-3 text-right">
-                      <span className="text-[#D4AF37] font-semibold text-sm md:text-base">{formatReward(reward)}</span>
+                      <span className="text-[#D4AF37] font-semibold text-sm md:text-base">
+                        {reward.toLocaleString()} TBNB
+                      </span>
                     </div>
                   </div>
                 )
