@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react"
 
 export function HeroSection() {
   const handleStartGame = () => {
-    window.open("https://newracing.netlify.app", "_blank")
+    window.open("https://game.lumexia.net", "_blank")
   }
 
   return (
