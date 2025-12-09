@@ -57,34 +57,37 @@ const gameSteps = [
 function DetailedGameGuide() {
   return (
     <div className="space-y-6">
-      {/* Steps */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {gameSteps.map((step, index) => (
-          <div key={index} className="flex items-start gap-3 bg-black/50 border border-gray-800 rounded-lg p-4">
-            <div className="flex-shrink-0 w-10 h-10 bg-[#FFD700]/20 rounded-full flex items-center justify-center">
-              <step.icon className="w-5 h-5 text-[#FFD700]" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[#FFD700] font-bold text-sm">STEP {index + 1}</span>
-              </div>
-              <h4 className="text-white font-semibold">{step.title}</h4>
-              <p className="text-gray-400 text-sm">{step.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-6 border-t border-gray-800 pt-6">
-        <h3 className="text-[#FFD700] font-serif text-xl font-bold mb-4 text-center">GAME CONTROLS</h3>
+      <div className="mb-6">
+        <div className="text-center mb-4">
+          <span className="inline-block bg-[#FFD700]/10 border border-[#FFD700]/30 rounded-full px-4 py-1 text-[#FFD700] font-bold text-sm uppercase tracking-wider">
+            Game Controls
+          </span>
+        </div>
 
         {/* Game Controls Image */}
-        <div className="rounded-xl overflow-hidden border border-[#FFD700]/30">
+        <div className="rounded-xl overflow-hidden border-2 border-[#FFD700]/50 shadow-lg shadow-[#FFD700]/10">
           <img
             src="/images/gemini-generated-image-kavfunkavfunkavf.jpeg"
             alt="Lumexia Game Controls - Mobile: Tap screen to steer, NITRO button for speed. PC: Arrow keys to move, SPACE for nitro"
             className="w-full h-auto"
           />
+        </div>
+      </div>
+
+      <div className="border-t border-[#FFD700]/30 pt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {gameSteps.map((step, index) => (
+            <div key={index} className="bg-black/50 border border-[#FFD700]/30 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 bg-[#FFD700] rounded-full flex items-center justify-center">
+                  <span className="text-black font-bold text-sm">{index + 1}</span>
+                </div>
+                <span className="text-[#FFD700] font-bold text-sm uppercase">Step {index + 1}</span>
+              </div>
+              <h4 className="text-white font-semibold mb-1">{step.title}</h4>
+              <p className="text-gray-400 text-sm">{step.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
