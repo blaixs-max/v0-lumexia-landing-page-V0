@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Trophy, Coins, Copy, Check } from "lucide-react"
 import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 import { useTimer } from "@/lib/timer-context"
+import { usePool } from "@/lib/pool-context"
 
 function generateMockData() {
   const data = [
@@ -145,42 +146,15 @@ function calculateAllRewards(
 
 export function LeaderboardSection() {
   const timer = useTimer()
+  const { poolValue, netPool } = usePool()
   const [leaderboard, setLeaderboard] = useState<DailyLeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
-  const [poolValue, setPoolValue] = useState<number>(0)
   const [calculatedRewards, setCalculatedRewards] = useState<number[]>([])
   const [rewardStats, setRewardStats] = useState<{
     netPool: number
     totalShares: number
     unitValue: number
   }>({ netPool: 0, totalShares: 0, unitValue: 0 })
-
-  async function fetchPoolValue() {
-    try {
-      const supabase = getSupabase()
-
-      const today = new Date()
-      today.setUTCHours(0, 0, 0, 0)
-      const todayISO = today.toISOString()
-
-      const { data, error } = await supabase
-        .from("transactions")
-        .select("amount")
-        .eq("status", "success")
-        .gte("created_at", todayISO)
-
-      if (error) {
-        console.error("[v0] Error fetching pool value:", error)
-        return
-      }
-
-      const total = data?.reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0) || 0
-      console.log("[v0] Pool value calculated:", total, "from", data?.length, "transactions")
-      setPoolValue(total)
-    } catch (err) {
-      console.error("[v0] Exception fetching pool value:", err)
-    }
-  }
 
   useEffect(() => {
     async function fetchLeaderboard() {
@@ -194,7 +168,6 @@ export function LeaderboardSection() {
           .limit(100)
 
         if (error) {
-          console.error("[v0] Error fetching leaderboard:", error)
           return
         }
 
@@ -228,36 +201,11 @@ export function LeaderboardSection() {
           supabase.removeChannel(channel)
         }
       } catch (err) {
-        console.error("[v0] Exception fetching leaderboard:", err)
         setLoading(false)
       }
     }
 
     fetchLeaderboard()
-    fetchPoolValue()
-  }, [])
-
-  useEffect(() => {
-    const supabase = getSupabase()
-
-    const transactionsChannel = supabase
-      .channel("transactions_changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "transactions",
-        },
-        () => {
-          fetchPoolValue()
-        },
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(transactionsChannel)
-    }
   }, [])
 
   useEffect(() => {
@@ -308,9 +256,7 @@ export function LeaderboardSection() {
             <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/50 rounded-lg px-4 py-3 min-w-[280px]">
               <Coins className="w-5 h-5 text-[#D4AF37]" />
               <span className="text-[#D4AF37] text-sm font-medium">Daily Reward Pool:</span>
-              <span className="text-white font-mono font-bold">
-                {Math.floor(rewardStats.netPool).toLocaleString()} TBNB
-              </span>
+              <span className="text-white font-mono font-bold">{Math.floor(netPool).toLocaleString()} TBNB</span>
             </div>
 
             <div className="flex items-center gap-2 bg-red-900/30 border border-red-700/50 rounded-lg px-4 py-3 min-w-[280px]">

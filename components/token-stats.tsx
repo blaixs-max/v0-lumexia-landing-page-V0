@@ -1,38 +1,143 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
-import { Activity, Users, Coins, BarChart3, Clock, Zap, TrendingUp, TrendingDown } from "lucide-react"
+import { useEffect, useState, useRef, useCallback } from "react"
+import { Activity, Users, Coins, BarChart3, Clock, Zap, TrendingUp, TrendingDown, RefreshCw } from "lucide-react"
 import { useTimer } from "@/lib/timer-context"
+import { usePool } from "@/lib/pool-context"
 
-const stats = [
-  { label: "Market Cap", value: "$2.4M", icon: BarChart3, suffix: "" },
-  { label: "24h Volume", value: "$847K", icon: Activity, suffix: "" },
-  { label: "Holders", value: "12,847", icon: Users, suffix: "" },
-  { label: "Circulating Supply", value: "847M", icon: Coins, suffix: " LMX" },
-  { label: "Daily Prize Pool", value: "$4,200", icon: Zap, suffix: "" },
-  { label: "Next Distribution", value: "04:32:18", icon: Clock, suffix: "", isTimer: true },
-]
+// Şimdilik CAKE (PancakeSwap) kullanıyoruz: BSC'deki popüler token
+const TOKEN_ADDRESS = "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+const CHAIN_ID = "bsc"
 
-interface TickerData {
-  symbol: string
-  price: string
-  change: number
+interface DexData {
+  priceUsd: string
+  marketCap: number
+  volume24h: number
+  fdv: number
+  priceChange24h: number
+  liquidity: number
 }
 
-const mockTickerData: TickerData[] = [
+const mockTickerData = [
   { symbol: "LMX/USDT", price: "0.0847", change: 12.45 },
   { symbol: "BNB/USDT", price: "612.34", change: 2.18 },
   { symbol: "BTC/USDT", price: "104,521", change: 1.24 },
   { symbol: "ETH/USDT", price: "3,892", change: -0.87 },
 ]
 
+function formatNumber(num: number): string {
+  if (num >= 1_000_000_000) {
+    return `$${(num / 1_000_000_000).toFixed(2)}B`
+  } else if (num >= 1_000_000) {
+    return `$${(num / 1_000_000).toFixed(2)}M`
+  } else if (num >= 1_000) {
+    return `$${(num / 1_000).toFixed(0)}K`
+  }
+  return `$${num.toFixed(2)}`
+}
+
+function formatSupply(num: number): string {
+  if (num >= 1_000_000_000) {
+    return `${(num / 1_000_000_000).toFixed(0)}B`
+  } else if (num >= 1_000_000) {
+    return `${(num / 1_000_000).toFixed(0)}M`
+  } else if (num >= 1_000) {
+    return `${(num / 1_000).toFixed(0)}K`
+  }
+  return num.toFixed(0)
+}
+
 export function TokenStats() {
   const timer = useTimer()
+  const { netPool, loading: poolLoading } = usePool()
   const [tickerData, setTickerData] = useState(mockTickerData)
   const [chartData, setChartData] = useState<number[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  // Ticker data update
+  const [dexData, setDexData] = useState<DexData | null>(null)
+  const [dexLoading, setDexLoading] = useState(true)
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
+
+  const fetchDexData = useCallback(async () => {
+    try {
+      setDexLoading(true)
+      const response = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${TOKEN_ADDRESS}`)
+      const data = await response.json()
+
+      if (data.pairs && data.pairs.length > 0) {
+        // En yüksek likiditeye sahip pair'ı seç
+        const mainPair = data.pairs.sort((a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0]
+
+        setDexData({
+          priceUsd: mainPair.priceUsd || "0",
+          marketCap: mainPair.marketCap || mainPair.fdv || 0,
+          volume24h: mainPair.volume?.h24 || 0,
+          fdv: mainPair.fdv || 0,
+          priceChange24h: mainPair.priceChange?.h24 || 0,
+          liquidity: mainPair.liquidity?.usd || 0,
+        })
+        setLastUpdate(new Date())
+
+        setTickerData((prev) =>
+          prev.map((item) =>
+            item.symbol === "LMX/USDT"
+              ? {
+                  ...item,
+                  price: Number.parseFloat(mainPair.priceUsd).toFixed(4),
+                  change: mainPair.priceChange?.h24 || 0,
+                }
+              : item,
+          ),
+        )
+      }
+    } catch (error) {
+      // Hata durumunda sessizce devam et, mock data kullanılacak
+    } finally {
+      setDexLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchDexData()
+    const interval = setInterval(fetchDexData, 30000) // 30 saniyede bir güncelle
+    return () => clearInterval(interval)
+  }, [fetchDexData])
+
+  const stats = [
+    {
+      label: "Market Cap",
+      value: dexLoading ? "Loading..." : dexData ? formatNumber(dexData.marketCap) : "$2.4M",
+      icon: BarChart3,
+      suffix: "",
+    },
+    {
+      label: "24h Volume",
+      value: dexLoading ? "Loading..." : dexData ? formatNumber(dexData.volume24h) : "$847K",
+      icon: Activity,
+      suffix: "",
+      change: dexData?.priceChange24h,
+    },
+    {
+      label: "Liquidity",
+      value: dexLoading ? "Loading..." : dexData ? formatNumber(dexData.liquidity) : "$1.2M",
+      icon: Users,
+      suffix: "",
+    },
+    {
+      label: "FDV",
+      value: dexLoading ? "Loading..." : dexData ? formatNumber(dexData.fdv) : "$847M",
+      icon: Coins,
+      suffix: "",
+    },
+    {
+      label: "Daily Prize Pool",
+      value: poolLoading ? "..." : `${Math.floor(netPool).toLocaleString()}`,
+      icon: Zap,
+      suffix: " TBNB",
+    },
+    { label: "Next Distribution", value: "04:32:18", icon: Clock, suffix: "", isTimer: true },
+  ]
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTickerData((prev) =>
@@ -48,13 +153,11 @@ export function TokenStats() {
     return () => clearInterval(interval)
   }, [])
 
-  // Chart data initialization
   useEffect(() => {
     const initial = Array.from({ length: 50 }, () => 0.08 + Math.random() * 0.01)
     setChartData(initial)
   }, [])
 
-  // Chart data update
   useEffect(() => {
     const interval = setInterval(() => {
       setChartData((prev) => {
@@ -66,7 +169,6 @@ export function TokenStats() {
     return () => clearInterval(interval)
   }, [])
 
-  // Draw chart
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas || chartData.length === 0) return
@@ -130,6 +232,12 @@ export function TokenStats() {
             FINANCIAL FIGURES
           </h2>
           <div className="mt-2 w-24 h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto" />
+          {lastUpdate && (
+            <p className="mt-2 text-xs text-gray-500 flex items-center justify-center gap-1">
+              <RefreshCw className="w-3 h-3" />
+              Last updated: {lastUpdate.toLocaleTimeString()}
+            </p>
+          )}
         </div>
 
         <div className="p-6 rounded-xl border-2 border-gray-800 bg-gray-950/50 backdrop-blur-sm">
@@ -171,9 +279,12 @@ export function TokenStats() {
                     {stat.isTimer ? timer.formatted : stat.value}
                     <span className="text-gray-500 text-sm">{stat.suffix}</span>
                   </p>
-                  {stat.label === "24h Volume" && (
+                  {stat.label === "24h Volume" && stat.change !== undefined && (
                     <div className="absolute bottom-1 right-2">
-                      <span className="text-xs text-green-500 font-mono">+24.5%</span>
+                      <span className={`text-xs font-mono ${stat.change >= 0 ? "text-green-500" : "text-red-500"}`}>
+                        {stat.change >= 0 ? "+" : ""}
+                        {stat.change.toFixed(2)}%
+                      </span>
                     </div>
                   )}
                 </div>
@@ -185,11 +296,21 @@ export function TokenStats() {
                 <div>
                   <h3 className="text-sm text-gray-400">LMX/USDT</h3>
                   <p className="text-2xl font-mono font-bold text-white">
-                    ${chartData.length > 0 ? chartData[chartData.length - 1].toFixed(4) : "0.0847"}
+                    $
+                    {dexData
+                      ? Number.parseFloat(dexData.priceUsd).toFixed(4)
+                      : chartData.length > 0
+                        ? chartData[chartData.length - 1].toFixed(4)
+                        : "0.0847"}
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className="text-green-500 text-sm font-mono">+12.45%</span>
+                  <span
+                    className={`text-sm font-mono ${(dexData?.priceChange24h || 0) >= 0 ? "text-green-500" : "text-red-500"}`}
+                  >
+                    {(dexData?.priceChange24h || 0) >= 0 ? "+" : ""}
+                    {(dexData?.priceChange24h || 12.45).toFixed(2)}%
+                  </span>
                   <p className="text-xs text-gray-500">24h Change</p>
                 </div>
               </div>

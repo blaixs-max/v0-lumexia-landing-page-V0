@@ -5,6 +5,7 @@ import { Playfair_Display } from "next/font/google"
 import { Cinzel } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { TimerProvider } from "@/lib/timer-context"
+import { PoolProvider } from "@/lib/pool-context"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -44,7 +45,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="font-sans antialiased">
-        <TimerProvider>{children}</TimerProvider>
+        <TimerProvider>
+          <PoolProvider>{children}</PoolProvider>
+        </TimerProvider>
         <Analytics />
       </body>
     </html>
