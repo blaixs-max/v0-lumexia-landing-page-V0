@@ -2,22 +2,21 @@
 
 import { useState, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Wallet, Gamepad2, Users, Coins } from "lucide-react"
+import { Wallet, Gamepad2, Users, Coins, Monitor, Smartphone } from "lucide-react"
 
 const faqs = [
+  {
+    question: "How do I connect my wallet?",
+    answer: "detailed_wallet_guide",
+  },
+  {
+    question: "How do I play the game?",
+    answer: "detailed_guide",
+  },
   {
     question: "Where can I buy $LMX tokens?",
     answer:
       "$LMX tokens are available on PancakeSwap. Connect your wallet, ensure you have BNB for gas fees, and swap for $LMX using our official contract address. Always verify the contract address on our official channels to avoid scams.",
-  },
-  {
-    question: "How do I connect my wallet?",
-    answer:
-      "Click the 'START ENGINE' button to launch the game. You'll be prompted to connect a BSC-compatible wallet like MetaMask, Trust Wallet, or WalletConnect. Ensure your wallet is set to the Binance Smart Chain network.",
-  },
-  {
-    question: "How do I play the game?",
-    answer: "detailed_guide", // Special marker for detailed guide
   },
   {
     question: "How do I earn tokens?",
@@ -53,6 +52,103 @@ const gameSteps = [
     description: "Purchase credits or enter the game with your existing credits",
   },
 ]
+
+const pcConnectionSteps = [
+  {
+    step: 1,
+    description: "Press the Connect Wallet button.",
+  },
+  {
+    step: 2,
+    description: "Your wallet application will open automatically.",
+  },
+  {
+    step: 3,
+    description: "Wait until the Lumexia connection menu appears in your wallet application.",
+  },
+  {
+    step: 4,
+    description: "Press the Connect or Approve button.",
+  },
+]
+
+const mobileConnectionSteps = [
+  {
+    step: 1,
+    description: "Press the Connect Wallet button.",
+  },
+  {
+    step: 2,
+    description: "Your wallet app will open automatically.",
+  },
+  {
+    step: 3,
+    description: "Wait until the Lumexia connection menu appears in your wallet app.",
+  },
+  {
+    step: 4,
+    description: "Press the Connect or Approve button.",
+  },
+  {
+    step: 5,
+    description:
+      'If you still receive a message saying "Open MetaMask app" when you return to the app (game), press the Open button and wait until you see the message "Permissions granted, network changed, you can now return to the app."',
+  },
+]
+
+function DetailedWalletGuide() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* PC Connection Section - Left Side */}
+      <div className="bg-black/50 border border-[#FFD700]/30 rounded-xl p-5 h-full">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-[#FFD700] rounded-full flex items-center justify-center">
+            <Monitor className="w-5 h-5 text-black" />
+          </div>
+          <div>
+            <h3 className="text-[#FFD700] font-bold text-lg uppercase">For PC Connection</h3>
+            <p className="text-gray-400 text-sm">MetaMask Extension must be installed</p>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {pcConnectionSteps.map((item) => (
+            <div key={item.step} className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-[#FFD700]/20 border border-[#FFD700]/50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-[#FFD700] font-bold text-xs">{item.step}</span>
+              </div>
+              <p className="text-gray-300 text-sm">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile Connection Section - Right Side */}
+      <div className="bg-black/50 border border-[#FFD700]/30 rounded-xl p-5 h-full">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-[#FFD700] rounded-full flex items-center justify-center">
+            <Smartphone className="w-5 h-5 text-black" />
+          </div>
+          <div>
+            <h3 className="text-[#FFD700] font-bold text-lg uppercase">For Mobile Connection</h3>
+            <p className="text-gray-400 text-sm">MetaMask App must be installed</p>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {mobileConnectionSteps.map((item) => (
+            <div key={item.step} className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-[#FFD700]/20 border border-[#FFD700]/50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-[#FFD700] font-bold text-xs">{item.step}</span>
+              </div>
+              <p className="text-gray-300 text-sm">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function DetailedGameGuide() {
   return (
@@ -99,7 +195,7 @@ export function FaqSection() {
 
   useEffect(() => {
     const handleTriggerClick = () => {
-      setOpenItem("item-2") // "How do I play the game?" is index 2
+      setOpenItem("item-1") // "How do I play the game?" is now at index 1
     }
 
     const trigger = document.getElementById("how-to-play-trigger")
@@ -139,7 +235,13 @@ export function FaqSection() {
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent className="text-gray-400 pb-5 leading-relaxed">
-                {faq.answer === "detailed_guide" ? <DetailedGameGuide /> : faq.answer}
+                {faq.answer === "detailed_guide" ? (
+                  <DetailedGameGuide />
+                ) : faq.answer === "detailed_wallet_guide" ? (
+                  <DetailedWalletGuide />
+                ) : (
+                  faq.answer
+                )}
               </AccordionContent>
             </AccordionItem>
           ))}
