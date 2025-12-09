@@ -8,6 +8,13 @@ export function HeroSection() {
     window.open("https://game.lumexia.net", "_blank")
   }
 
+  const handleViewLeaderboard = () => {
+    const leaderboard = document.getElementById("leaderboard")
+    if (leaderboard) {
+      leaderboard.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <section id="game" className="relative min-h-screen flex items-center justify-center">
       <div className="absolute inset-0">
@@ -53,6 +60,7 @@ export function HeroSection() {
             Start Game Engine
           </Button>
           <Button
+            onClick={handleViewLeaderboard}
             variant="outline"
             className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all duration-200 uppercase"
           >
