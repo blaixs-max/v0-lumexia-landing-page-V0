@@ -5,11 +5,11 @@ import { Menu, X, Copy, Check } from "lucide-react"
 import Image from "next/image"
 
 const navLinks = [
-  { name: "Game", href: "#game" },
-  { name: "Leaderboard", href: "#leaderboard" },
-  { name: "Project Strategy", href: "#strategy" },
-  { name: "Community", href: "#community" },
-  { name: "Help", href: "#faq" },
+  { name: "Game", href: "https://game.lumexia.net", external: true },
+  { name: "Leaderboard", href: "#leaderboard", external: false },
+  { name: "Project Strategy", href: "#strategy", external: false },
+  { name: "Community", href: "#community", external: false },
+  { name: "Help", href: "#faq", external: false },
 ]
 
 const CONTRACT_ADDRESS = "0x7a8B3C9dE2fA1b5c6D8e9F0a1B2c3D4e5F6a7B8C"
@@ -74,6 +74,8 @@ export function Header() {
               <a
                 key={link.name}
                 href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
                 className="text-sm text-gray-300 hover:text-[#FFD700] transition-colors duration-200"
               >
                 {link.name}
@@ -112,6 +114,8 @@ export function Header() {
               <a
                 key={link.name}
                 href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
                 className="block py-3 text-gray-300 hover:text-[#FFD700] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
