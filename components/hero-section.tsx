@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Gamepad2 } from "lucide-react"
 
 export function HeroSection() {
   const handleStartGame = () => {
@@ -12,6 +12,20 @@ export function HeroSection() {
     const leaderboard = document.getElementById("leaderboard")
     if (leaderboard) {
       leaderboard.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
+  const handleHowToPlay = () => {
+    const faqSection = document.getElementById("faq")
+    if (faqSection) {
+      faqSection.scrollIntoView({ behavior: "smooth" })
+      // Wait for scroll to complete, then trigger the accordion
+      setTimeout(() => {
+        const howToPlayTrigger = document.getElementById("how-to-play-trigger")
+        if (howToPlayTrigger) {
+          howToPlayTrigger.click()
+        }
+      }, 800)
     }
   }
 
@@ -59,6 +73,14 @@ export function HeroSection() {
             className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90 transition-all duration-200 uppercase"
           >
             Start Game Engine
+          </Button>
+          <Button
+            onClick={handleHowToPlay}
+            variant="outline"
+            className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all duration-200 uppercase"
+          >
+            <Gamepad2 className="w-4 h-4 mr-2" />
+            How to Play
           </Button>
           <Button
             onClick={handleViewLeaderboard}

@@ -1,3 +1,6 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Wallet, Gamepad2, Users, Coins } from "lucide-react"
 
@@ -89,6 +92,25 @@ function DetailedGameGuide() {
 }
 
 export function FaqSection() {
+  const [openItem, setOpenItem] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    const handleTriggerClick = () => {
+      setOpenItem("item-2") // "How do I play the game?" is index 2
+    }
+
+    const trigger = document.getElementById("how-to-play-trigger")
+    if (trigger) {
+      trigger.addEventListener("click", handleTriggerClick)
+    }
+
+    return () => {
+      if (trigger) {
+        trigger.removeEventListener("click", handleTriggerClick)
+      }
+    }
+  }, [])
+
   return (
     <section id="faq" className="py-24 bg-black">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,8 +123,9 @@ export function FaqSection() {
           <p className="text-gray-400">Everything you need to know before hitting the track</p>
         </div>
 
-        {/* Accordion */}
-        <Accordion type="single" collapsible className="space-y-4">
+        <button id="how-to-play-trigger" className="hidden" aria-hidden="true" />
+
+        <Accordion type="single" collapsible className="space-y-4" value={openItem} onValueChange={setOpenItem}>
           {faqs.map((faq, index) => (
             <AccordionItem
               key={index}
