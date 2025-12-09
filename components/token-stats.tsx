@@ -51,8 +51,7 @@ export function TokenStats() {
   const timer = useTimer()
   const { netPool, loading: poolLoading } = usePool()
   const [tickerData, setTickerData] = useState(mockTickerData)
-  const [chartData, setChartData] = useState<number[]>([])
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const tradingViewRef = useRef<HTMLDivElement>(null)
 
   const [dexData, setDexData] = useState<DexData | null>(null)
   const [dexLoading, setDexLoading] = useState(true)
@@ -154,72 +153,36 @@ export function TokenStats() {
   }, [])
 
   useEffect(() => {
-    const initial = Array.from({ length: 50 }, () => 0.08 + Math.random() * 0.01)
-    setChartData(initial)
-  }, [])
+    if (!tradingViewRef.current) return
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setChartData((prev) => {
-        if (prev.length === 0) return prev
-        const newData = [...prev.slice(1), prev[prev.length - 1] + (Math.random() - 0.48) * 0.002]
-        return newData
-      })
-    }, 500)
-    return () => clearInterval(interval)
-  }, [])
+    // Clear previous widget
+    tradingViewRef.current.innerHTML = ""
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas || chartData.length === 0) return
-
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    const width = canvas.width
-    const height = canvas.height
-    const min = Math.min(...chartData) * 0.99
-    const max = Math.max(...chartData) * 1.01
-    const range = max - min
-
-    ctx.clearRect(0, 0, width, height)
-
-    const gradient = ctx.createLinearGradient(0, 0, 0, height)
-    gradient.addColorStop(0, "rgba(212, 175, 55, 0.3)")
-    gradient.addColorStop(1, "rgba(212, 175, 55, 0)")
-
-    ctx.beginPath()
-    ctx.moveTo(0, height)
-
-    chartData.forEach((value, index) => {
-      const x = (index / (chartData.length - 1)) * width
-      const y = height - ((value - min) / range) * height
-      ctx.lineTo(x, y)
+    const script = document.createElement("script")
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js"
+    script.async = true
+    script.innerHTML = JSON.stringify({
+      symbol: "BINANCE:CAKEUSDT", // CAKE token - LMX için değiştirin
+      width: "100%",
+      height: "220",
+      locale: "en",
+      dateRange: "1D",
+      colorTheme: "dark",
+      isTransparent: true,
+      autosize: true,
+      largeChartUrl: "",
+      noTimeScale: false,
+      chartOnly: false,
     })
 
-    ctx.lineTo(width, height)
-    ctx.closePath()
-    ctx.fillStyle = gradient
-    ctx.fill()
+    tradingViewRef.current.appendChild(script)
 
-    ctx.beginPath()
-    chartData.forEach((value, index) => {
-      const x = (index / (chartData.length - 1)) * width
-      const y = height - ((value - min) / range) * height
-      if (index === 0) ctx.moveTo(x, y)
-      else ctx.lineTo(x, y)
-    })
-    ctx.strokeStyle = "#D4AF37"
-    ctx.lineWidth = 2
-    ctx.stroke()
-
-    const lastX = width
-    const lastY = height - ((chartData[chartData.length - 1] - min) / range) * height
-    ctx.beginPath()
-    ctx.arc(lastX - 2, lastY, 4, 0, Math.PI * 2)
-    ctx.fillStyle = "#D4AF37"
-    ctx.fill()
-  }, [chartData])
+    return () => {
+      if (tradingViewRef.current) {
+        tradingViewRef.current.innerHTML = ""
+      }
+    }
+  }, [])
 
   return (
     <section className="py-12 bg-black border-b border-gray-800">
@@ -291,34 +254,17 @@ export function TokenStats() {
               ))}
             </div>
 
-            <div className="bg-gray-900/80 border border-gray-700 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-sm text-gray-400">LMX/USDT</h3>
-                  <p className="text-2xl font-mono font-bold text-white">
-                    $
-                    {dexData
-                      ? Number.parseFloat(dexData.priceUsd).toFixed(4)
-                      : chartData.length > 0
-                        ? chartData[chartData.length - 1].toFixed(4)
-                        : "0.0847"}
-                  </p>
+            {/* TradingView widget */}
+            <div className="bg-gray-900/80 border border-gray-700 rounded-lg p-4 overflow-hidden">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-[#D4AF37]" />
+                  <span className="text-xs text-gray-500 uppercase tracking-wider">24H Price Chart</span>
                 </div>
-                <div className="text-right">
-                  <span
-                    className={`text-sm font-mono ${(dexData?.priceChange24h || 0) >= 0 ? "text-green-500" : "text-red-500"}`}
-                  >
-                    {(dexData?.priceChange24h || 0) >= 0 ? "+" : ""}
-                    {(dexData?.priceChange24h || 12.45).toFixed(2)}%
-                  </span>
-                  <p className="text-xs text-gray-500">24h Change</p>
-                </div>
+                <span className="text-xs text-gray-600">Live</span>
               </div>
-              <canvas ref={canvasRef} width={400} height={120} className="w-full h-[120px]" />
-              <div className="flex justify-between mt-2 text-xs text-gray-600">
-                <span>24h ago</span>
-                <span>12h ago</span>
-                <span>Now</span>
+              <div className="tradingview-widget-container" ref={tradingViewRef}>
+                <div className="tradingview-widget-container__widget"></div>
               </div>
             </div>
           </div>

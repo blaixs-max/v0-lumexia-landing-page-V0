@@ -49,7 +49,8 @@ export function HeroSection() {
         <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
           Dominate the tracks in Binance Smart Chain's reliable and fun racing game. Reach the top of the daily
           leaderboard to earn automatic <span className="text-[#D4AF37] font-semibold">$LMX</span> airdrops
-          transparently and witness our rise together.
+          transparently, we know we don't have the best game right now, but we're confident we'll be the best.{" "}
+          <span className="text-[#D4AF37] font-bold uppercase">LET'S RISE TOGETHER.</span>
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
