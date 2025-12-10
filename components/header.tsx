@@ -46,9 +46,9 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24 md:h-32">
           {/* Logo */}
-          <div className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
+          <a href="https://lumexia.net" className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
             <Image src="/images/lumexia-logo.png" alt="Lumexia Logo" fill className="object-contain" priority />
-          </div>
+          </a>
 
           <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg border border-[#FFD700]/30 bg-black/60 backdrop-blur-sm absolute left-[32%] transform -translate-x-1/2">
             <span className="text-xs text-[#FFD700] font-semibold tracking-wide whitespace-nowrap">Official CA:</span>
