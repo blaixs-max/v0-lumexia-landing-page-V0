@@ -17,9 +17,9 @@ export default function Home() {
       <main>
         <HeroSection />
         <TokenStats />
+        <LeaderboardSection />
         <FeaturesGrid />
         <StrategySection />
-        <LeaderboardSection />
         <FaqSection />
         <CommunitySection />
       </main>
