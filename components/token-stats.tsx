@@ -6,7 +6,6 @@ import { useTimer } from "@/lib/timer-context"
 import { usePool } from "@/lib/pool-context"
 
 const TOKEN_ADDRESS = "0xe5dbde6fc6771beafae21ae45ae9d6952c314444"
-const CHAIN_ID = "bsc"
 
 interface DexData {
   priceUsd: string
@@ -15,6 +14,7 @@ interface DexData {
   fdv: number
   priceChange24h: number
   liquidity: number
+  pairAddress: string | null
 }
 
 interface TickerItem {
@@ -34,45 +34,46 @@ function formatNumber(num: number): string {
   return `$${num.toFixed(2)}`
 }
 
-function formatSupply(num: number): string {
-  if (num >= 1_000_000_000) {
-    return `${(num / 1_000_000_000).toFixed(0)}B`
-  } else if (num >= 1_000_000) {
-    return `${(num / 1_000_000).toFixed(0)}M`
-  } else if (num >= 1_000) {
-    return `${(num / 1_000).toFixed(0)}K`
-  }
-  return num.toFixed(0)
-}
-
 export function TokenStats() {
   const timer = useTimer()
   const { netPool, loading: poolLoading } = usePool()
   const [tickerData, setTickerData] = useState<TickerItem[]>([])
-  const [pairAddress, setPairAddress] = useState<string | null>(null)
-
   const [dexData, setDexData] = useState<DexData | null>(null)
   const [dexLoading, setDexLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
+  const [apiError, setApiError] = useState<string | null>(null)
 
   const fetchAllTickerData = useCallback(async () => {
     try {
       setDexLoading(true)
-      const dexResponse = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${TOKEN_ADDRESS}`)
-      const dexData = await dexResponse.json()
+      setApiError(null)
+
+      const dexResponse = await fetch("/api/dex")
+
+      if (!dexResponse.ok) {
+        throw new Error(`API error: ${dexResponse.status}`)
+      }
+
+      const dexResult = await dexResponse.json()
+      console.log("[v0] DexScreener API response:", dexResult)
 
       let lmxData: TickerItem = { symbol: "LMX/USDT", price: "0.0000", change: 0 }
+      let pairAddress: string | null = null
 
-      if (dexData.pairs && dexData.pairs.length > 0) {
-        const mainPair = dexData.pairs.sort((a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0]
+      if (dexResult.pairs && dexResult.pairs.length > 0) {
+        const mainPair = dexResult.pairs.sort((a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0]
+
+        console.log("[v0] Main pair found:", mainPair)
+
+        const price = Number.parseFloat(mainPair.priceUsd || "0")
 
         lmxData = {
           symbol: "LMX/USDT",
-          price: Number.parseFloat(mainPair.priceUsd || "0").toFixed(6),
+          price: price < 0.01 ? price.toFixed(6) : price.toFixed(4),
           change: mainPair.priceChange?.h24 || 0,
         }
 
-        setPairAddress(mainPair.pairAddress)
+        pairAddress = mainPair.pairAddress
 
         setDexData({
           priceUsd: mainPair.priceUsd || "0",
@@ -81,6 +82,19 @@ export function TokenStats() {
           fdv: mainPair.fdv || 0,
           priceChange24h: mainPair.priceChange?.h24 || 0,
           liquidity: mainPair.liquidity?.usd || 0,
+          pairAddress: pairAddress,
+        })
+      } else {
+        console.log("[v0] No pairs found for token")
+        setApiError("Token not found on DexScreener")
+        setDexData({
+          priceUsd: "0",
+          marketCap: 0,
+          volume24h: 0,
+          fdv: 0,
+          priceChange24h: 0,
+          liquidity: 0,
+          pairAddress: null,
         })
       }
 
@@ -111,7 +125,8 @@ export function TokenStats() {
       setTickerData(newTickerData)
       setLastUpdate(new Date())
     } catch (error) {
-      console.error("Error fetching ticker data:", error)
+      console.error("[v0] Error fetching ticker data:", error)
+      setApiError(error instanceof Error ? error.message : "API Error")
     } finally {
       setDexLoading(false)
     }
@@ -119,33 +134,33 @@ export function TokenStats() {
 
   useEffect(() => {
     fetchAllTickerData()
-    const interval = setInterval(fetchAllTickerData, 30000) // 30 saniyede bir güncelle
+    const interval = setInterval(fetchAllTickerData, 30000)
     return () => clearInterval(interval)
   }, [fetchAllTickerData])
 
   const stats = [
     {
       label: "Market Cap",
-      value: dexLoading ? "Loading..." : dexData ? formatNumber(dexData.marketCap) : "$2.4M",
+      value: dexLoading ? "Loading..." : dexData && dexData.marketCap > 0 ? formatNumber(dexData.marketCap) : "N/A",
       icon: BarChart3,
       suffix: "",
     },
     {
       label: "24h Volume",
-      value: dexLoading ? "Loading..." : dexData ? formatNumber(dexData.volume24h) : "$847K",
+      value: dexLoading ? "Loading..." : dexData && dexData.volume24h > 0 ? formatNumber(dexData.volume24h) : "N/A",
       icon: Activity,
       suffix: "",
       change: dexData?.priceChange24h,
     },
     {
       label: "Liquidity",
-      value: dexLoading ? "Loading..." : dexData ? formatNumber(dexData.liquidity) : "$1.2M",
+      value: dexLoading ? "Loading..." : dexData && dexData.liquidity > 0 ? formatNumber(dexData.liquidity) : "N/A",
       icon: Users,
       suffix: "",
     },
     {
       label: "FDV",
-      value: dexLoading ? "Loading..." : dexData ? formatNumber(dexData.fdv) : "$847M",
+      value: dexLoading ? "Loading..." : dexData && dexData.fdv > 0 ? formatNumber(dexData.fdv) : "N/A",
       icon: Coins,
       suffix: "",
     },
@@ -175,6 +190,7 @@ export function TokenStats() {
               Last updated: {lastUpdate.toLocaleTimeString()}
             </p>
           )}
+          {apiError && <p className="mt-1 text-xs text-yellow-500">Note: {apiError}</p>}
         </div>
 
         <div className="p-6 rounded-xl border-2 border-gray-800 bg-gray-950/50 backdrop-blur-sm">
@@ -216,7 +232,7 @@ export function TokenStats() {
                     {stat.isTimer ? timer.formatted : stat.value}
                     <span className="text-gray-500 text-sm">{stat.suffix}</span>
                   </p>
-                  {stat.label === "24h Volume" && stat.change !== undefined && (
+                  {stat.label === "24h Volume" && stat.change !== undefined && stat.change !== 0 && (
                     <div className="absolute bottom-1 right-2">
                       <span className={`text-xs font-mono ${stat.change >= 0 ? "text-green-500" : "text-red-500"}`}>
                         {stat.change >= 0 ? "+" : ""}
@@ -237,15 +253,22 @@ export function TokenStats() {
                 <span className="text-xs text-gray-600">Live</span>
               </div>
               <div className="h-[200px] w-full">
-                {pairAddress ? (
+                {dexData?.pairAddress ? (
                   <iframe
-                    src={`https://dexscreener.com/bsc/${pairAddress}?embed=1&theme=dark&trades=0&info=0`}
+                    src={`https://dexscreener.com/bsc/${dexData.pairAddress}?embed=1&theme=dark&trades=0&info=0`}
                     className="w-full h-full rounded-lg"
                     style={{ border: "none" }}
                     title="LMX Price Chart"
                   />
+                ) : !dexLoading ? (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-gray-500 text-sm">
+                    <Activity className="w-8 h-8 mb-2 text-gray-600" />
+                    <p>Chart unavailable</p>
+                    <p className="text-xs text-gray-600 mt-1">Token not listed on DexScreener yet</p>
+                  </div>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-500 text-sm">
+                    <RefreshCw className="w-5 h-5 mr-2 animate-spin" />
                     Loading chart...
                   </div>
                 )}
