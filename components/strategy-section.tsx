@@ -226,9 +226,9 @@ export function StrategySection() {
         <div className="border border-gray-700 rounded-2xl p-6 sm:p-8 bg-gray-900/30 overflow-hidden">
           {/* Phase Selector */}
           <div className="relative flex items-center justify-center mb-12 px-4">
-            <div className="relative z-10 flex items-center justify-center">
+            <div className="relative z-10 flex items-center w-full max-w-2xl">
               {phases.map((phase, index) => (
-                <div key={phase.id} className="flex items-center">
+                <div key={phase.id} className="flex items-center flex-1 last:flex-none">
                   <button onClick={() => setActivePhase(phase.id)} className="flex flex-col items-center gap-2 group">
                     <span
                       className={`text-xs sm:text-sm font-semibold transition-colors ${
@@ -238,7 +238,7 @@ export function StrategySection() {
                       Phase
                     </span>
                     <div
-                      className={`relative w-10 h-10 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold transition-all duration-300 bg-gray-950 ${
+                      className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold transition-all duration-300 bg-gray-950 ${
                         activePhase === phase.id ? `fire-phase-${phase.id}` : "opacity-70 hover:opacity-100"
                       }`}
                       style={{
@@ -258,7 +258,7 @@ export function StrategySection() {
 
                   {index < phases.length - 1 && (
                     <div
-                      className="w-6 sm:w-20 h-1 mx-0.5 sm:mx-1 mt-6"
+                      className="flex-1 h-1 mt-6 min-w-4"
                       style={{
                         background: `linear-gradient(to right, ${phase.color}, ${phases[index + 1].color})`,
                       }}
