@@ -103,7 +103,7 @@ function calculateReward(rank: number): number {
 }
 
 function formatReward(reward: number) {
-  return `${reward.toLocaleString()} $LMX`
+  return `${reward.toLocaleString()} $BNB`
 }
 
 function getSharePoints(rank: number): number {
@@ -138,7 +138,7 @@ function calculateAllRewards(
   for (let i = 1; i <= leaderboardLength && i <= 100; i++) {
     const sharePoints = getSharePoints(i)
     const reward = sharePoints * unitValue
-    rewards.push(Math.floor(reward))
+    rewards.push(reward)
   }
 
   return { rewards, netPool, totalShares, unitValue }
@@ -247,7 +247,7 @@ export function LeaderboardSection() {
               <span className="text-[#D4AF37]">RANKING</span>
             </h2>
             <p className="text-gray-400 text-sm md:text-base">
-              Top 100 Racers receive automated <span className="text-[#D4AF37]">$LMX</span> airdrops every{" "}
+              Top 100 Racers receive automated <span className="text-[#D4AF37]">$BNB</span> airdrops every{" "}
               <span className="text-white font-semibold">24h</span>. Showing Top 100 contenders.
             </p>
           </div>
@@ -256,7 +256,7 @@ export function LeaderboardSection() {
             <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/50 rounded-lg px-4 py-3 min-w-[280px]">
               <Coins className="w-5 h-5 text-[#D4AF37]" />
               <span className="text-[#D4AF37] text-sm font-medium">Daily Reward Pool:</span>
-              <span className="text-white font-mono font-bold">{Math.floor(netPool).toLocaleString()} TBNB</span>
+              <span className="text-white font-mono font-bold">{netPool.toFixed(4)} BNB</span>
             </div>
 
             <div className="flex items-center gap-2 bg-red-900/30 border border-red-700/50 rounded-lg px-4 py-3 min-w-[280px]">
@@ -330,7 +330,7 @@ export function LeaderboardSection() {
                       </div>
 
                       <div className="col-span-3 text-right">
-                        <span className="text-[#D4AF37] font-semibold text-base">{reward.toLocaleString()} TBNB</span>
+                        <span className="text-[#D4AF37] font-semibold text-base">{reward.toFixed(4)} BNB</span>
                       </div>
                     </div>
 
@@ -356,7 +356,7 @@ export function LeaderboardSection() {
                       </div>
 
                       <div className="col-span-3 text-right">
-                        <span className="text-[#D4AF37] font-semibold text-xs">{reward.toLocaleString()}</span>
+                        <span className="text-[#D4AF37] font-semibold text-xs">{reward.toFixed(4)} BNB</span>
                       </div>
                     </div>
                   </div>

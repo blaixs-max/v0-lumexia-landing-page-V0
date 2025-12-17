@@ -130,9 +130,9 @@ export function TokenStats() {
     },
     {
       label: "Daily Prize Pool",
-      value: poolLoading ? "..." : `${Math.floor(netPool).toLocaleString()}`,
+      value: poolLoading ? "..." : netPool.toFixed(4),
       icon: Zap,
-      suffix: " TBNB",
+      suffix: " BNB",
     },
     { label: "Next Distribution", value: "04:32:18", icon: Clock, suffix: "", isTimer: true },
   ]

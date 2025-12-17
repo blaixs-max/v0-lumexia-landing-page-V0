@@ -45,7 +45,7 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 text-center">
-        <h1 className="mb-6">
+        <h1 className="mb-6 mt-20">
           <span
             className="block font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-wide uppercase"
             style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.8)" }}
@@ -60,11 +60,16 @@ export function HeroSection() {
           </span>
         </h1>
 
-        <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-4 leading-relaxed">
           Dominate the tracks in Binance Smart Chain's reliable and fun racing game. Reach the top of the daily
-          leaderboard to earn automatic <span className="text-[#D4AF37] font-semibold">$LMX</span> airdrops
+          leaderboard to earn automatic <span className="text-[#D4AF37] font-semibold">$BNB</span> airdrops
           transparently, we know we don't have the best game right now, but we're confident we'll be the best.{" "}
           <span className="text-[#D4AF37] font-bold uppercase">LET'S RISE TOGETHER.</span>
+        </p>
+
+        <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+          We would like to announce that you will soon be able to play our games using our own token,{" "}
+          <span className="text-[#D4AF37] font-semibold">$LMX</span>.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
