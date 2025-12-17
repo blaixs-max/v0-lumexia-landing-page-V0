@@ -223,31 +223,31 @@ export function StrategySection() {
           </p>
         </div>
 
-        <div className="border border-gray-700 rounded-2xl p-6 sm:p-8 bg-gray-900/30">
+        <div className="border border-gray-700 rounded-2xl p-6 sm:p-8 bg-gray-900/30 overflow-hidden">
           {/* Phase Selector */}
-          <div className="relative flex items-center justify-center mb-12">
+          <div className="relative flex items-center justify-center mb-12 px-4">
             <div className="relative z-10 flex items-center justify-center">
               {phases.map((phase, index) => (
                 <div key={phase.id} className="flex items-center">
                   <button onClick={() => setActivePhase(phase.id)} className="flex flex-col items-center gap-2 group">
                     <span
-                      className={`text-sm font-semibold transition-colors ${
+                      className={`text-xs sm:text-sm font-semibold transition-colors ${
                         activePhase === phase.id ? "text-white" : "text-gray-500"
                       }`}
                     >
                       Phase
                     </span>
                     <div
-                      className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-2xl font-bold transition-all duration-300 bg-gray-950 ${
+                      className={`relative w-10 h-10 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold transition-all duration-300 bg-gray-950 ${
                         activePhase === phase.id ? `fire-phase-${phase.id}` : "opacity-70 hover:opacity-100"
                       }`}
                       style={{
-                        border: `4px solid ${phase.color}`,
+                        border: `3px solid ${phase.color}`,
                       }}
                     >
                       {/* Inner circle */}
                       <div
-                        className={`absolute inset-2 rounded-full border-2 border-dashed transition-all ${
+                        className={`absolute inset-1.5 sm:inset-2 rounded-full border-2 border-dashed transition-all ${
                           activePhase === phase.id ? "fire-inner" : "opacity-50"
                         }`}
                         style={{ borderColor: phase.color }}
@@ -258,7 +258,7 @@ export function StrategySection() {
 
                   {index < phases.length - 1 && (
                     <div
-                      className="w-12 sm:w-20 h-1 mx-1 mt-6"
+                      className="w-6 sm:w-20 h-1 mx-0.5 sm:mx-1 mt-6"
                       style={{
                         background: `linear-gradient(to right, ${phase.color}, ${phases[index + 1].color})`,
                       }}
