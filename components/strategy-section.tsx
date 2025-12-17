@@ -51,15 +51,14 @@ const phases = [
           "Unique vehicle skins, track designs, and achievements as tradeable NFTs on the Binance Smart Chain.",
       },
       {
-        icon: ShieldCheck,
-        title: "Anti-Cheat Sentinel",
-        description:
-          "State-of-the-art anti-cheat technology ensuring fair competition and protecting reward integrity.",
-      },
-      {
         icon: Coins,
         title: "Token Launch",
         description: "Official $LMX token launch with liquidity pools and exchange listings for seamless trading.",
+      },
+      {
+        icon: Users,
+        title: "Community Events",
+        description: "Regular tournaments, competitions, and community-driven events with exclusive rewards.",
       },
     ],
   },

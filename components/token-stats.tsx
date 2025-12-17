@@ -1,12 +1,11 @@
 "use client"
 
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Activity, Users, Coins, BarChart3, Clock, Zap, TrendingUp, TrendingDown, RefreshCw } from "lucide-react"
 import { useTimer } from "@/lib/timer-context"
 import { usePool } from "@/lib/pool-context"
 
-// Şimdilik CAKE (PancakeSwap) kullanıyoruz: BSC'deki popüler token
-const TOKEN_ADDRESS = "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+const TOKEN_ADDRESS = "0xe5dbde6fc6771beafae21ae45ae9d6952c314444"
 const CHAIN_ID = "bsc"
 
 interface DexData {
@@ -18,12 +17,11 @@ interface DexData {
   liquidity: number
 }
 
-const mockTickerData = [
-  { symbol: "LMX/USDT", price: "0.0847", change: 12.45 },
-  { symbol: "BNB/USDT", price: "612.34", change: 2.18 },
-  { symbol: "BTC/USDT", price: "104,521", change: 1.24 },
-  { symbol: "ETH/USDT", price: "3,892", change: -0.87 },
-]
+interface TickerItem {
+  symbol: string
+  price: string
+  change: number
+}
 
 function formatNumber(num: number): string {
   if (num >= 1_000_000_000) {
@@ -50,22 +48,31 @@ function formatSupply(num: number): string {
 export function TokenStats() {
   const timer = useTimer()
   const { netPool, loading: poolLoading } = usePool()
-  const [tickerData, setTickerData] = useState(mockTickerData)
-  const tradingViewRef = useRef<HTMLDivElement>(null)
+  const [tickerData, setTickerData] = useState<TickerItem[]>([])
+  const [pairAddress, setPairAddress] = useState<string | null>(null)
 
   const [dexData, setDexData] = useState<DexData | null>(null)
   const [dexLoading, setDexLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
 
-  const fetchDexData = useCallback(async () => {
+  const fetchAllTickerData = useCallback(async () => {
     try {
       setDexLoading(true)
-      const response = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${TOKEN_ADDRESS}`)
-      const data = await response.json()
+      const dexResponse = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${TOKEN_ADDRESS}`)
+      const dexData = await dexResponse.json()
 
-      if (data.pairs && data.pairs.length > 0) {
-        // En yüksek likiditeye sahip pair'ı seç
-        const mainPair = data.pairs.sort((a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0]
+      let lmxData: TickerItem = { symbol: "LMX/USDT", price: "0.0000", change: 0 }
+
+      if (dexData.pairs && dexData.pairs.length > 0) {
+        const mainPair = dexData.pairs.sort((a: any, b: any) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0]
+
+        lmxData = {
+          symbol: "LMX/USDT",
+          price: Number.parseFloat(mainPair.priceUsd || "0").toFixed(6),
+          change: mainPair.priceChange?.h24 || 0,
+        }
+
+        setPairAddress(mainPair.pairAddress)
 
         setDexData({
           priceUsd: mainPair.priceUsd || "0",
@@ -75,32 +82,46 @@ export function TokenStats() {
           priceChange24h: mainPair.priceChange?.h24 || 0,
           liquidity: mainPair.liquidity?.usd || 0,
         })
-        setLastUpdate(new Date())
-
-        setTickerData((prev) =>
-          prev.map((item) =>
-            item.symbol === "LMX/USDT"
-              ? {
-                  ...item,
-                  price: Number.parseFloat(mainPair.priceUsd).toFixed(4),
-                  change: mainPair.priceChange?.h24 || 0,
-                }
-              : item,
-          ),
-        )
       }
+
+      const cgResponse = await fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin,bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true",
+      )
+      const cgData = await cgResponse.json()
+
+      const newTickerData: TickerItem[] = [
+        lmxData,
+        {
+          symbol: "BNB/USDT",
+          price: cgData.binancecoin?.usd?.toFixed(2) || "0.00",
+          change: cgData.binancecoin?.usd_24h_change || 0,
+        },
+        {
+          symbol: "BTC/USDT",
+          price: cgData.bitcoin?.usd?.toLocaleString() || "0",
+          change: cgData.bitcoin?.usd_24h_change || 0,
+        },
+        {
+          symbol: "ETH/USDT",
+          price: cgData.ethereum?.usd?.toLocaleString() || "0",
+          change: cgData.ethereum?.usd_24h_change || 0,
+        },
+      ]
+
+      setTickerData(newTickerData)
+      setLastUpdate(new Date())
     } catch (error) {
-      // Hata durumunda sessizce devam et, mock data kullanılacak
+      console.error("Error fetching ticker data:", error)
     } finally {
       setDexLoading(false)
     }
   }, [])
 
   useEffect(() => {
-    fetchDexData()
-    const interval = setInterval(fetchDexData, 30000) // 30 saniyede bir güncelle
+    fetchAllTickerData()
+    const interval = setInterval(fetchAllTickerData, 30000) // 30 saniyede bir güncelle
     return () => clearInterval(interval)
-  }, [fetchDexData])
+  }, [fetchAllTickerData])
 
   const stats = [
     {
@@ -136,53 +157,6 @@ export function TokenStats() {
     },
     { label: "Next Distribution", value: "04:32:18", icon: Clock, suffix: "", isTimer: true },
   ]
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTickerData((prev) =>
-        prev.map((item) => ({
-          ...item,
-          price: (Number.parseFloat(item.price.replace(",", "")) * (1 + (Math.random() - 0.5) * 0.001))
-            .toFixed(item.price.includes(",") ? 2 : 4)
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-          change: item.change + (Math.random() - 0.5) * 0.1,
-        })),
-      )
-    }, 2000)
-    return () => clearInterval(interval)
-  }, [])
-
-  useEffect(() => {
-    if (!tradingViewRef.current) return
-
-    // Clear previous widget
-    tradingViewRef.current.innerHTML = ""
-
-    const script = document.createElement("script")
-    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js"
-    script.async = true
-    script.innerHTML = JSON.stringify({
-      symbol: "BINANCE:CAKEUSDT", // CAKE token - LMX için değiştirin
-      width: "100%",
-      height: "220",
-      locale: "en",
-      dateRange: "1D",
-      colorTheme: "dark",
-      isTransparent: true,
-      autosize: true,
-      largeChartUrl: "",
-      noTimeScale: false,
-      chartOnly: false,
-    })
-
-    tradingViewRef.current.appendChild(script)
-
-    return () => {
-      if (tradingViewRef.current) {
-        tradingViewRef.current.innerHTML = ""
-      }
-    }
-  }, [])
 
   return (
     <section className="py-12 bg-black border-b border-gray-800">
@@ -254,7 +228,6 @@ export function TokenStats() {
               ))}
             </div>
 
-            {/* TradingView widget */}
             <div className="bg-gray-900/80 border border-gray-700 rounded-lg p-4 overflow-hidden">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
@@ -263,8 +236,19 @@ export function TokenStats() {
                 </div>
                 <span className="text-xs text-gray-600">Live</span>
               </div>
-              <div className="tradingview-widget-container" ref={tradingViewRef}>
-                <div className="tradingview-widget-container__widget"></div>
+              <div className="h-[200px] w-full">
+                {pairAddress ? (
+                  <iframe
+                    src={`https://dexscreener.com/bsc/${pairAddress}?embed=1&theme=dark&trades=0&info=0`}
+                    className="w-full h-full rounded-lg"
+                    style={{ border: "none" }}
+                    title="LMX Price Chart"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-500 text-sm">
+                    Loading chart...
+                  </div>
+                )}
               </div>
             </div>
           </div>

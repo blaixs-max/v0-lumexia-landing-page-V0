@@ -61,14 +61,15 @@ export function HeroSection() {
         </h1>
 
         <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-4 leading-relaxed">
-          Dominate the tracks in Binance Smart Chain's reliable and fun racing game. Reach the top of the daily
-          leaderboard to earn automatic <span className="text-[#D4AF37] font-semibold">$BNB</span> airdrops
-          transparently, we know we don't have the best game right now, but we're confident we'll be the best.{" "}
-          <span className="text-[#D4AF37] font-bold uppercase">LET'S RISE TOGETHER.</span>
+          Dominate the tracks in Binance Smart Chain's reliable and fun racing game. Maximize your potential for
+          engaging, reliable, and transparent gaming experience. Achieve a top 100 position on the daily leaderboard to
+          earn automatic <span className="text-[#D4AF37] font-semibold">$BNB</span> airdrops. This marks the beginning
+          of a new era for the Lumexia platform, with more exciting games and updates offering higher profit potential
+          on the horizon. <span className="text-[#D4AF37] font-bold uppercase">LET'S RISE TOGETHER.</span>
         </p>
 
         <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-          We would like to announce that you will soon be able to play our games using our own token,{" "}
+          We are pleased to announce that our games will soon be available for play using our proprietary token,{" "}
           <span className="text-[#D4AF37] font-semibold">$LMX</span>.
         </p>
 
