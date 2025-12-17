@@ -18,7 +18,7 @@ import {
 const phases = [
   {
     id: 1,
-    color: "#E85D4C", // Coral/Orange
+    color: "#FEF08A", // Light yellow (Phase 1)
     steps: [
       {
         icon: Gamepad2,
@@ -42,7 +42,7 @@ const phases = [
   },
   {
     id: 2,
-    color: "#F5C542", // Yellow/Gold
+    color: "#FACC15", // Yellow/Gold (Phase 2)
     steps: [
       {
         icon: ImageIcon,
@@ -65,7 +65,7 @@ const phases = [
   },
   {
     id: 3,
-    color: "#4A90A4", // Blue
+    color: "#F59E0B", // Amber (Phase 3)
     steps: [
       {
         icon: Layers,
@@ -87,7 +87,7 @@ const phases = [
   },
   {
     id: 4,
-    color: "#2DD4BF", // Cyan/Teal
+    color: "#EA580C", // Fiery orange (Phase 4)
     steps: [
       {
         icon: Globe,
@@ -113,6 +113,101 @@ export function StrategySection() {
 
   return (
     <section id="strategy" className="py-24 bg-gray-950">
+      <style jsx>{`
+        @keyframes flickerPhase1 {
+          0%, 100% { 
+            box-shadow: 0 0 20px #FEF08A, 0 0 40px #FEF08A80, 0 0 60px #FACC1540;
+            transform: scale(1.1);
+          }
+          25% { 
+            box-shadow: 0 0 25px #FACC15, 0 0 50px #FEF08A80, 0 0 70px #FACC1560;
+            transform: scale(1.12);
+          }
+          50% { 
+            box-shadow: 0 0 30px #FEF08A, 0 0 55px #FACC1580, 0 0 80px #FACC1540;
+            transform: scale(1.08);
+          }
+          75% { 
+            box-shadow: 0 0 22px #FACC15, 0 0 45px #FEF08A80, 0 0 65px #FACC1550;
+            transform: scale(1.11);
+          }
+        }
+        @keyframes flickerPhase2 {
+          0%, 100% { 
+            box-shadow: 0 0 20px #FACC15, 0 0 40px #FACC1580, 0 0 60px #F59E0B40;
+            transform: scale(1.1);
+          }
+          25% { 
+            box-shadow: 0 0 25px #F59E0B, 0 0 50px #FACC1580, 0 0 70px #F59E0B60;
+            transform: scale(1.12);
+          }
+          50% { 
+            box-shadow: 0 0 30px #FACC15, 0 0 55px #F59E0B80, 0 0 80px #F59E0B40;
+            transform: scale(1.08);
+          }
+          75% { 
+            box-shadow: 0 0 22px #F59E0B, 0 0 45px #FACC1580, 0 0 65px #F59E0B50;
+            transform: scale(1.11);
+          }
+        }
+        @keyframes flickerPhase3 {
+          0%, 100% { 
+            box-shadow: 0 0 20px #F59E0B, 0 0 40px #F59E0B80, 0 0 60px #EA580C40;
+            transform: scale(1.1);
+          }
+          25% { 
+            box-shadow: 0 0 25px #EA580C, 0 0 50px #F59E0B80, 0 0 70px #EA580C60;
+            transform: scale(1.12);
+          }
+          50% { 
+            box-shadow: 0 0 30px #F59E0B, 0 0 55px #EA580C80, 0 0 80px #EA580C40;
+            transform: scale(1.08);
+          }
+          75% { 
+            box-shadow: 0 0 22px #EA580C, 0 0 45px #F59E0B80, 0 0 65px #EA580C50;
+            transform: scale(1.11);
+          }
+        }
+        @keyframes flickerPhase4 {
+          0%, 100% { 
+            box-shadow: 0 0 20px #EA580C, 0 0 40px #EA580C80, 0 0 60px #F9731640;
+            transform: scale(1.1);
+          }
+          25% { 
+            box-shadow: 0 0 25px #F97316, 0 0 50px #EA580C80, 0 0 70px #F9731660;
+            transform: scale(1.12);
+          }
+          50% { 
+            box-shadow: 0 0 30px #EA580C, 0 0 55px #F9731680, 0 0 80px #F9731640;
+            transform: scale(1.08);
+          }
+          75% { 
+            box-shadow: 0 0 22px #F97316, 0 0 45px #EA580C80, 0 0 65px #F9731650;
+            transform: scale(1.11);
+          }
+        }
+        @keyframes innerFlicker {
+          0%, 100% { opacity: 1; }
+          33% { opacity: 0.7; }
+          66% { opacity: 0.85; }
+        }
+        .fire-phase-1 {
+          animation: flickerPhase1 0.8s ease-in-out infinite;
+        }
+        .fire-phase-2 {
+          animation: flickerPhase2 0.8s ease-in-out infinite;
+        }
+        .fire-phase-3 {
+          animation: flickerPhase3 0.8s ease-in-out infinite;
+        }
+        .fire-phase-4 {
+          animation: flickerPhase4 0.8s ease-in-out infinite;
+        }
+        .fire-inner {
+          animation: innerFlicker 0.5s ease-in-out infinite;
+        }
+      `}</style>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -144,17 +239,16 @@ export function StrategySection() {
                     </span>
                     <div
                       className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-2xl font-bold transition-all duration-300 bg-gray-950 ${
-                        activePhase === phase.id ? "scale-110 shadow-lg" : "opacity-70 hover:opacity-100"
+                        activePhase === phase.id ? `fire-phase-${phase.id}` : "opacity-70 hover:opacity-100"
                       }`}
                       style={{
                         border: `4px solid ${phase.color}`,
-                        boxShadow: activePhase === phase.id ? `0 0 25px ${phase.color}80` : "none",
                       }}
                     >
                       {/* Inner circle */}
                       <div
                         className={`absolute inset-2 rounded-full border-2 border-dashed transition-all ${
-                          activePhase === phase.id ? "opacity-100" : "opacity-50"
+                          activePhase === phase.id ? "fire-inner" : "opacity-50"
                         }`}
                         style={{ borderColor: phase.color }}
                       />
