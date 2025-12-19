@@ -8,17 +8,20 @@ const CREDIT_TO_BNB = 0.0015
 interface PoolContextType {
   poolValue: number
   netPool: number
+  totalGames: number
   loading: boolean
 }
 
 const PoolContext = createContext<PoolContextType>({
   poolValue: 0,
   netPool: 0,
+  totalGames: 0,
   loading: true,
 })
 
 export function PoolProvider({ children }: { children: ReactNode }) {
   const [poolValue, setPoolValue] = useState<number>(0)
+  const [totalGames, setTotalGames] = useState<number>(0)
   const [loading, setLoading] = useState(true)
 
   // Net pool = 92.5% of total pool (7.5% fee)
@@ -32,10 +35,10 @@ export function PoolProvider({ children }: { children: ReactNode }) {
       today.setUTCHours(0, 0, 0, 0)
       const todayISO = today.toISOString()
 
-      const { data, error } = await supabase
-        .from("transactions")
-        .select("amount")
-        .eq("status", "success")
+      // Count total games played today (each row = 1 game)
+      const { count, error } = await supabase
+        .from("scores")
+        .select("*", { count: "exact", head: true })
         .gte("created_at", todayISO)
 
       if (error) {
@@ -43,8 +46,9 @@ export function PoolProvider({ children }: { children: ReactNode }) {
         return
       }
 
-      const totalCredits = data?.reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0) || 0
-      const totalBNB = totalCredits * CREDIT_TO_BNB
+      const gamesPlayed = count || 0
+      const totalBNB = gamesPlayed * CREDIT_TO_BNB
+      setTotalGames(gamesPlayed)
       setPoolValue(totalBNB)
       setLoading(false)
     } catch (err) {
@@ -55,16 +59,15 @@ export function PoolProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetchPoolValue()
 
-    // Realtime subscription
     const supabase = getSupabase()
     const channel = supabase
-      .channel("pool_transactions_changes")
+      .channel("pool_scores_changes")
       .on(
         "postgres_changes",
         {
           event: "*",
           schema: "public",
-          table: "transactions",
+          table: "scores",
         },
         () => {
           fetchPoolValue()
@@ -77,7 +80,7 @@ export function PoolProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  return <PoolContext.Provider value={{ poolValue, netPool, loading }}>{children}</PoolContext.Provider>
+  return <PoolContext.Provider value={{ poolValue, netPool, totalGames, loading }}>{children}</PoolContext.Provider>
 }
 
 export function usePool() {
