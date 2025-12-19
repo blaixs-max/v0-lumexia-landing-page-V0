@@ -1,54 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Trophy, Coins, Copy, Check } from "lucide-react"
+import { Trophy, Coins, Copy, Check, Gamepad2 } from "lucide-react"
 import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 import { useTimer } from "@/lib/timer-context"
 import { usePool } from "@/lib/pool-context"
-
-function generateMockData() {
-  const data = [
-    {
-      id: 1,
-      username: "SpeedDemon_99",
-      walletId: "0x98B6a4c8D7e2F1b3A9C5d6E8f0a1B2c3D4e5F6a4",
-      score: 99640,
-      reward: 2000,
-    },
-    {
-      id: 2,
-      username: "CryptoRacerX",
-      walletId: "0xabc71f8e9D2c4B5a6E7f8A9b0C1d2E3f4A5b3627",
-      score: 98779,
-      reward: 1950,
-    },
-    {
-      id: 3,
-      username: "Racer_4377",
-      walletId: "0xe42bd9f1A3c5D7e8B0a2C4d6E8f0A2b4C6d872ae",
-      score: 97813,
-      reward: 1900,
-    },
-  ]
-
-  // Generate remaining 97 racers
-  for (let i = 4; i <= 100; i++) {
-    const randomNum = Math.floor(Math.random() * 9000) + 1000
-    const walletChars = "0123456789abcdefABCDEF"
-    let walletId = "0x"
-    for (let j = 0; j < 40; j++) {
-      walletId += walletChars.charAt(Math.floor(Math.random() * walletChars.length))
-    }
-    data.push({
-      id: i,
-      username: `Racer_${randomNum}`,
-      walletId: walletId,
-      score: Math.max(99640 - i * 100 + Math.floor(Math.random() * 50), 50000),
-      reward: Math.max(2000 - i * 15, 100),
-    })
-  }
-  return data
-}
 
 // Avatar placeholder colors
 const avatarColors = [
@@ -144,10 +100,15 @@ function calculateAllRewards(
   return { rewards, netPool, totalShares, unitValue }
 }
 
+interface LeaderboardWithGames extends DailyLeaderboardEntry {
+  games_played: number
+  boosted_score: number
+}
+
 export function LeaderboardSection() {
   const timer = useTimer()
   const { poolValue, netPool } = usePool()
-  const [leaderboard, setLeaderboard] = useState<DailyLeaderboardEntry[]>([])
+  const [leaderboard, setLeaderboard] = useState<LeaderboardWithGames[]>([])
   const [loading, setLoading] = useState(true)
   const [calculatedRewards, setCalculatedRewards] = useState<number[]>([])
   const [rewardStats, setRewardStats] = useState<{
@@ -171,7 +132,32 @@ export function LeaderboardSection() {
           return
         }
 
-        setLeaderboard(data || [])
+        const today = new Date().toISOString().split("T")[0]
+
+        const leaderboardWithGames: LeaderboardWithGames[] = await Promise.all(
+          (data || []).map(async (player) => {
+            const { count } = await supabase
+              .from("scores")
+              .select("*", { count: "exact", head: true })
+              .eq("wallet_address", player.wallet_address)
+              .gte("created_at", `${today}T00:00:00`)
+              .lt("created_at", `${today}T23:59:59`)
+
+            const gamesPlayed = count || 0
+            const boostPercentage = gamesPlayed / 100 // 1 game = 1%
+            const boostedScore = Math.round(player.best_score * (1 + boostPercentage))
+
+            return {
+              ...player,
+              games_played: gamesPlayed,
+              boosted_score: boostedScore,
+            }
+          }),
+        )
+
+        leaderboardWithGames.sort((a, b) => b.boosted_score - a.boosted_score)
+
+        setLeaderboard(leaderboardWithGames)
         setLoading(false)
 
         const channel = supabase
@@ -191,7 +177,29 @@ export function LeaderboardSection() {
                 .limit(100)
 
               if (!refetchError && updatedData) {
-                setLeaderboard(updatedData)
+                const updatedWithGames: LeaderboardWithGames[] = await Promise.all(
+                  updatedData.map(async (player) => {
+                    const { count } = await supabase
+                      .from("scores")
+                      .select("*", { count: "exact", head: true })
+                      .eq("wallet_address", player.wallet_address)
+                      .gte("created_at", `${today}T00:00:00`)
+                      .lt("created_at", `${today}T23:59:59`)
+
+                    const gamesPlayed = count || 0
+                    const boostPercentage = gamesPlayed / 100
+                    const boostedScore = Math.round(player.best_score * (1 + boostPercentage))
+
+                    return {
+                      ...player,
+                      games_played: gamesPlayed,
+                      boosted_score: boostedScore,
+                    }
+                  }),
+                )
+
+                updatedWithGames.sort((a, b) => b.boosted_score - a.boosted_score)
+                setLeaderboard(updatedWithGames)
               }
             },
           )
@@ -270,18 +278,20 @@ export function LeaderboardSection() {
         </div>
 
         <div className="border border-gray-800 rounded-xl overflow-hidden">
-          <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-3 bg-gray-900/50 border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+          <div className="hidden md:grid grid-cols-14 gap-4 px-4 py-3 bg-gray-900/50 border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 font-semibold">
             <div className="col-span-1 text-center">Rank</div>
             <div className="col-span-1">Racer</div>
-            <div className="col-span-5">Wallet ID</div>
-            <div className="col-span-2 text-center">Score</div>
+            <div className="col-span-4">Wallet ID</div>
+            <div className="col-span-2 text-center">Games</div>
+            <div className="col-span-3 text-center">Score</div>
             <div className="col-span-3 text-right">Reward Pool</div>
           </div>
 
-          <div className="grid md:hidden grid-cols-10 gap-2 px-3 py-3 bg-gray-900/50 border-b border-gray-800 text-[10px] uppercase tracking-wider text-gray-500 font-semibold">
+          <div className="grid md:hidden grid-cols-12 gap-2 px-3 py-3 bg-gray-900/50 border-b border-gray-800 text-[10px] uppercase tracking-wider text-gray-500 font-semibold">
             <div className="col-span-1 text-center">#</div>
-            <div className="col-span-4 text-center">Wallet</div>
-            <div className="col-span-2 text-center">Score</div>
+            <div className="col-span-3 text-center">Wallet</div>
+            <div className="col-span-2 text-center">Games</div>
+            <div className="col-span-3 text-center">Score</div>
             <div className="col-span-3 text-right">Reward</div>
           </div>
 
@@ -309,7 +319,7 @@ export function LeaderboardSection() {
                 return (
                   <div key={racer.id}>
                     <div
-                      className={`hidden md:grid grid-cols-12 gap-4 px-4 py-4 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(rank)}`}
+                      className={`hidden md:grid grid-cols-14 gap-4 px-4 py-4 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(rank)}`}
                     >
                       <div className="col-span-1 flex justify-center">{getRankDisplay(rank)}</div>
 
@@ -321,12 +331,27 @@ export function LeaderboardSection() {
                         </div>
                       </div>
 
-                      <div className="col-span-5 flex items-center gap-3">
+                      <div className="col-span-4 flex items-center gap-3">
                         <CopyableWallet wallet={racer.full_wallet} />
                       </div>
 
                       <div className="col-span-2 text-center">
-                        <span className="text-[#D4AF37] font-bold text-base">{formatScore(racer.best_score)}</span>
+                        <div className="flex items-center justify-center gap-2">
+                          <Gamepad2 className="w-4 h-4 text-gray-400" />
+                          <span className="text-white font-bold">{racer.games_played}</span>
+                          {racer.games_played > 0 && (
+                            <span className="text-green-400 text-xs font-medium">+{racer.games_played}%</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="col-span-3 text-center">
+                        <div className="flex flex-col">
+                          <span className="text-[#D4AF37] font-bold text-base">{formatScore(racer.boosted_score)}</span>
+                          {racer.games_played > 0 && racer.boosted_score !== racer.best_score && (
+                            <span className="text-gray-500 text-xs line-through">{formatScore(racer.best_score)}</span>
+                          )}
+                        </div>
                       </div>
 
                       <div className="col-span-3 text-right">
@@ -335,7 +360,7 @@ export function LeaderboardSection() {
                     </div>
 
                     <div
-                      className={`grid md:hidden grid-cols-10 gap-2 px-3 py-3 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(rank)}`}
+                      className={`grid md:hidden grid-cols-12 gap-2 px-3 py-3 items-center transition-colors hover:bg-gray-900/30 ${getRowStyle(rank)}`}
                     >
                       <div className="col-span-1 flex justify-center">
                         {rank <= 3 ? (
@@ -347,12 +372,21 @@ export function LeaderboardSection() {
                         )}
                       </div>
 
-                      <div className="col-span-4 flex justify-center">
+                      <div className="col-span-3 flex justify-center">
                         <CopyableWallet wallet={racer.full_wallet} />
                       </div>
 
                       <div className="col-span-2 text-center">
-                        <span className="text-[#D4AF37] font-bold text-xs">{formatScore(racer.best_score)}</span>
+                        <div className="flex flex-col items-center">
+                          <span className="text-white font-bold text-xs">{racer.games_played}</span>
+                          {racer.games_played > 0 && (
+                            <span className="text-green-400 text-[10px]">+{racer.games_played}%</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="col-span-3 text-center">
+                        <span className="text-[#D4AF37] font-bold text-xs">{formatScore(racer.boosted_score)}</span>
                       </div>
 
                       <div className="col-span-3 text-right">

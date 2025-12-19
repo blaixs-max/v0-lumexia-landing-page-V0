@@ -98,9 +98,7 @@ export function TokenStats() {
         })
       }
 
-      const cgResponse = await fetch(
-        "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin,bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true",
-      )
+      const cgResponse = await fetch("/api/ticker")
       const cgData = await cgResponse.json()
 
       const newTickerData: TickerItem[] = [
