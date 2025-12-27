@@ -26,7 +26,7 @@ const faqs = [
   {
     question: "I have a problem, how can I contact you?",
     answer:
-      "Join our Discord community for immediate support from our team and fellow racers. You can also reach us on Twitter/X for updates and announcements. Our support team typically responds within 24 hours.",
+      "Join our X community for immediate support. You can reach us on Twitter for updates, announcements, and support. Our support team typically responds within 24 hours.",
   },
 ]
 

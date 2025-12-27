@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Gamepad2, Bot, ImageIcon, PiggyBank, Gift, Coins, Users, Globe, Layers, ShieldCheck } from "lucide-react"
+import { Gamepad2, Bot, ImageIcon, Gift, Coins, Users, Globe, Layers, ShieldCheck } from "lucide-react"
 
 const phases = [
   {
@@ -25,12 +25,6 @@ const phases = [
         title: "Implement Reward Platform",
         description:
           "Complete daily tasks and challenges to earn free coins and unlock exclusive race entries. Stack your rewards and compete in premium tournaments without spending a dime.",
-        status: "in-progress",
-      },
-      {
-        icon: PiggyBank,
-        title: "Treasury & Value Protection",
-        description: "Strategic treasury management and buyback mechanisms to protect and enhance token value.",
         status: "in-progress",
       },
     ],
