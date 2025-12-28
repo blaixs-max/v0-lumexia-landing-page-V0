@@ -12,7 +12,7 @@ const navLinks = [
   { name: "Help", href: "#faq", external: false },
 ]
 
-const CONTRACT_ADDRESS = "0x7a8B3C9dE2fA1b5c6D8e9F0a1B2c3D4e5F6a7B8C"
+const CONTRACT_ADDRESS = "0xb92cc959c2434c06489d3f941391a5f1d8334444" // Updated contract address
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
