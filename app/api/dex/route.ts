@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-const TOKEN_ADDRESS = "0xe5dbde6fc6771beafae21ae45ae9d6952c314444"
+const TOKEN_ADDRESS = "0xb92cc959c2434c06489d3f941391a5f1d8334444"
 
 export async function GET() {
   try {
