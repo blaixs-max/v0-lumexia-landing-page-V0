@@ -1,23 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, X, Copy, Check } from "lucide-react"
-import Image from "next/image"
+import { Menu, X, Wallet } from "lucide-react"
 
 const navLinks = [
-  { name: "Game", href: "https://game.lumexia.net", external: true },
-  { name: "Leaderboard", href: "#leaderboard", external: false },
-  { name: "Project Strategy", href: "#strategy", external: false },
-  { name: "Community", href: "#community", external: false },
-  { name: "Help", href: "#faq", external: false },
+  { name: "Games", href: "#games" },
+  { name: "Marketplace", href: "#marketplace" },
+  { name: "Staking", href: "#staking" },
+  { name: "About", href: "#about" },
 ]
-
-const CONTRACT_ADDRESS = "0xb92cc959c2434c06489d3f941391a5f1d8334444" // Updated contract address
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,65 +22,58 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const copyAddress = async () => {
-    try {
-      await navigator.clipboard.writeText(CONTRACT_ADDRESS)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      console.error("Failed to copy address")
-    }
-  }
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled ? "bg-black/95 backdrop-blur-md shadow-lg shadow-black/50" : "bg-transparent"
+        scrolled ? "bg-[#0a0a1a]/95 backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24 md:h-32">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="https://lumexia.net" className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
-            <Image src="/images/lumexia-logo.png" alt="Lumexia Logo" fill className="object-contain" priority />
+          <a href="/" className="flex items-center gap-3">
+            <div className="relative">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 5L35 12.5V27.5L20 35L5 27.5V12.5L20 5Z" fill="url(#logoGradient)" />
+                <path d="M12 18L20 14L28 18L20 22L12 18Z" fill="white" fillOpacity="0.9" />
+                <path d="M12 22L20 26L28 22" stroke="white" strokeWidth="1.5" strokeOpacity="0.7" />
+                <path d="M12 25L20 29L28 25" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
+                <defs>
+                  <linearGradient id="logoGradient" x1="5" y1="5" x2="35" y2="35" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#9333ea" />
+                    <stop offset="1" stopColor="#06b6d4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xs text-gray-400 tracking-wider">Solana</span>
+              <span className="text-xl font-bold text-white tracking-wide">Lumexia</span>
+            </div>
           </a>
 
-          <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg border border-[#FFD700]/30 bg-black/60 backdrop-blur-sm absolute left-[32%] transform -translate-x-1/2">
-            <span className="text-xs text-[#FFD700] font-semibold tracking-wide whitespace-nowrap">Official CA:</span>
-            <code className="text-xs text-gray-300 font-mono whitespace-nowrap">
-              {CONTRACT_ADDRESS.slice(0, 6)}...{CONTRACT_ADDRESS.slice(-4)}
-            </code>
-            <button
-              onClick={copyAddress}
-              className="p-1.5 rounded-md bg-[#FFD700]/10 hover:bg-[#FFD700]/20 border border-[#FFD700]/30 transition-all duration-200 group"
-              title="Copy address"
-            >
-              {copied ? (
-                <Check className="w-3.5 h-3.5 text-green-400" />
-              ) : (
-                <Copy className="w-3.5 h-3.5 text-[#FFD700] group-hover:scale-110 transition-transform" />
-              )}
-            </button>
-          </div>
-
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                target={link.external ? "_blank" : undefined}
-                rel={link.external ? "noopener noreferrer" : undefined}
-                className="text-sm text-gray-300 hover:text-[#FFD700] transition-colors duration-200"
+                className="text-sm text-gray-300 hover:text-white transition-colors duration-200"
               >
                 {link.name}
               </a>
             ))}
           </nav>
 
+          {/* Connect Wallet Button */}
+          <button className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#1a1a3a]/80 border border-purple-500/30 text-white text-sm font-medium hover:bg-[#2a2a4a] transition-all duration-200">
+            <Wallet className="w-4 h-4" />
+            Connect Wallet
+          </button>
+
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-gray-300 hover:text-[#FFD700]"
+            className="md:hidden p-2 text-gray-300 hover:text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -94,34 +82,21 @@ export function Header() {
 
         {/* Mobile Nav */}
         {mobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-[#FFD700]/20 bg-black/90 backdrop-blur-md">
-            <div className="flex items-center justify-between gap-2 px-2 py-3 mb-2 rounded-lg border border-[#FFD700]/30 bg-black/40">
-              <div className="flex flex-col">
-                <span className="text-xs text-[#FFD700] font-semibold">Official CA:</span>
-                <code className="text-xs text-gray-300 font-mono">
-                  {CONTRACT_ADDRESS.slice(0, 10)}...{CONTRACT_ADDRESS.slice(-6)}
-                </code>
-              </div>
-              <button
-                onClick={copyAddress}
-                className="p-2 rounded-md bg-[#FFD700]/10 hover:bg-[#FFD700]/20 border border-[#FFD700]/30 transition-all"
-              >
-                {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-[#FFD700]" />}
-              </button>
-            </div>
-
+          <nav className="md:hidden py-4 border-t border-purple-500/20 bg-[#0a0a1a]/95 backdrop-blur-md">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                target={link.external ? "_blank" : undefined}
-                rel={link.external ? "noopener noreferrer" : undefined}
-                className="block py-3 text-gray-300 hover:text-[#FFD700] transition-colors"
+                className="block py-3 text-gray-300 hover:text-white transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
               </a>
             ))}
+            <button className="mt-4 w-full flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#1a1a3a]/80 border border-purple-500/30 text-white text-sm font-medium">
+              <Wallet className="w-4 h-4" />
+              Connect Wallet
+            </button>
           </nav>
         )}
       </div>

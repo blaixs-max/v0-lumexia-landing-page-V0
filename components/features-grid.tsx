@@ -1,71 +1,62 @@
-import { Shield, Scale, Flame, Vault, ShieldCheck, PiggyBank } from "lucide-react"
+"use client"
+
+import { Gamepad2, Coins, ShoppingBag } from "lucide-react"
 
 const features = [
   {
-    icon: Shield,
-    title: "Daily Reward Distribution",
+    icon: Gamepad2,
+    title: "ARCADE & COMPETITION",
     description:
-      "The top 100 players with the highest scores each day share the prize pool accumulated by the end of the day among themselves through an automated system managed by a secure and smart contract. (Our process is absolutely cheat-proof.)",
+      "Play skill-based games, enter tournaments, and earn SOL rewards. Prove your dominance.",
+    color: "from-pink-500 to-purple-600",
   },
   {
-    icon: Scale,
-    title: "Skill Based & Fair",
-    description: "No pay-to-win mechanics exist here—pure reflex and strategy.",
-  },
-  {
-    icon: Flame,
-    title: "AI-Driven Burn Mechanism",
-    description: "Intelligent deflationary mechanism burns tokens based on network activity.",
-  },
-  {
-    icon: Vault,
-    title: "Treasury Funding",
-    description: "Dedicated Treasury ensures price stability and mitigates volatility.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Multiple Cheat Protection",
-    description: "State-of-the-art anti-cheat technology ensuring fair competition and protecting reward integrity.",
-  },
-  {
-    icon: PiggyBank,
-    title: "Revenue Model",
+    icon: Coins,
+    title: "DEFI & STAKING",
     description:
-      "92.5% of the total daily reward pool will be distributed along with fair share method on each game day. Remaining 7.5% of the reward pool kept in treasury for Marketing & Weekly Burns.",
+      "Stake your SOL and Lumexia tokens for passive income. Access exclusive yield farming.",
+    color: "from-purple-500 to-indigo-600",
+  },
+  {
+    icon: ShoppingBag,
+    title: "NFT MARKETPLACE",
+    description:
+      "Discover unique in-game assets, trade rare NFTs, and build your collection.",
+    color: "from-indigo-500 to-cyan-500",
   },
 ]
 
 export function FeaturesGrid() {
   return (
-    <section className="py-4 bg-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="ecosystem" className="py-20 cyberpunk-bg relative">
+      {/* Background Effects */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2
-            className="font-serif text-4xl sm:text-5xl font-black text-[#FFD700] mb-4"
-            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
-          >
-            PLATFORM FEATURES
+          <h2 className="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 uppercase tracking-wide">
+            OUR ECOSYSTEM
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Discover what makes Lumexia the ultimate blockchain racing experience.
-          </p>
         </div>
 
-        <div className="border border-gray-700 rounded-2xl p-6 sm:p-8 bg-gray-900/30">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="group p-6 rounded-xl bg-black border border-gray-800 hover:border-[#FFD700]/50 transition-all duration-300"
-              >
-                <div className="w-12 h-12 rounded-lg bg-[#FFD700]/10 flex items-center justify-center mb-4 group-hover:bg-[#FFD700]/20 transition-colors">
-                  <feature.icon className="w-6 h-6 text-[#FFD700]" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="group p-8 rounded-2xl bg-[#1a1a3a]/60 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 backdrop-blur-sm"
+            >
+              <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.color} p-0.5 mb-6`}>
+                <div className="w-full h-full rounded-xl bg-[#1a1a3a] flex items-center justify-center">
+                  <feature.icon className="w-8 h-8 text-purple-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
               </div>
-            ))}
-          </div>
+              <h3 className="text-xl font-bold text-white mb-3 tracking-wide">{feature.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
