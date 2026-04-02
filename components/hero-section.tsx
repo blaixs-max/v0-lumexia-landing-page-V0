@@ -52,7 +52,7 @@ export function HeroSection() {
                   textShadow: "0 0 40px rgba(6, 182, 212, 0.5)"
                 }}
               >
-                Play Racing Game and Earn LMX coin.
+                Play Online Racing Game , Earn Coin
               </span>
             </h1>
 
