@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { LeaderboardSection } from "@/components/leaderboard-section"
+import Image from "next/image"
 
 export function HeroSection() {
   const handleStartGame = () => {
@@ -125,6 +126,25 @@ export function HeroSection() {
               >
                 PLAY NOW
               </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* F1 Racing Car */}
+        <div className="relative flex justify-center mb-8">
+          <div className="relative w-full max-w-2xl h-32 md:h-48">
+            <Image
+              src="/images/f1-car.png"
+              alt="Formula 1 Racing Car"
+              fill
+              className="object-contain drop-shadow-[0_0_30px_rgba(6,182,212,0.5)]"
+              priority
+            />
+            {/* Speed lines effect */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-1/2 left-0 w-1/3 h-[2px] bg-gradient-to-r from-cyan-400/60 to-transparent transform -translate-y-4" />
+              <div className="absolute top-1/2 left-0 w-1/4 h-[2px] bg-gradient-to-r from-purple-500/60 to-transparent transform translate-y-2" />
+              <div className="absolute top-1/2 left-0 w-1/5 h-[1px] bg-gradient-to-r from-cyan-300/40 to-transparent transform translate-y-6" />
             </div>
           </div>
         </div>
