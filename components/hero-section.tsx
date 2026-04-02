@@ -107,23 +107,10 @@ export function HeroSection() {
                 }}
               >
                 Play Online Racing Game , Earn Coin
-              </span>
+</span>
             </h1>
 
-            <p className="text-center text-gray-300 text-sm md:text-base max-w-xl mx-auto mb-4 leading-relaxed">
-              Dominate the tracks in Solana&apos;s reliable and transparent racing game. Claim your spot in the top 100 on the daily leaderboard and earn automatic <span className="text-cyan-400 font-semibold">$SOL</span> airdrops. This signals a new era for the Lumexia platform, on a more exciting games and updates offering higher profit potential on the horizon.
-            </p>
-            
-            <p 
-              className="text-center text-lg font-bold mb-8"
-              style={{ 
-                background: "linear-gradient(90deg, #06b6d4, #a78bfa)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              LET&apos;S RISE TOGETHER.
-            </p>
+            <div className="mb-8" />
 
             {/* Play Now Button */}
             <div className="flex justify-center">
