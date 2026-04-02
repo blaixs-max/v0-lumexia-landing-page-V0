@@ -16,12 +16,12 @@ const faqs = [
   {
     question: "Where can I buy $LMX tokens?",
     answer:
-      "$LMX tokens are available on PancakeSwap. Connect your wallet, ensure you have BNB for gas fees, and swap for $LMX using our official contract address. Always verify the contract address on our official channels to avoid scams.",
+      "$LMX tokens are available on Raydium. Connect your wallet, ensure you have SOL for gas fees, and swap for $LMX using our official contract address. Always verify the contract address on our official channels to avoid scams.",
   },
   {
     question: "How do I earn tokens?",
     answer:
-      "Finish in the top 100 on the daily leaderboard to earn automatic $BNB airdrops. Payouts are executed via secure smart contracts at the end of each day (00:00 UTC). The higher your rank, the more you earn.",
+      "Finish in the top 100 on the daily leaderboard to earn automatic $SOL airdrops. Payouts are executed via secure smart contracts at the end of each day (00:00 UTC). The higher your rank, the more you earn.",
   },
   {
     question: "I have a problem, how can I contact you?",

@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { getSupabase } from "@/lib/supabase"
 
-const CREDIT_TO_BNB = 0.0015
+const CREDIT_TO_SOL = 0.0015
 
 interface PoolContextType {
   poolValue: number
@@ -47,9 +47,9 @@ export function PoolProvider({ children }: { children: ReactNode }) {
       }
 
       const gamesPlayed = count || 0
-      const totalBNB = gamesPlayed * CREDIT_TO_BNB
+      const totalSOL = gamesPlayed * CREDIT_TO_SOL
       setTotalGames(gamesPlayed)
-      setPoolValue(totalBNB)
+      setPoolValue(totalSOL)
       setLoading(false)
     } catch (err) {
       setLoading(false)

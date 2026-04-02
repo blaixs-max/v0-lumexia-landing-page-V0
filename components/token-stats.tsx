@@ -101,10 +101,10 @@ export function TokenStats() {
 
       const newTickerData: TickerItem[] = [
         {
-          symbol: "BNB/USDT",
-          price: cgData.binancecoin?.usd?.toFixed(2) || "0.00",
-          change: cgData.binancecoin?.usd_24h_change || 0,
-          icon: "BNB",
+          symbol: "SOL/USDT",
+          price: cgData.solana?.usd?.toFixed(2) || "0.00",
+          change: cgData.solana?.usd_24h_change || 0,
+          icon: "SOL",
         },
         {
           symbol: "BTC/USDT",
@@ -155,14 +155,14 @@ export function TokenStats() {
       label: "Daily Prize Pool",
       value: poolLoading ? "..." : netPool.toFixed(4),
       icon: Zap,
-      suffix: " BNB",
+      suffix: " SOL",
     },
     { label: "Next Distribution", value: "04:32:18", icon: Clock, suffix: "", isTimer: true },
   ]
 
   const getIconColor = (symbol: string) => {
     switch (symbol) {
-      case "BNB": return "text-yellow-400"
+      case "SOL": return "text-purple-400"
       case "BTC": return "text-orange-400"
       case "ETH": return "text-purple-400"
       case "LMX": return "text-cyan-400"

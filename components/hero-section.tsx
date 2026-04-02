@@ -65,8 +65,8 @@ export function HeroSection() {
         </h1>
 
         <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-4 leading-relaxed">
-          Dominate the tracks in Binance Smart Chain&apos;s reliable and transparent racing game. Claim your spot in the top
-          100 on the daily leaderboard and earn automatic <span className="text-cyan-400 font-semibold">$BNB</span>{" "}
+          Dominate the tracks in Solana&apos;s reliable and transparent racing game. Claim your spot in the top
+          100 on the daily leaderboard and earn automatic <span className="text-cyan-400 font-semibold">$SOL</span>{" "}
           airdrops.
         </p>
 

@@ -204,7 +204,7 @@ export function LeaderboardSection() {
               <span className="gradient-text">RANKING</span>
             </h2>
             <p className="text-gray-400 text-sm md:text-base">
-              Top 100 Racers receive automated <span className="text-cyan-400">$BNB</span> airdrops every{" "}
+              Top 100 Racers receive automated <span className="text-cyan-400">$SOL</span> airdrops every{" "}
               <span className="text-white font-semibold">24h</span>. Showing Top 100 contenders.
             </p>
           </div>
@@ -216,7 +216,7 @@ export function LeaderboardSection() {
               </div>
               <div>
                 <span className="text-xs text-gray-500 uppercase tracking-wider">Daily Reward Pool</span>
-                <p className="text-white font-mono font-bold">{netPool.toFixed(4)} BNB</p>
+                <p className="text-white font-mono font-bold">{netPool.toFixed(4)} SOL</p>
               </div>
             </div>
 
@@ -298,7 +298,7 @@ export function LeaderboardSection() {
                         </div>
                       </div>
                       <div className="col-span-3 text-right">
-                        <span className="text-cyan-400 font-semibold text-base">{reward.toFixed(4)} BNB</span>
+                        <span className="text-cyan-400 font-semibold text-base">{reward.toFixed(4)} SOL</span>
                       </div>
                     </div>
 
@@ -326,7 +326,7 @@ export function LeaderboardSection() {
                         <span className="text-cyan-400 font-bold text-xs">{formatScore(racer.boosted_score)}</span>
                       </div>
                       <div className="col-span-3 text-right">
-                        <span className="text-cyan-400 font-semibold text-xs">{reward.toFixed(4)} BNB</span>
+                        <span className="text-cyan-400 font-semibold text-xs">{reward.toFixed(4)} SOL</span>
                       </div>
                     </div>
                   </div>

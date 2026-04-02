@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 
 const FALLBACK_DATA = {
-  binancecoin: { usd: 710, usd_24h_change: -1.5 },
+  solana: { usd: 180, usd_24h_change: -1.5 },
   bitcoin: { usd: 98500, usd_24h_change: -0.8 },
   ethereum: { usd: 3450, usd_24h_change: -2.1 },
 }
@@ -20,7 +20,7 @@ export async function GET() {
 
   try {
     const response = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin,bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true",
+      "https://api.coingecko.com/api/v3/simple/price?ids=solana,bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true",
       {
         headers: {
           Accept: "application/json",
