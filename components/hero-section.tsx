@@ -44,7 +44,7 @@ export function HeroSection() {
 
             <h1 className="text-center mb-6">
               <span
-                className="block font-serif text-4xl sm:text-5xl md:text-6xl font-black tracking-wide uppercase"
+                className="block font-serif text-3xl sm:text-4xl md:text-5xl font-black tracking-wide"
                 style={{ 
                   background: "linear-gradient(135deg, #06b6d4 0%, #a78bfa 50%, #ec4899 100%)",
                   WebkitBackgroundClip: "text",
@@ -52,7 +52,7 @@ export function HeroSection() {
                   textShadow: "0 0 40px rgba(6, 182, 212, 0.5)"
                 }}
               >
-                RACE FOR LUMEXIA
+                Play Racing Game and Earn LMX coin.
               </span>
             </h1>
 
