@@ -22,6 +22,60 @@ export function HeroSection() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a18]/60 via-[#0a0a18]/40 to-[#0a0a18]" />
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 via-transparent to-cyan-900/20" />
+        
+        {/* Checkered Racing Flag - Left */}
+        <div className="absolute top-20 left-4 md:left-16 opacity-20 pointer-events-none">
+          <svg width="120" height="150" viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Flag pole */}
+            <rect x="5" y="0" width="4" height="150" fill="#888" />
+            {/* Flag */}
+            <g transform="translate(9, 10)">
+              {[...Array(5)].map((_, row) =>
+                [...Array(6)].map((_, col) => (
+                  <rect
+                    key={`${row}-${col}`}
+                    x={col * 15}
+                    y={row * 12}
+                    width="15"
+                    height="12"
+                    fill={(row + col) % 2 === 0 ? "#ffffff" : "#1a1a2e"}
+                  />
+                ))
+              )}
+            </g>
+            {/* Wave effect overlay */}
+            <path d="M9,10 Q50,5 90,15 Q100,70 95,70 L9,70 Z" fill="url(#flagWave)" opacity="0.3" />
+            <defs>
+              <linearGradient id="flagWave" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#06b6d4" />
+                <stop offset="100%" stopColor="#8b5cf6" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Checkered Racing Flag - Right */}
+        <div className="absolute top-20 right-4 md:right-16 opacity-20 pointer-events-none transform scale-x-[-1]">
+          <svg width="120" height="150" viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Flag pole */}
+            <rect x="5" y="0" width="4" height="150" fill="#888" />
+            {/* Flag */}
+            <g transform="translate(9, 10)">
+              {[...Array(5)].map((_, row) =>
+                [...Array(6)].map((_, col) => (
+                  <rect
+                    key={`${row}-${col}`}
+                    x={col * 15}
+                    y={row * 12}
+                    width="15"
+                    height="12"
+                    fill={(row + col) % 2 === 0 ? "#ffffff" : "#1a1a2e"}
+                  />
+                ))
+              )}
+            </g>
+          </svg>
+        </div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
