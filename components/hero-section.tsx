@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Trophy } from "lucide-react"
 import { useState, useEffect } from "react"
 import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 
@@ -18,26 +17,7 @@ const defaultLeaderboard: MiniLeaderboardEntry[] = [
   { id: "3", wallet_address: "Nitro...", full_wallet: "", best_score: 3310, created_at: "", updated_at: "", username: "NitrousFly", team: "Red Bull Racing", points: 3310 },
 ]
 
-// Car data
-const cars = [
-  { name: "Apex GT", color: "green", speed: 85, accel: 70, handling: 60, image: "/images/car-green.jpg" },
-  { name: "Mantis EVO", color: "red", speed: 75, accel: 80, handling: 75, image: "/images/car-red.jpg" },
-  { name: "Phantom GTR", color: "gold", speed: 90, accel: 65, handling: 85, image: "/images/car-gold.jpg" },
-]
 
-function StatBar({ value, color }: { value: number; color: string }) {
-  const colors: Record<string, string> = {
-    green: "bg-green-500",
-    cyan: "bg-cyan-400",
-    purple: "bg-purple-500",
-    pink: "bg-pink-500",
-  }
-  return (
-    <div className="flex-1 h-2 bg-gray-700/50 rounded-full overflow-hidden">
-      <div className={`h-full ${colors[color] || colors.cyan} rounded-full`} style={{ width: `${value}%` }} />
-    </div>
-  )
-}
 
 export function HeroSection() {
   const [leaderboard, setLeaderboard] = useState<MiniLeaderboardEntry[]>(defaultLeaderboard)
@@ -151,65 +131,9 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Bottom Section: Cars + Mini Leaderboard */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Featured Cars */}
-          <div className="lg:col-span-3">
-            <h3 className="text-xl font-bold text-white mb-4 tracking-wider">FEATURED CARS</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {cars.map((car) => (
-                <div
-                  key={car.name}
-                  className="rounded-xl overflow-hidden"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
-                    border: "2px solid rgba(139, 92, 246, 0.3)",
-                    boxShadow: "0 0 20px rgba(139, 92, 246, 0.15)"
-                  }}
-                >
-                  <div className="p-3">
-                    <h4 className="text-white font-bold text-sm mb-2">{car.name}</h4>
-                    <div 
-                      className="h-24 rounded-lg mb-3 flex items-center justify-center"
-                      style={{ background: "linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)" }}
-                    >
-                      <span className="text-4xl">
-                        {car.color === "green" ? "🚗" : car.color === "red" ? "🏎️" : "🚙"}
-                      </span>
-                    </div>
-                    
-                    <div className="space-y-2 text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-400 w-16">SPEED</span>
-                        <StatBar value={car.speed} color="green" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-400 w-16">ACCEL</span>
-                        <StatBar value={car.accel} color="cyan" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-400 w-16">HANDLING</span>
-                        <StatBar value={car.handling} color="purple" />
-                      </div>
-                    </div>
-
-                    <button 
-                      className="w-full mt-3 py-2 rounded-lg text-xs font-bold tracking-wider text-cyan-400 transition-all"
-                      style={{
-                        background: "rgba(6, 182, 212, 0.1)",
-                        border: "1px solid rgba(6, 182, 212, 0.4)"
-                      }}
-                    >
-                      SELECT
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Mini Leaderboard */}
-          <div className="lg:col-span-1">
+        {/* Mini Leaderboard Section */}
+        <div className="max-w-md mx-auto">
+          <div
             <div
               className="rounded-xl p-4 h-full"
               style={{

@@ -207,7 +207,7 @@ export function LeaderboardSection() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              DAILY RANKING
+              GLOBAL DAILY LEADERBOARD
             </h2>
             <p className="text-gray-400 text-sm md:text-base">
               Top 100 Racers receive automated <span className="text-cyan-400">$SOL</span> airdrops every{" "}
