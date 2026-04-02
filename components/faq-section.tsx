@@ -190,10 +190,16 @@ export function FaqSection() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-white mb-4">
-            {"PILOT'S "}
-            <span className="gradient-text">HANDBOOK</span>
-            <span className="text-gray-500 text-2xl ml-3">(FAQ)</span>
+          <h2 
+            className="font-serif text-4xl sm:text-5xl font-bold mb-4"
+            style={{ 
+              background: "linear-gradient(135deg, #06b6d4 0%, #a78bfa 50%, #ec4899 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {"PILOT'S HANDBOOK "}
+            <span className="text-gray-500 text-2xl">(FAQ)</span>
           </h2>
           <p className="text-gray-400">Everything you need to know before hitting the track</p>
         </div>
@@ -205,7 +211,11 @@ export function FaqSection() {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="glass-card rounded-2xl px-6 border border-purple-500/20 data-[state=open]:border-cyan-500/50 transition-colors"
+              className="rounded-xl px-6 data-[state=open]:border-cyan-500/50 transition-colors"
+              style={{
+                background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
+                border: "1px solid rgba(139, 92, 246, 0.3)"
+              }}
             >
               <AccordionTrigger className="text-left text-white hover:text-cyan-400 hover:no-underline py-5 font-medium">
                 {faq.question}

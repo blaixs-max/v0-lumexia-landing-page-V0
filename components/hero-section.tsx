@@ -1,114 +1,256 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ChevronDown, Gamepad2 } from "lucide-react"
+import { Trophy } from "lucide-react"
+import { useState, useEffect } from "react"
+import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
+
+// Mini leaderboard data
+interface MiniLeaderboardEntry extends DailyLeaderboardEntry {
+  username: string
+  team: string
+  points: number
+}
+
+const defaultLeaderboard: MiniLeaderboardEntry[] = [
+  { id: "1", wallet_address: "Speed...", full_wallet: "", best_score: 3540, created_at: "", updated_at: "", username: "SpeedDemon", team: "Tealball Racing", points: 3540 },
+  { id: "2", wallet_address: "Track...", full_wallet: "", best_score: 3340, created_at: "", updated_at: "", username: "TrackMaster", team: "Red Bull Racing", points: 3340 },
+  { id: "3", wallet_address: "Nitro...", full_wallet: "", best_score: 3310, created_at: "", updated_at: "", username: "NitrousFly", team: "Red Bull Racing", points: 3310 },
+]
+
+// Car data
+const cars = [
+  { name: "Apex GT", color: "green", speed: 85, accel: 70, handling: 60, image: "/images/car-green.jpg" },
+  { name: "Mantis EVO", color: "red", speed: 75, accel: 80, handling: 75, image: "/images/car-red.jpg" },
+  { name: "Phantom GTR", color: "gold", speed: 90, accel: 65, handling: 85, image: "/images/car-gold.jpg" },
+]
+
+function StatBar({ value, color }: { value: number; color: string }) {
+  const colors: Record<string, string> = {
+    green: "bg-green-500",
+    cyan: "bg-cyan-400",
+    purple: "bg-purple-500",
+    pink: "bg-pink-500",
+  }
+  return (
+    <div className="flex-1 h-2 bg-gray-700/50 rounded-full overflow-hidden">
+      <div className={`h-full ${colors[color] || colors.cyan} rounded-full`} style={{ width: `${value}%` }} />
+    </div>
+  )
+}
 
 export function HeroSection() {
+  const [leaderboard, setLeaderboard] = useState<MiniLeaderboardEntry[]>(defaultLeaderboard)
+
+  useEffect(() => {
+    async function fetchTopPlayers() {
+      try {
+        const supabase = getSupabase()
+        const { data } = await supabase
+          .from("daily_leaderboard")
+          .select("*")
+          .order("best_score", { ascending: false })
+          .limit(3)
+
+        if (data && data.length > 0) {
+          setLeaderboard(data.map((entry, i) => ({
+            ...entry,
+            username: `Player_${entry.wallet_address?.slice(0, 4) || i + 1}`,
+            team: i === 0 ? "Tealball Racing" : "Red Bull Racing",
+            points: entry.best_score,
+          })))
+        }
+      } catch (err) {
+        // Use default data
+      }
+    }
+    fetchTopPlayers()
+  }, [])
+
   const handleStartGame = () => {
     window.open("https://game.lumexia.net", "_blank")
   }
 
-  const handleViewLeaderboard = () => {
-    const leaderboard = document.getElementById("leaderboard")
-    if (leaderboard) {
-      leaderboard.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
-  const handleHowToPlay = () => {
-    const faqSection = document.getElementById("faq")
-    if (faqSection) {
-      faqSection.scrollIntoView({ behavior: "smooth" })
-      setTimeout(() => {
-        const howToPlayTrigger = document.getElementById("how-to-play-trigger")
-        if (howToPlayTrigger) {
-          howToPlayTrigger.click()
-        }
-      }, 800)
-    }
-  }
-
   return (
-    <section id="game" className="relative min-h-screen flex items-center justify-center">
-      {/* Background with gradient overlay */}
+    <section id="game" className="relative min-h-screen pt-32 pb-20">
+      {/* Background */}
       <div className="absolute inset-0">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `url('/images/lighthouse-bg.jpg')`,
+            backgroundImage: `url('/images/race-track-bg.jpg')`,
             backgroundSize: "cover",
-            backgroundPosition: "center top",
+            backgroundPosition: "center",
           }}
         />
-        {/* Dark overlay with purple/cyan gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a12]/80 via-[#0a0a12]/60 to-[#0a0a12]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a18]/60 via-[#0a0a18]/40 to-[#0a0a18]" />
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 via-transparent to-cyan-900/20" />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 text-center">
-        <h1 className="mb-8 mt-20">
-          <span
-            className="block font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wide uppercase text-white"
-            style={{ textShadow: "0 0 30px rgba(139, 92, 246, 0.5)" }}
-          >
-            RACE FOR
-          </span>
-          <span
-            className="block font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wide uppercase mt-2 gradient-text"
-            style={{ 
-              textShadow: "0 0 40px rgba(0, 212, 255, 0.6)",
-              filter: "drop-shadow(0 0 30px rgba(139, 92, 246, 0.4))"
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main Hero Box */}
+        <div className="max-w-3xl mx-auto mb-12">
+          <div 
+            className="relative rounded-2xl p-8 md:p-12"
+            style={{
+              background: "linear-gradient(135deg, rgba(13, 13, 32, 0.9) 0%, rgba(20, 15, 50, 0.85) 100%)",
+              border: "2px solid",
+              borderImage: "linear-gradient(135deg, #06b6d4, #8b5cf6, #06b6d4) 1",
+              boxShadow: "0 0 40px rgba(139, 92, 246, 0.2), inset 0 0 60px rgba(6, 182, 212, 0.05)"
             }}
           >
-            LUMEXIA
-          </span>
-        </h1>
+            {/* Corner accents */}
+            <div className="absolute -top-1 -left-1 w-6 h-6 border-t-2 border-l-2 border-cyan-400" />
+            <div className="absolute -top-1 -right-1 w-6 h-6 border-t-2 border-r-2 border-cyan-400" />
+            <div className="absolute -bottom-1 -left-1 w-6 h-6 border-b-2 border-l-2 border-purple-500" />
+            <div className="absolute -bottom-1 -right-1 w-6 h-6 border-b-2 border-r-2 border-purple-500" />
 
-        <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-4 leading-relaxed">
-          Dominate the tracks in Solana&apos;s reliable and transparent racing game. Claim your spot in the top
-          100 on the daily leaderboard and earn automatic <span className="text-cyan-400 font-semibold">$SOL</span>{" "}
-          airdrops.
-        </p>
+            <h1 className="text-center mb-6">
+              <span
+                className="block font-serif text-4xl sm:text-5xl md:text-6xl font-black tracking-wide uppercase"
+                style={{ 
+                  background: "linear-gradient(135deg, #06b6d4 0%, #a78bfa 50%, #ec4899 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textShadow: "0 0 40px rgba(6, 182, 212, 0.5)"
+                }}
+              >
+                RACE FOR LUMEXIA
+              </span>
+            </h1>
 
-        <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto mb-4 leading-relaxed">
-          This signals a new era for the Lumexia platform, with more exciting games and updates offering higher profit
-          potential on the horizon.
-        </p>
-        
-        <p className="text-lg sm:text-xl font-bold gradient-text mb-10">
-          LET&apos;S RISE TOGETHER.
-        </p>
+            <p className="text-center text-gray-300 text-sm md:text-base max-w-xl mx-auto mb-4 leading-relaxed">
+              Dominate the tracks in Solana&apos;s reliable and transparent racing game. Claim your spot in the top 100 on the daily leaderboard and earn automatic <span className="text-cyan-400 font-semibold">$SOL</span> airdrops. This signals a new era for the Lumexia platform, on a more exciting games and updates offering higher profit potential on the horizon.
+            </p>
+            
+            <p 
+              className="text-center text-lg font-bold mb-8"
+              style={{ 
+                background: "linear-gradient(90deg, #06b6d4, #a78bfa)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              LET&apos;S RISE TOGETHER.
+            </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button
-            onClick={handleStartGame}
-            className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 transition-all duration-300 uppercase rounded-full neon-glow-cyan border-0"
-          >
-            Start Game Engine
-          </Button>
-          <Button
-            onClick={handleViewLeaderboard}
-            variant="outline"
-            className="w-full sm:w-auto px-10 py-6 text-sm font-bold tracking-wider bg-transparent border-2 border-purple-500/50 text-purple-400 hover:bg-purple-500/10 hover:border-purple-400 transition-all duration-300 uppercase rounded-full"
-          >
-            View Leaderboard
-          </Button>
+            {/* Play Now Button */}
+            <div className="flex justify-center">
+              <Button
+                onClick={handleStartGame}
+                className="px-16 py-7 text-xl font-black tracking-widest uppercase rounded-xl transition-all duration-300"
+                style={{
+                  background: "linear-gradient(90deg, #06b6d4, #0891b2)",
+                  boxShadow: "0 0 30px rgba(6, 182, 212, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1)",
+                  border: "2px solid rgba(6, 182, 212, 0.5)"
+                }}
+              >
+                PLAY NOW
+              </Button>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-6">
-          <Button
-            onClick={handleHowToPlay}
-            variant="ghost"
-            className="px-8 py-5 text-sm font-bold tracking-wider text-gray-400 hover:text-cyan-400 hover:bg-transparent transition-all duration-300 uppercase border border-gray-700/50 rounded-full hover:border-cyan-500/30"
-          >
-            <Gamepad2 className="w-4 h-4 mr-2" />
-            How to Play
-          </Button>
-        </div>
-      </div>
+        {/* Bottom Section: Cars + Mini Leaderboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Featured Cars */}
+          <div className="lg:col-span-3">
+            <h3 className="text-xl font-bold text-white mb-4 tracking-wider">FEATURED CARS</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {cars.map((car) => (
+                <div
+                  key={car.name}
+                  className="rounded-xl overflow-hidden"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
+                    border: "2px solid rgba(139, 92, 246, 0.3)",
+                    boxShadow: "0 0 20px rgba(139, 92, 246, 0.15)"
+                  }}
+                >
+                  <div className="p-3">
+                    <h4 className="text-white font-bold text-sm mb-2">{car.name}</h4>
+                    <div 
+                      className="h-24 rounded-lg mb-3 flex items-center justify-center"
+                      style={{ background: "linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)" }}
+                    >
+                      <span className="text-4xl">
+                        {car.color === "green" ? "🚗" : car.color === "red" ? "🏎️" : "🚙"}
+                      </span>
+                    </div>
+                    
+                    <div className="space-y-2 text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-400 w-16">SPEED</span>
+                        <StatBar value={car.speed} color="green" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-400 w-16">ACCEL</span>
+                        <StatBar value={car.accel} color="cyan" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-400 w-16">HANDLING</span>
+                        <StatBar value={car.handling} color="purple" />
+                      </div>
+                    </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center">
-        <ChevronDown className="w-8 h-8 text-cyan-400/60 animate-bounce" />
+                    <button 
+                      className="w-full mt-3 py-2 rounded-lg text-xs font-bold tracking-wider text-cyan-400 transition-all"
+                      style={{
+                        background: "rgba(6, 182, 212, 0.1)",
+                        border: "1px solid rgba(6, 182, 212, 0.4)"
+                      }}
+                    >
+                      SELECT
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mini Leaderboard */}
+          <div className="lg:col-span-1">
+            <div
+              className="rounded-xl p-4 h-full"
+              style={{
+                background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
+                border: "2px solid rgba(139, 92, 246, 0.3)",
+                boxShadow: "0 0 20px rgba(139, 92, 246, 0.15)"
+              }}
+            >
+              <h3 className="text-lg font-bold text-white mb-4 tracking-wider">GLOBAL LEADERBOARD</h3>
+              
+              <div className="space-y-3">
+                {leaderboard.map((player, index) => (
+                  <div key={player.id} className="flex items-center gap-3">
+                    <span className={`text-sm font-bold ${index === 0 ? "text-yellow-400" : index === 1 ? "text-gray-300" : "text-amber-600"}`}>
+                      {index + 1}.
+                    </span>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ${
+                      index === 0 ? "bg-gradient-to-br from-cyan-500 to-purple-600" :
+                      index === 1 ? "bg-gradient-to-br from-purple-500 to-pink-600" :
+                      "bg-gradient-to-br from-orange-500 to-red-600"
+                    }`}>
+                      {player.username.charAt(0)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white text-sm font-semibold truncate">{player.username}</p>
+                      <p className="text-gray-500 text-xs truncate">{player.team}</p>
+                    </div>
+                    <span className="text-cyan-400 font-bold text-sm whitespace-nowrap">{player.points} PTS</span>
+                  </div>
+                ))}
+              </div>
+
+              <a 
+                href="#leaderboard"
+                className="block mt-4 text-center text-cyan-400 text-xs font-semibold hover:text-cyan-300 transition-colors"
+              >
+                View Full Leaderboard →
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )

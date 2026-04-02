@@ -70,10 +70,18 @@ const colorClasses = {
 
 export function FeaturesGrid() {
   return (
-    <section className="py-20 relative">
+    <section id="features" className="py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl sm:text-5xl font-black mb-4 gradient-text neon-text-purple">
+          <h2 
+            className="font-serif text-4xl sm:text-5xl font-black mb-4"
+            style={{ 
+              background: "linear-gradient(135deg, #06b6d4 0%, #a78bfa 50%, #ec4899 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textShadow: "0 0 40px rgba(139, 92, 246, 0.5)"
+            }}
+          >
             PLATFORM FEATURES
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
@@ -81,21 +89,32 @@ export function FeaturesGrid() {
           </p>
         </div>
 
-        <div className="glass-card rounded-3xl p-6 sm:p-10">
+        <div 
+          className="rounded-2xl p-6 sm:p-10"
+          style={{
+            background: "linear-gradient(135deg, rgba(13, 13, 32, 0.9) 0%, rgba(20, 15, 50, 0.85) 100%)",
+            border: "2px solid rgba(139, 92, 246, 0.3)",
+            boxShadow: "0 0 40px rgba(139, 92, 246, 0.1)"
+          }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => {
               const colors = colorClasses[feature.color as keyof typeof colorClasses]
               return (
                 <div
                   key={index}
-                  className={`group relative p-6 rounded-2xl glass transition-all duration-500 ${colors.border} ${colors.glow}`}
+                  className={`group relative p-6 rounded-xl transition-all duration-500`}
+                  style={{
+                    background: "rgba(15, 15, 35, 0.6)",
+                    border: "1px solid rgba(139, 92, 246, 0.2)"
+                  }}
                 >
                   {/* Icon container */}
-                  <div className={`w-16 h-16 rounded-2xl ${colors.iconBg} border flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
-                    <feature.icon className={`w-8 h-8 ${colors.icon}`} />
+                  <div className={`w-14 h-14 rounded-xl ${colors.iconBg} border flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className={`w-7 h-7 ${colors.icon}`} />
                   </div>
                   
-                  <h3 className="text-lg font-semibold text-white mb-3">{feature.title}</h3>
+                  <h3 className="text-base font-bold text-white mb-2">{feature.title}</h3>
                   <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
                 </div>
               )

@@ -174,7 +174,14 @@ export function TokenStats() {
     <section className="py-16 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-black tracking-wider uppercase gradient-text neon-text-purple">
+          <h2 
+            className="font-serif text-3xl md:text-4xl font-black tracking-wider uppercase"
+            style={{ 
+              background: "linear-gradient(135deg, #06b6d4 0%, #a78bfa 50%, #ec4899 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             FINANCIAL FIGURES
           </h2>
           <div className="mt-3 w-32 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto" />
@@ -187,7 +194,14 @@ export function TokenStats() {
           {apiError && <p className="mt-1 text-xs text-yellow-500">Note: {apiError}</p>}
         </div>
 
-        <div className="glass-card rounded-3xl p-6 sm:p-8">
+        <div 
+          className="rounded-2xl p-6 sm:p-8"
+          style={{
+            background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
+            border: "2px solid rgba(139, 92, 246, 0.3)",
+            boxShadow: "0 0 40px rgba(139, 92, 246, 0.1)"
+          }}
+        >
           {/* Price Ticker */}
           <div className="mb-8 overflow-hidden rounded-2xl glass">
             <div className="animate-marquee whitespace-nowrap py-4 flex">

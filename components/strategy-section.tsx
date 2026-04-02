@@ -91,7 +91,14 @@ export function StrategySection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl sm:text-5xl font-black mb-4 gradient-text neon-text-purple">
+          <h2 
+            className="font-serif text-4xl sm:text-5xl font-black mb-4"
+            style={{ 
+              background: "linear-gradient(135deg, #06b6d4 0%, #a78bfa 50%, #ec4899 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             PROJECT STRATEGY
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
@@ -100,7 +107,14 @@ export function StrategySection() {
           </p>
         </div>
 
-        <div className="glass-card rounded-3xl p-6 sm:p-10 overflow-hidden">
+        <div 
+          className="rounded-2xl p-6 sm:p-10 overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
+            border: "2px solid rgba(139, 92, 246, 0.3)",
+            boxShadow: "0 0 40px rgba(139, 92, 246, 0.1)"
+          }}
+        >
           {/* Phase Selector */}
           <div className="relative flex items-center justify-center mb-12 px-4">
             <div className="relative z-10 flex items-center w-full max-w-2xl">

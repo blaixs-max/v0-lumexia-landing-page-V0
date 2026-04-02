@@ -1,22 +1,20 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, X, Copy, Check } from "lucide-react"
+import { Menu, X, Home, Car, Map, Users, ShoppingCart } from "lucide-react"
 
 const navLinks = [
-  { name: "Game", href: "https://game.lumexia.net", external: true },
-  { name: "Leaderboard", href: "#leaderboard", external: false },
-  { name: "Project Strategy", href: "#strategy", external: false },
-  { name: "Community", href: "#community", external: false },
-  { name: "Help", href: "#faq", external: false },
+  { name: "HOME", href: "#", icon: Home, external: false },
+  { name: "CARS", href: "https://game.lumexia.net", icon: Car, external: true },
+  { name: "TRACKS", href: "#leaderboard", icon: null, external: false },
+  { name: "MULTIPLAYER", href: "#features", icon: null, external: false },
+  { name: "COMMUNITY", href: "#community", icon: null, external: false },
+  { name: "SHOP", href: "#", icon: ShoppingCart, external: false },
 ]
-
-const CONTRACT_ADDRESS = "0xb92cc959c2434c06489d3f941391a5f1d8334444"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,109 +24,91 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const copyAddress = async () => {
-    try {
-      await navigator.clipboard.writeText(CONTRACT_ADDRESS)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      console.error("Failed to copy address")
-    }
-  }
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled 
-          ? "bg-[#0a0a12]/95 backdrop-blur-xl border-b border-purple-500/20 shadow-lg shadow-purple-500/5" 
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 md:h-24">
-          {/* Logo - Text Only */}
-          <a href="https://lumexia.net" className="relative flex items-center gap-3 flex-shrink-0">
-            <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-bold tracking-wider text-white">LUMEXIA</span>
-              <span className="text-xs text-cyan-400 font-medium tracking-widest">$LMX</span>
+    <header className="fixed top-0 left-0 right-0 z-40 pt-4 px-4">
+      {/* Top Logo */}
+      <div className="text-center mb-2">
+        <a href="https://lumexia.net" className="inline-block">
+          <span 
+            className="text-2xl md:text-3xl font-bold tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-300"
+            style={{ textShadow: "0 0 30px rgba(0, 212, 255, 0.5)" }}
+          >
+            LUMEXIA
+          </span>
+        </a>
+      </div>
+
+      {/* Navigation Bar */}
+      <div className="max-w-5xl mx-auto">
+        <nav 
+          className={`relative rounded-xl transition-all duration-300 ${
+            scrolled ? "bg-[#0d0d20]/95 backdrop-blur-xl" : "bg-[#0d0d20]/80 backdrop-blur-md"
+          }`}
+          style={{
+            border: "2px solid transparent",
+            borderImage: "linear-gradient(90deg, #06b6d4, #8b5cf6, #06b6d4) 1",
+            boxShadow: "0 0 20px rgba(6, 182, 212, 0.3), inset 0 0 20px rgba(139, 92, 246, 0.1)"
+          }}
+        >
+          {/* Neon corner accents */}
+          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-cyan-400 rounded-tl-lg" />
+          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-cyan-400 rounded-tr-lg" />
+          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-purple-500 rounded-bl-lg" />
+          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-purple-500 rounded-br-lg" />
+
+          <div className="flex items-center justify-center px-4 py-3">
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center gap-1">
+              {navLinks.map((link, index) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className={`flex items-center gap-2 px-6 py-2 text-sm font-bold tracking-wider transition-all duration-300 rounded-lg ${
+                    index === 0 
+                      ? "text-cyan-400 bg-cyan-500/10" 
+                      : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/5"
+                  }`}
+                >
+                  {link.icon && <link.icon className="w-4 h-4" />}
+                  {link.name}
+                </a>
+              ))}
             </div>
-          </a>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                target={link.external ? "_blank" : undefined}
-                rel={link.external ? "noopener noreferrer" : undefined}
-                className="text-sm text-gray-300 hover:text-cyan-400 transition-colors duration-200 font-medium"
-              >
-                {link.name}
-              </a>
-            ))}
-          </nav>
-
-          {/* Contract Address Badge */}
-          <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full glass-card">
-            <span className="text-xs text-cyan-400 font-semibold tracking-wide whitespace-nowrap">Official CA:</span>
-            <code className="text-xs text-gray-300 font-mono whitespace-nowrap">
-              {CONTRACT_ADDRESS.slice(0, 6)}...{CONTRACT_ADDRESS.slice(-4)}
-            </code>
+            {/* Mobile Menu Button */}
             <button
-              onClick={copyAddress}
-              className="p-1.5 rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all duration-200 group"
-              title="Copy address"
+              className="md:hidden p-2 text-gray-300 hover:text-cyan-400 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {copied ? (
-                <Check className="w-3.5 h-3.5 text-green-400" />
-              ) : (
-                <Copy className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
-              )}
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 text-gray-300 hover:text-cyan-400 transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Nav */}
-        {mobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-purple-500/20 bg-[#0a0a12]/95 backdrop-blur-xl">
-            <div className="flex items-center justify-between gap-2 px-2 py-3 mb-2 rounded-xl glass-card">
-              <div className="flex flex-col">
-                <span className="text-xs text-cyan-400 font-semibold">Official CA:</span>
-                <code className="text-xs text-gray-300 font-mono">
-                  {CONTRACT_ADDRESS.slice(0, 10)}...{CONTRACT_ADDRESS.slice(-6)}
-                </code>
-              </div>
-              <button
-                onClick={copyAddress}
-                className="p-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all"
-              >
-                {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-cyan-400" />}
-              </button>
+          {/* Mobile Nav */}
+          {mobileMenuOpen && (
+            <div className="md:hidden py-4 px-4 border-t border-purple-500/20">
+              {navLinks.map((link, index) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className={`flex items-center gap-2 py-3 px-4 text-sm font-bold tracking-wider transition-colors rounded-lg ${
+                    index === 0 
+                      ? "text-cyan-400 bg-cyan-500/10" 
+                      : "text-gray-300 hover:text-cyan-400"
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.icon && <link.icon className="w-4 h-4" />}
+                  {link.name}
+                </a>
+              ))}
             </div>
-
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                target={link.external ? "_blank" : undefined}
-                rel={link.external ? "noopener noreferrer" : undefined}
-                className="block py-3 text-gray-300 hover:text-cyan-400 transition-colors font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.name}
-              </a>
-            ))}
-          </nav>
-        )}
+          )}
+        </nav>
       </div>
     </header>
   )

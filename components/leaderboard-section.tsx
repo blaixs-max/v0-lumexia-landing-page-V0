@@ -199,9 +199,15 @@ export function LeaderboardSection() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h2 className="font-serif font-black text-3xl md:text-4xl mb-2">
-              <span className="text-white">DAILY </span>
-              <span className="gradient-text">RANKING</span>
+            <h2 
+              className="font-serif font-black text-3xl md:text-4xl mb-2"
+              style={{ 
+                background: "linear-gradient(135deg, #06b6d4 0%, #a78bfa 50%, #ec4899 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              DAILY RANKING
             </h2>
             <p className="text-gray-400 text-sm md:text-base">
               Top 100 Racers receive automated <span className="text-cyan-400">$SOL</span> airdrops every{" "}
@@ -210,7 +216,13 @@ export function LeaderboardSection() {
           </div>
 
           <div className="flex flex-col md:flex-row items-stretch gap-4 mt-4 md:mt-0">
-            <div className="flex items-center gap-3 glass-card rounded-xl px-5 py-3">
+            <div 
+              className="flex items-center gap-3 rounded-xl px-5 py-3"
+              style={{
+                background: "linear-gradient(135deg, rgba(13, 13, 32, 0.9) 0%, rgba(20, 15, 50, 0.85) 100%)",
+                border: "1px solid rgba(6, 182, 212, 0.3)"
+              }}
+            >
               <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
                 <Coins className="w-5 h-5 text-cyan-400" />
               </div>
@@ -220,7 +232,13 @@ export function LeaderboardSection() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 glass border border-red-500/30 rounded-xl px-5 py-3">
+            <div 
+              className="flex items-center gap-3 rounded-xl px-5 py-3"
+              style={{
+                background: "linear-gradient(135deg, rgba(13, 13, 32, 0.9) 0%, rgba(20, 15, 50, 0.85) 100%)",
+                border: "1px solid rgba(239, 68, 68, 0.3)"
+              }}
+            >
               <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
               <div>
                 <span className="text-xs text-gray-500 uppercase tracking-wider">Reset In</span>
@@ -232,7 +250,14 @@ export function LeaderboardSection() {
           </div>
         </div>
 
-        <div className="glass-card rounded-2xl overflow-hidden">
+        <div 
+          className="rounded-2xl overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
+            border: "2px solid rgba(139, 92, 246, 0.3)",
+            boxShadow: "0 0 40px rgba(139, 92, 246, 0.1)"
+          }}
+        >
           {/* Table Header */}
           <div className="hidden md:grid grid-cols-14 gap-4 px-6 py-4 border-b border-purple-500/20 text-xs uppercase tracking-wider text-gray-500 font-semibold">
             <div className="col-span-1 text-center">Rank</div>
