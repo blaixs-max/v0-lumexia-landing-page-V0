@@ -134,45 +134,43 @@ export function HeroSection() {
         {/* Mini Leaderboard Section */}
         <div className="max-w-md mx-auto">
           <div
-            <div
-              className="rounded-xl p-4 h-full"
-              style={{
-                background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
-                border: "2px solid rgba(139, 92, 246, 0.3)",
-                boxShadow: "0 0 20px rgba(139, 92, 246, 0.15)"
-              }}
-            >
-              <h3 className="text-lg font-bold text-white mb-4 tracking-wider">GLOBAL LEADERBOARD</h3>
-              
-              <div className="space-y-3">
-                {leaderboard.map((player, index) => (
-                  <div key={player.id} className="flex items-center gap-3">
-                    <span className={`text-sm font-bold ${index === 0 ? "text-yellow-400" : index === 1 ? "text-gray-300" : "text-amber-600"}`}>
-                      {index + 1}.
-                    </span>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ${
-                      index === 0 ? "bg-gradient-to-br from-cyan-500 to-purple-600" :
-                      index === 1 ? "bg-gradient-to-br from-purple-500 to-pink-600" :
-                      "bg-gradient-to-br from-orange-500 to-red-600"
-                    }`}>
-                      {player.username.charAt(0)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white text-sm font-semibold truncate">{player.username}</p>
-                      <p className="text-gray-500 text-xs truncate">{player.team}</p>
-                    </div>
-                    <span className="text-cyan-400 font-bold text-sm whitespace-nowrap">{player.points} PTS</span>
+            className="rounded-xl p-4 h-full"
+            style={{
+              background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
+              border: "2px solid rgba(139, 92, 246, 0.3)",
+              boxShadow: "0 0 20px rgba(139, 92, 246, 0.15)"
+            }}
+          >
+            <h3 className="text-lg font-bold text-white mb-4 tracking-wider">GLOBAL LEADERBOARD</h3>
+            
+            <div className="space-y-3">
+              {leaderboard.map((player, index) => (
+                <div key={player.id} className="flex items-center gap-3">
+                  <span className={`text-sm font-bold ${index === 0 ? "text-yellow-400" : index === 1 ? "text-gray-300" : "text-amber-600"}`}>
+                    {index + 1}.
+                  </span>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold ${
+                    index === 0 ? "bg-gradient-to-br from-cyan-500 to-purple-600" :
+                    index === 1 ? "bg-gradient-to-br from-purple-500 to-pink-600" :
+                    "bg-gradient-to-br from-orange-500 to-red-600"
+                  }`}>
+                    {player.username.charAt(0)}
                   </div>
-                ))}
-              </div>
-
-              <a 
-                href="#leaderboard"
-                className="block mt-4 text-center text-cyan-400 text-xs font-semibold hover:text-cyan-300 transition-colors"
-              >
-                View Full Leaderboard →
-              </a>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white text-sm font-semibold truncate">{player.username}</p>
+                    <p className="text-gray-500 text-xs truncate">{player.team}</p>
+                  </div>
+                  <span className="text-cyan-400 font-bold text-sm whitespace-nowrap">{player.points} PTS</span>
+                </div>
+              ))}
             </div>
+
+            <a 
+              href="#leaderboard"
+              className="block mt-4 text-center text-cyan-400 text-xs font-semibold hover:text-cyan-300 transition-colors"
+            >
+              View Full Leaderboard →
+            </a>
           </div>
         </div>
       </div>
