@@ -27,6 +27,58 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 pt-4 px-4">
+      {/* Top LUMEXIA Logo */}
+      <div className="text-center mb-3">
+        <a href="https://lumexia.net" className="inline-block">
+          <span 
+            className="text-2xl md:text-3xl font-bold tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-300"
+            style={{ textShadow: "0 0 30px rgba(0, 212, 255, 0.5)" }}
+          >
+            LUMEXIA
+          </span>
+        </a>
+      </div>
+
+      {/* Checkered Flags */}
+      <div className="absolute top-2 left-4 md:left-16 opacity-70">
+        <svg width="50" height="60" viewBox="0 0 50 60" fill="none">
+          <rect x="2" y="0" width="2" height="60" fill="#666" />
+          <g transform="translate(4, 5)">
+            {[0,1,2,3].map((row) =>
+              [0,1,2,3].map((col) => (
+                <rect
+                  key={`left-${row}-${col}`}
+                  x={col * 10}
+                  y={row * 8}
+                  width="10"
+                  height="8"
+                  fill={(row + col) % 2 === 0 ? "#ffffff" : "#222"}
+                />
+              ))
+            )}
+          </g>
+        </svg>
+      </div>
+      <div className="absolute top-2 right-4 md:right-16 opacity-70 transform scale-x-[-1]">
+        <svg width="50" height="60" viewBox="0 0 50 60" fill="none">
+          <rect x="2" y="0" width="2" height="60" fill="#666" />
+          <g transform="translate(4, 5)">
+            {[0,1,2,3].map((row) =>
+              [0,1,2,3].map((col) => (
+                <rect
+                  key={`right-${row}-${col}`}
+                  x={col * 10}
+                  y={row * 8}
+                  width="10"
+                  height="8"
+                  fill={(row + col) % 2 === 0 ? "#ffffff" : "#222"}
+                />
+              ))
+            )}
+          </g>
+        </svg>
+      </div>
+
       {/* Navigation Bar */}
       <div className="max-w-5xl mx-auto">
         <nav 
