@@ -2,41 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { LeaderboardSection } from "@/components/leaderboard-section"
-
-// Checkered Flag Component
-function CheckeredFlag({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} width="80" height="100" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Flag pole */}
-      <rect x="2" y="0" width="3" height="100" fill="#666" />
-      <rect x="2" y="0" width="3" height="100" fill="url(#poleGradient)" />
-      {/* Flag */}
-      <g transform="translate(5, 5)">
-        {[...Array(5)].map((_, row) =>
-          [...Array(5)].map((_, col) => (
-            <rect
-              key={`${row}-${col}`}
-              x={col * 14}
-              y={row * 10}
-              width="14"
-              height="10"
-              fill={(row + col) % 2 === 0 ? "#ffffff" : "#1a1a2e"}
-            />
-          ))
-        )}
-      </g>
-      {/* Flag border */}
-      <rect x="5" y="5" width="70" height="50" stroke="#333" strokeWidth="1" fill="none" />
-      <defs>
-        <linearGradient id="poleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#888" />
-          <stop offset="50%" stopColor="#ccc" />
-          <stop offset="100%" stopColor="#888" />
-        </linearGradient>
-      </defs>
-    </svg>
-  )
-}
+import Image from "next/image"
 
 export function HeroSection() {
   const handleStartGame = () => {
@@ -59,68 +25,18 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Checkered Flags at Top */}
-        <div className="absolute top-0 left-4 md:left-20 opacity-80">
-          <CheckeredFlag className="transform -rotate-12" />
-        </div>
-        <div className="absolute top-0 right-4 md:right-20 opacity-80">
-          <CheckeredFlag className="transform rotate-12 scale-x-[-1]" />
-        </div>
-
         {/* Main Hero Content */}
         <div className="max-w-4xl mx-auto mb-12 pt-8">
-          {/* LUMEXIA RACING Logo */}
-          <div className="text-center mb-8">
-            <div className="relative inline-block">
-              {/* LUMEXIA text */}
-              <h1 
-                className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider"
-                style={{
-                  fontFamily: "'Cinzel', serif",
-                  background: "linear-gradient(180deg, #d4a574 0%, #8b6914 30%, #d4a574 50%, #8b6914 70%, #d4a574 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
-                  filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))"
-                }}
-              >
-                LUMEXIA
-              </h1>
-              
-              {/* RACING text with checkered flag */}
-              <div className="flex items-center justify-center gap-2 -mt-2">
-                <span 
-                  className="text-5xl sm:text-6xl md:text-7xl font-black tracking-wide"
-                  style={{
-                    fontFamily: "'Cinzel', serif",
-                    background: "linear-gradient(180deg, #d4a574 0%, #8b6914 30%, #d4a574 50%, #8b6914 70%, #d4a574 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.6))"
-                  }}
-                >
-                  RACING
-                </span>
-                
-                {/* Small checkered flag next to RACING */}
-                <svg width="50" height="60" viewBox="0 0 50 60" className="ml-1">
-                  <rect x="2" y="0" width="2" height="60" fill="#666" />
-                  <g transform="translate(4, 5)">
-                    {[...Array(4)].map((_, row) =>
-                      [...Array(4)].map((_, col) => (
-                        <rect
-                          key={`mini-${row}-${col}`}
-                          x={col * 10}
-                          y={row * 8}
-                          width="10"
-                          height="8"
-                          fill={(row + col) % 2 === 0 ? "#ffffff" : "#222"}
-                        />
-                      ))
-                    )}
-                  </g>
-                </svg>
-              </div>
+          {/* LUMEXIA RACING Logo Image */}
+          <div className="flex justify-center mb-8">
+            <div className="relative w-[300px] h-[150px] sm:w-[400px] sm:h-[200px] md:w-[500px] md:h-[250px]">
+              <Image
+                src="/images/lumexia-racing-logo.png"
+                alt="Lumexia Racing"
+                fill
+                className="object-contain drop-shadow-[0_0_30px_rgba(6,182,212,0.6)]"
+                priority
+              />
             </div>
           </div>
 
