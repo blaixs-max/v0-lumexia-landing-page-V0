@@ -254,8 +254,8 @@ export function LeaderboardSection() {
           className="rounded-2xl overflow-hidden"
           style={{
             background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
-            border: "2px solid rgba(139, 92, 246, 0.3)",
-            boxShadow: "0 0 40px rgba(139, 92, 246, 0.1)"
+            border: "2px solid rgba(6, 182, 212, 0.5)",
+            boxShadow: "0 0 30px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1)"
           }}
         >
           {/* Table Header */}

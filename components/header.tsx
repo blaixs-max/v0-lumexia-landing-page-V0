@@ -30,20 +30,15 @@ export function Header() {
       {/* Navigation Bar */}
       <div className="max-w-5xl mx-auto">
         <nav 
-          className={`relative rounded-xl transition-all duration-300 ${
-            scrolled ? "bg-[#0d0d20]/95 backdrop-blur-xl" : "bg-[#0d0d20]/80 backdrop-blur-md"
+          className={`relative rounded-2xl transition-all duration-300 ${
+            scrolled ? "bg-[#0d0d20]/95 backdrop-blur-xl" : "bg-[#0d0d20]/90 backdrop-blur-md"
           }`}
           style={{
-            border: "2px solid transparent",
-            borderImage: "linear-gradient(90deg, #06b6d4, #8b5cf6, #06b6d4) 1",
-            boxShadow: "0 0 20px rgba(6, 182, 212, 0.3), inset 0 0 20px rgba(139, 92, 246, 0.1)"
+            background: "linear-gradient(135deg, rgba(13, 13, 32, 0.95) 0%, rgba(20, 15, 50, 0.9) 100%)",
+            border: "2px solid rgba(6, 182, 212, 0.5)",
+            boxShadow: "0 0 30px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1)"
           }}
         >
-          {/* Neon corner accents */}
-          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-cyan-400 rounded-tl-lg" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-cyan-400 rounded-tr-lg" />
-          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-purple-500 rounded-bl-lg" />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-purple-500 rounded-br-lg" />
 
           <div className="flex items-center justify-center px-4 py-3">
             {/* Desktop Nav */}
