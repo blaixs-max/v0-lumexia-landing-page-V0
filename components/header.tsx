@@ -26,18 +26,6 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 pt-4 px-4">
-      {/* Top Logo */}
-      <div className="text-center mb-2">
-        <a href="https://lumexia.net" className="inline-block">
-          <span 
-            className="text-2xl md:text-3xl font-bold tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-300"
-            style={{ textShadow: "0 0 30px rgba(0, 212, 255, 0.5)" }}
-          >
-            LUMEXIA
-          </span>
-        </a>
-      </div>
-
       {/* Navigation Bar */}
       <div className="max-w-5xl mx-auto">
         <nav 
