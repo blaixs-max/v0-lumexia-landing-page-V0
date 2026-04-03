@@ -1,15 +1,16 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, X, Home, Car, Map, Users, ShoppingCart } from "lucide-react"
+import { Menu, X, Home, Gamepad2, Trophy, Layers, Users, Target, HelpCircle } from "lucide-react"
 
 const navLinks = [
   { name: "HOME", href: "#", icon: Home, external: false },
-  { name: "CARS", href: "https://game.lumexia.net", icon: Car, external: true },
-  { name: "TRACKS", href: "#leaderboard", icon: null, external: false },
-  { name: "MULTIPLAYER", href: "#features", icon: null, external: false },
-  { name: "COMMUNITY", href: "#community", icon: null, external: false },
-  { name: "SHOP", href: "#", icon: ShoppingCart, external: false },
+  { name: "START GAME", href: "https://game.lumexia.net", icon: Gamepad2, external: true },
+  { name: "LEADERBOARD", href: "#leaderboard", icon: Trophy, external: false },
+  { name: "PLATFORM FEATURES", href: "#features", icon: Layers, external: false },
+  { name: "COMMUNITY", href: "#community", icon: Users, external: false },
+  { name: "STRATEGY", href: "#strategy", icon: Target, external: false },
+  { name: "HELP", href: "#faq", icon: HelpCircle, external: false },
 ]
 
 export function Header() {
