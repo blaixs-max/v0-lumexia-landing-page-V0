@@ -207,13 +207,10 @@ export function StrategySection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2
-            className="font-serif text-4xl sm:text-5xl font-black text-[#FFD700] mb-4"
-            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
-          >
+          <h2 className="font-serif text-4xl sm:text-5xl font-black text-[#D4AF37] mb-4 tracking-orbitron neon-text gold-underline">
             PROJECT STRATEGY
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <p className="text-gray-500 max-w-2xl mx-auto mt-6 text-sm">
             This is our roadmap for creating the ultimate blockchain racing ecosystem. Click on a phase to see the
             planned activities for it in detail.
           </p>
