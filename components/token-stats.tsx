@@ -175,13 +175,10 @@ export function TokenStats() {
     <section className="py-12 bg-black border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6 text-center">
-          <h2
-            className="font-cinzel text-3xl md:text-4xl font-black text-[#D4AF37] tracking-wider uppercase"
-            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
-          >
+          <h2 className="font-serif text-3xl md:text-4xl font-black text-[#D4AF37] tracking-orbitron uppercase neon-text">
             FINANCIAL FIGURES
           </h2>
-          <div className="mt-2 w-24 h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto" />
+          <div className="mt-3 w-16 h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto" />
           {lastUpdate && (
             <p className="mt-2 text-xs text-gray-500 flex items-center justify-center gap-1">
               <RefreshCw className="w-3 h-3" />

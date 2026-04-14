@@ -247,12 +247,9 @@ export function LeaderboardSection() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h2
-              className="font-serif font-black text-3xl md:text-4xl mb-2"
-              style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
-            >
+            <h2 className="font-serif font-black text-3xl md:text-4xl mb-2 tracking-orbitron">
               <span className="text-white">DAILY </span>
-              <span className="text-[#D4AF37]">RANKING</span>
+              <span className="text-[#D4AF37] neon-text">RANKING</span>
             </h2>
             <p className="text-gray-400 text-sm md:text-base">
               Top 100 Racers receive automated <span className="text-[#D4AF37]">$BNB</span> airdrops every{" "}

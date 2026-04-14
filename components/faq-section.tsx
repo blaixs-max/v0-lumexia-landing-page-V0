@@ -215,11 +215,12 @@ export function FaqSection() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-white mb-4">
-            PILOT'S <span className="text-[#FFD700]">HANDBOOK</span>
-            <span className="text-gray-500 text-2xl ml-3">(FAQ)</span>
+          <h2 className="font-serif text-4xl sm:text-5xl font-black text-white mb-2 tracking-orbitron">
+            PILOT'S <span className="text-[#D4AF37] neon-text">HANDBOOK</span>
           </h2>
-          <p className="text-gray-400">Everything you need to know before hitting the track</p>
+          <p className="text-xs text-gray-600 tracking-widest uppercase mt-1 mb-4">FAQ</p>
+          <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent mx-auto mb-4" />
+          <p className="text-gray-500 text-sm">Everything you need to know before hitting the track</p>
         </div>
 
         <button id="how-to-play-trigger" className="hidden" aria-hidden="true" />
@@ -229,12 +230,12 @@ export function FaqSection() {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="bg-gray-950 border border-gray-800 rounded-xl px-6 data-[state=open]:border-[#FFD700]/50"
+              className="bg-[#080808] border border-white/5 rounded-lg px-6 data-[state=open]:border-[#D4AF37]/30 transition-colors duration-200"
             >
-              <AccordionTrigger className="text-left text-white hover:text-[#FFD700] hover:no-underline py-5">
+              <AccordionTrigger className="text-left text-gray-200 hover:text-[#D4AF37] hover:no-underline py-5 text-sm font-medium">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-400 pb-5 leading-relaxed">
+              <AccordionContent className="text-gray-500 pb-5 leading-relaxed text-sm">
                 {faq.answer === "detailed_guide" ? (
                   <DetailedGameGuide />
                 ) : faq.answer === "detailed_wallet_guide" ? (
