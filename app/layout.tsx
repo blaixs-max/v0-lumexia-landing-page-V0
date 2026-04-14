@@ -1,12 +1,13 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Orbitron, Exo_2 } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { TimerProvider } from "@/lib/timer-context"
 import { PoolProvider } from "@/lib/pool-context"
 import "./globals.css"
 
-const _inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] })
+const _orbitron = Orbitron({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] })
+const _exo2 = Exo_2({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] })
 
 export const metadata: Metadata = {
   title: "Solana Lumexia | Experience the Future of Solana Gaming",

@@ -172,16 +172,15 @@ export function TokenStats() {
   ]
 
   return (
-    <section className="py-12 bg-black border-b border-gray-800">
+    <section className="py-12 cyberpunk-bg border-b border-purple-500/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6 text-center">
           <h2
-            className="font-cinzel text-3xl md:text-4xl font-black text-[#D4AF37] tracking-wider uppercase"
-            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
+            className="font-serif text-3xl md:text-4xl font-black gradient-text tracking-orbitron uppercase purple-underline"
           >
             FINANCIAL FIGURES
           </h2>
-          <div className="mt-2 w-24 h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto" />
+          <div className="mt-2 w-24 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent mx-auto" />
           {lastUpdate && (
             <p className="mt-2 text-xs text-gray-500 flex items-center justify-center gap-1">
               <RefreshCw className="w-3 h-3" />
@@ -191,8 +190,8 @@ export function TokenStats() {
           {apiError && <p className="mt-1 text-xs text-yellow-500">Note: {apiError}</p>}
         </div>
 
-        <div className="p-6 rounded-xl border-2 border-gray-800 bg-gray-950/50 backdrop-blur-sm">
-          <div className="mb-6 overflow-hidden rounded-lg border border-gray-700 bg-gray-900/80">
+        <div className="p-6 rounded-xl border border-purple-500/25 bg-[#0a0a16]/70 backdrop-blur-sm">
+          <div className="mb-6 overflow-hidden rounded-lg border border-purple-500/20 bg-[#0f0f1f]/80">
             <div className="animate-marquee whitespace-nowrap py-3 flex">
               {[...tickerData, ...tickerData, ...tickerData].map((item, index) => (
                 <div key={index} className="inline-flex items-center mx-8 text-sm">
@@ -220,10 +219,10 @@ export function TokenStats() {
               {stats.map((stat, index) => (
                 <div
                   key={index}
-                  className="relative group p-4 rounded-lg bg-gray-900/80 border border-gray-700 hover:border-[#D4AF37]/50 transition-all"
+                  className="relative group p-4 rounded-lg bg-[#0f0f1f]/80 border border-purple-500/20 hover:border-purple-500/40 transition-all"
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <stat.icon className="w-4 h-4 text-[#D4AF37]" />
+                    <stat.icon className="w-4 h-4 text-purple-400" />
                     <span className="text-xs text-gray-500 uppercase tracking-wider">{stat.label}</span>
                   </div>
                   <p className="text-xl font-mono font-bold text-white">
@@ -242,10 +241,10 @@ export function TokenStats() {
               ))}
             </div>
 
-            <div className="bg-gray-900/80 border border-gray-700 rounded-lg p-4 overflow-hidden">
+            <div className="bg-[#0f0f1f]/80 border border-purple-500/20 rounded-lg p-4 overflow-hidden">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-[#D4AF37]" />
+                  <Activity className="w-4 h-4 text-purple-400" />
                   <span className="text-xs text-gray-500 uppercase tracking-wider">24H Price Chart</span>
                 </div>
                 <span className="text-xs text-gray-600">Live</span>

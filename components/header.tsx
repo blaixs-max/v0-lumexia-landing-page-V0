@@ -15,9 +15,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -25,75 +23,81 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled ? "bg-[#0a0a1a]/95 backdrop-blur-md" : "bg-transparent"
+        scrolled
+          ? "bg-[#080812]/92 backdrop-blur-xl border-b border-purple-500/20 shadow-[0_1px_24px_rgba(147,51,234,0.1)]"
+          : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
+
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3">
-            <div className="relative">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 5L35 12.5V27.5L20 35L5 27.5V12.5L20 5Z" fill="url(#logoGradient)" />
-                <path d="M12 18L20 14L28 18L20 22L12 18Z" fill="white" fillOpacity="0.9" />
-                <path d="M12 22L20 26L28 22" stroke="white" strokeWidth="1.5" strokeOpacity="0.7" />
-                <path d="M12 25L20 29L28 25" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
+          <a href="/" className="flex items-center gap-3 group">
+            <div className="relative flex-shrink-0">
+              <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 4L34 11.5V28.5L20 36L6 28.5V11.5L20 4Z" fill="url(#hlogoG)" />
+                <path d="M13 18.5L20 15L27 18.5L20 22L13 18.5Z" fill="white" fillOpacity="0.9" />
+                <path d="M13 23L20 26.5L27 23" stroke="white" strokeWidth="1.4" strokeOpacity="0.65" strokeLinecap="round" />
+                <path d="M13 26.5L20 30L27 26.5" stroke="white" strokeWidth="1.4" strokeOpacity="0.4" strokeLinecap="round" />
                 <defs>
-                  <linearGradient id="logoGradient" x1="5" y1="5" x2="35" y2="35" gradientUnits="userSpaceOnUse">
+                  <linearGradient id="hlogoG" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
                     <stop stopColor="#9333ea" />
                     <stop offset="1" stopColor="#06b6d4" />
                   </linearGradient>
                 </defs>
               </svg>
+              <div className="absolute -inset-1 rounded-full bg-purple-500/10 blur-sm group-hover:bg-purple-500/20 transition-colors duration-200" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-xs text-gray-400 tracking-wider">Solana</span>
-              <span className="text-xl font-bold text-white tracking-wide">Lumexia</span>
+            <div className="flex flex-col leading-none">
+              <span className="text-[9px] tracking-widest text-purple-400/70 uppercase font-medium">Solana</span>
+              <span className="font-serif text-lg font-black text-white tracking-orbitron leading-tight">LUMEXIA</span>
             </div>
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-10">
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm text-gray-300 hover:text-white transition-colors duration-200"
+                className="relative text-sm font-medium text-gray-400 hover:text-white transition-colors duration-200 group py-1"
               >
                 {link.name}
+                <span className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-purple-500 to-cyan-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left" />
               </a>
             ))}
           </nav>
 
-          {/* Connect Wallet Button */}
-          <button className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#1a1a3a]/80 border border-purple-500/30 text-white text-sm font-medium hover:bg-[#2a2a4a] transition-all duration-200">
+          {/* Connect Wallet */}
+          <button className="btn-neon hidden md:flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 text-white text-sm font-semibold hover:from-purple-500 hover:to-purple-600 shadow-[0_0_20px_rgba(147,51,234,0.25)]">
             <Wallet className="w-4 h-4" />
             Connect Wallet
           </button>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Button */}
           <button
-            className="md:hidden p-2 text-gray-300 hover:text-white"
+            className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
         {/* Mobile Nav */}
         {mobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-purple-500/20 bg-[#0a0a1a]/95 backdrop-blur-md">
+          <nav className="md:hidden py-5 border-t border-purple-500/15 bg-[#080812]/96 backdrop-blur-xl">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="block py-3 text-gray-300 hover:text-white transition-colors"
+                className="flex py-3 px-1 text-sm font-medium text-gray-400 hover:text-purple-300 border-b border-white/5 last:border-0 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
               </a>
             ))}
-            <button className="mt-4 w-full flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#1a1a3a]/80 border border-purple-500/30 text-white text-sm font-medium">
+            <button className="mt-5 w-full flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-purple-700 text-white text-sm font-semibold">
               <Wallet className="w-4 h-4" />
               Connect Wallet
             </button>

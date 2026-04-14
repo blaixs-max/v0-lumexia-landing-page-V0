@@ -1,137 +1,131 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
+import { TrendingUp, ChevronDown } from "lucide-react"
 
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden cyberpunk-bg">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        {/* Tech Grid Lines */}
-        <div className="absolute inset-0 opacity-20">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(138, 43, 226, 0.3)" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-        
-        {/* Glowing Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-500/15 rounded-full blur-[100px]" />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px]" />
-      </div>
+      {/* Cyber grid overlay */}
+      <div className="absolute inset-0 cyber-grid opacity-70" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* Atmospheric orbs */}
+      <div className="absolute top-1/4 left-[10%] w-[500px] h-[500px] bg-purple-600/12 rounded-full blur-[140px] orb-float" />
+      <div
+        className="absolute bottom-1/3 right-[8%] w-[380px] h-[380px] bg-cyan-500/10 rounded-full blur-[110px] orb-float"
+        style={{ animationDelay: "3s" }}
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 w-full">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+
           {/* Left Content */}
           <div className="text-left">
-            {/* SOL Price Indicator */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1a1a3a]/60 border border-purple-500/20 mb-8">
-              <span className="text-gray-300 text-sm">SOL Price:</span>
-              <span className="text-white font-semibold">$110.45</span>
-              <span className="text-green-400 text-sm flex items-center gap-1">
-                (+5.2%)
+            {/* SOL Price badge */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#1a1a3a]/70 border border-purple-500/25 mb-8 backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-gray-400 text-xs font-medium tracking-wide">SOL Price:</span>
+              <span className="text-white text-xs font-bold font-mono">$110.45</span>
+              <span className="text-green-400 text-xs flex items-center gap-0.5 font-medium">
+                +5.2%
                 <TrendingUp className="w-3 h-3" />
               </span>
             </div>
 
-            <h1 className="mb-6">
-              <span className="block text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight uppercase leading-tight">
-                EXPERIENCE THE
+            {/* Headline — Orbitron via font-serif */}
+            <h1 className="mb-7">
+              <span className="block font-serif text-5xl sm:text-6xl lg:text-[4.25rem] font-black text-white uppercase tracking-orbitron leading-[0.95] mb-1">
+                EXPERIENCE
               </span>
-              <span className="block text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight uppercase leading-tight">
-                FUTURE OF <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">SOLANA</span>
+              <span className="block font-serif text-5xl sm:text-6xl lg:text-[4.25rem] font-black text-white uppercase tracking-orbitron leading-[0.95] mb-1">
+                THE FUTURE OF
               </span>
-              <span className="block text-5xl sm:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-purple-500 to-cyan-400 tracking-tight uppercase leading-tight">
-                GAMING.
+              <span className="block font-serif text-5xl sm:text-6xl lg:text-[4.25rem] font-black uppercase tracking-orbitron leading-[0.95] gradient-text">
+                SOLANA GAMING.
               </span>
             </h1>
 
-            <p className="text-lg text-gray-300 max-w-xl mb-10 leading-relaxed">
-              Join Lumexia: Play, Earn, and Thrive in the Ultimate Web3 Ecosystem.
+            <p className="text-base text-gray-400 max-w-md mb-10 leading-relaxed font-light">
+              Join Lumexia: Play, Earn, and Thrive in the Ultimate Web3 Ecosystem built on Solana&apos;s lightning-fast blockchain.
             </p>
 
             <div className="flex flex-col sm:flex-row items-start gap-4">
-              <button className="px-8 py-4 text-sm font-bold tracking-wider bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-500 hover:to-purple-600 transition-all duration-200 uppercase shadow-lg shadow-purple-500/25">
-                CONNECT WALLET
+              <button className="btn-neon w-full sm:w-auto px-8 py-4 text-sm font-bold tracking-widest uppercase bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-500 hover:to-purple-600 shadow-[0_0_28px_rgba(147,51,234,0.3)]">
+                Connect Wallet
               </button>
-              <button className="px-8 py-4 text-sm font-bold tracking-wider bg-transparent border border-gray-600 text-white rounded-lg hover:border-purple-500 hover:bg-purple-500/10 transition-all duration-200 uppercase">
-                EXPLORE GAMES
+              <button className="btn-outline-neon w-full sm:w-auto px-8 py-4 text-sm font-bold tracking-widest uppercase border border-white/15 text-gray-300 rounded-lg hover:text-white">
+                Explore Games
               </button>
+            </div>
+
+            {/* Stats row */}
+            <div className="flex items-center gap-8 mt-12 pt-8 border-t border-white/5">
+              {[
+                { value: "50K+", label: "Players" },
+                { value: "$2.4M", label: "Rewards Paid" },
+                { value: "99.9%", label: "Uptime" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <div className="font-serif text-xl font-black gradient-text tracking-orbitron">{s.value}</div>
+                  <div className="text-xs text-gray-500 mt-0.5 tracking-wide">{s.label}</div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right Content - Controller Image */}
+          {/* Right — Enhanced Controller SVG */}
           <div className="relative flex items-center justify-center lg:justify-end">
-            <div className="relative w-full max-w-lg">
-              {/* Glow effect behind controller */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/30 to-cyan-500/20 rounded-full blur-[60px] scale-110" />
-              
-              {/* Controller SVG */}
-              <svg viewBox="0 0 400 300" className="w-full h-auto relative z-10" xmlns="http://www.w3.org/2000/svg">
-                {/* Controller Body */}
+            <div className="relative w-full max-w-[480px]">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/25 to-cyan-500/15 rounded-full blur-[80px] scale-110" />
+              <svg
+                viewBox="0 0 400 300"
+                className="w-full h-auto relative z-10 drop-shadow-[0_0_40px_rgba(147,51,234,0.3)]"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <defs>
-                  <linearGradient id="controllerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#1a1a3a" />
-                    <stop offset="50%" stopColor="#2a2a4a" />
-                    <stop offset="100%" stopColor="#1a1a3a" />
+                  <linearGradient id="ctrlBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#14142a" />
+                    <stop offset="50%" stopColor="#1e1e40" />
+                    <stop offset="100%" stopColor="#14142a" />
                   </linearGradient>
-                  <linearGradient id="purpleGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="ctrlAccent" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#9333ea" />
                     <stop offset="100%" stopColor="#06b6d4" />
                   </linearGradient>
                 </defs>
-                
-                {/* Main Controller Shape */}
-                <ellipse cx="200" cy="150" rx="150" ry="80" fill="url(#controllerGrad)" stroke="#6b21a8" strokeWidth="2" />
-                
-                {/* Left Handle */}
-                <path d="M80 150 Q40 180 50 230 Q60 270 90 260 Q120 250 110 200 Q100 160 80 150" fill="url(#controllerGrad)" stroke="#6b21a8" strokeWidth="2" />
-                
-                {/* Right Handle */}
-                <path d="M320 150 Q360 180 350 230 Q340 270 310 260 Q280 250 290 200 Q300 160 320 150" fill="url(#controllerGrad)" stroke="#6b21a8" strokeWidth="2" />
-                
-                {/* D-Pad */}
-                <rect x="100" y="130" width="40" height="12" rx="2" fill="#3a3a5a" />
-                <rect x="115" y="115" width="12" height="40" rx="2" fill="#3a3a5a" />
-                
-                {/* Buttons XYAB */}
-                <circle cx="280" cy="120" r="10" fill="#22c55e" />
-                <circle cx="300" cy="140" r="10" fill="#ef4444" />
-                <circle cx="260" cy="140" r="10" fill="#3b82f6" />
-                <circle cx="280" cy="160" r="10" fill="#eab308" />
-                
-                {/* Analog Sticks */}
-                <circle cx="150" cy="180" r="20" fill="#2a2a4a" stroke="#4a4a6a" strokeWidth="2" />
-                <circle cx="150" cy="180" r="12" fill="#3a3a5a" />
-                <circle cx="250" cy="180" r="20" fill="#2a2a4a" stroke="#4a4a6a" strokeWidth="2" />
-                <circle cx="250" cy="180" r="12" fill="#3a3a5a" />
-                
-                {/* Center Logo Area */}
-                <circle cx="200" cy="130" r="25" fill="#1a1a2a" stroke="url(#purpleGlow)" strokeWidth="2" />
-                
-                {/* Solana Logo in Center */}
-                <g transform="translate(185, 115)">
-                  <path d="M5 20L15 10H25L15 20H5Z" fill="url(#purpleGlow)" />
-                  <path d="M5 25L15 15H25L15 25H5Z" fill="url(#purpleGlow)" opacity="0.7" />
-                  <path d="M5 30L15 20H25L15 30H5Z" fill="url(#purpleGlow)" opacity="0.5" />
+                <ellipse cx="200" cy="155" rx="148" ry="78" fill="url(#ctrlBody)" stroke="url(#ctrlAccent)" strokeWidth="1.5" />
+                <path d="M82 155 Q42 185 52 232 Q62 268 92 258 Q122 248 112 200 Q102 162 82 155" fill="url(#ctrlBody)" stroke="url(#ctrlAccent)" strokeWidth="1.5" />
+                <path d="M318 155 Q358 185 348 232 Q338 268 308 258 Q278 248 288 200 Q298 162 318 155" fill="url(#ctrlBody)" stroke="url(#ctrlAccent)" strokeWidth="1.5" />
+                <rect x="100" y="135" width="38" height="10" rx="2" fill="#2a2a50" />
+                <rect x="114" y="121" width="10" height="38" rx="2" fill="#2a2a50" />
+                <circle cx="278" cy="122" r="9" fill="#1f2a1f" stroke="#22c55e" strokeWidth="1.5" />
+                <circle cx="298" cy="142" r="9" fill="#2a1f1f" stroke="#ef4444" strokeWidth="1.5" />
+                <circle cx="258" cy="142" r="9" fill="#1f1f2a" stroke="#6366f1" strokeWidth="1.5" />
+                <circle cx="278" cy="162" r="9" fill="#2a2a1a" stroke="#eab308" strokeWidth="1.5" />
+                <circle cx="150" cy="182" r="18" fill="#1a1a38" stroke="#3a3a6a" strokeWidth="1.5" />
+                <circle cx="150" cy="182" r="10" fill="#22224a" />
+                <circle cx="250" cy="182" r="18" fill="#1a1a38" stroke="#3a3a6a" strokeWidth="1.5" />
+                <circle cx="250" cy="182" r="10" fill="#22224a" />
+                <circle cx="200" cy="132" r="22" fill="#10102a" stroke="url(#ctrlAccent)" strokeWidth="2" />
+                <g transform="translate(188, 118)">
+                  <path d="M4 18L13 9H23L14 18H4Z" fill="url(#ctrlAccent)" />
+                  <path d="M4 23L13 14H23L14 23H4Z" fill="url(#ctrlAccent)" fillOpacity="0.7" />
+                  <path d="M4 28L13 19H23L14 28H4Z" fill="url(#ctrlAccent)" fillOpacity="0.45" />
                 </g>
-                
-                {/* Menu Buttons */}
-                <rect x="175" y="165" width="20" height="6" rx="3" fill="#4a4a6a" />
-                <rect x="205" y="165" width="20" height="6" rx="3" fill="#4a4a6a" />
-                
-                {/* Shoulder Buttons Glow */}
-                <rect x="90" y="75" width="60" height="15" rx="7" fill="#2a2a4a" stroke="#9333ea" strokeWidth="1" />
-                <rect x="250" y="75" width="60" height="15" rx="7" fill="#2a2a4a" stroke="#9333ea" strokeWidth="1" />
+                <rect x="175" y="167" width="18" height="5" rx="2.5" fill="#3a3a5a" />
+                <rect x="207" y="167" width="18" height="5" rx="2.5" fill="#3a3a5a" />
+                <rect x="88" y="78" width="58" height="13" rx="6" fill="#1a1a38" stroke="#9333ea" strokeWidth="1" />
+                <rect x="254" y="78" width="58" height="13" rx="6" fill="#1a1a38" stroke="#9333ea" strokeWidth="1" />
+                <ellipse cx="200" cy="155" rx="100" ry="50" fill="none" stroke="url(#ctrlAccent)" strokeWidth="0.5" strokeOpacity="0.3" />
               </svg>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40">
+        <span className="text-[9px] tracking-widest uppercase text-gray-500">Scroll</span>
+        <ChevronDown className="w-4 h-4 text-purple-400 animate-bounce" />
       </div>
     </section>
   )

@@ -87,7 +87,7 @@ export function StrategySection() {
   const [activePhase, setActivePhase] = useState(1)
 
   return (
-    <section id="strategy" className="py-24 bg-gray-950">
+    <section id="strategy" className="py-24 cyberpunk-bg relative overflow-hidden">
       <style jsx>{`
         @keyframes flickerPhase1 {
           0%, 100% { 
@@ -208,8 +208,7 @@ export function StrategySection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2
-            className="font-serif text-4xl sm:text-5xl font-black text-[#FFD700] mb-4"
-            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
+            className="font-serif text-4xl sm:text-5xl font-black gradient-text mb-4 tracking-orbitron purple-underline"
           >
             PROJECT STRATEGY
           </h2>

@@ -39,10 +39,10 @@ function CopyableWallet({ wallet }: { wallet: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-1.5 px-2 py-1 rounded border border-[#D4AF37]/50 bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 transition-colors"
+      className="flex items-center gap-1.5 px-2 py-1 rounded border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 transition-colors"
     >
       <span className="text-gray-300 text-xs font-mono">{truncateWallet(wallet)}</span>
-      {copied ? <Check className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3 text-[#D4AF37]" />}
+      {copied ? <Check className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3 text-purple-400" />}
     </button>
   )
 }
@@ -236,40 +236,40 @@ export function LeaderboardSection() {
   }
 
   const getRowStyle = (rank: number) => {
-    if (rank <= 3) {
-      return "bg-black/40 border-l-4 border-l-[#D4AF37]"
-    }
-    return "bg-black/20 border-l-4 border-l-transparent"
+    if (rank === 1) return "bg-purple-500/8 border-l-4 border-l-purple-400"
+    if (rank <= 3) return "bg-purple-500/5 border-l-4 border-l-purple-500/60"
+    return "bg-[#0f0f1f]/40 border-l-4 border-l-transparent"
   }
 
   return (
-    <section id="leaderboard" className="py-20 px-4 bg-black">
-      <div className="max-w-6xl mx-auto">
+    <section id="leaderboard" className="py-20 px-4 cyberpunk-bg relative overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-purple-600/6 rounded-full blur-[120px]" />
+      </div>
+      <div className="relative z-10 max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h2
-              className="font-serif font-black text-3xl md:text-4xl mb-2"
-              style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
-            >
+            <h2 className="font-serif font-black text-3xl md:text-4xl mb-2 tracking-orbitron">
               <span className="text-white">DAILY </span>
-              <span className="text-[#D4AF37]">RANKING</span>
+              <span className="gradient-text">RANKING</span>
             </h2>
             <p className="text-gray-400 text-sm md:text-base">
-              Top 100 Racers receive automated <span className="text-[#D4AF37]">$BNB</span> airdrops every{" "}
+              Top 100 Racers receive automated <span className="text-purple-400">$BNB</span> airdrops every{" "}
               <span className="text-white font-semibold">24h</span>. Showing Top 100 contenders.
             </p>
           </div>
 
           <div className="flex flex-col md:flex-row items-stretch gap-4 mt-4 md:mt-0">
-            <div className="flex items-center gap-2 bg-[#D4AF37]/10 border border-[#D4AF37]/50 rounded-lg px-4 py-3 min-w-[280px]">
-              <Coins className="w-5 h-5 text-[#D4AF37]" />
-              <span className="text-[#D4AF37] text-sm font-medium">Daily Reward Pool:</span>
+            <div className="flex items-center gap-2 bg-purple-500/10 border border-purple-500/40 rounded-lg px-4 py-3 min-w-[280px]">
+              <Coins className="w-5 h-5 text-purple-400" />
+              <span className="text-purple-300 text-sm font-medium">Daily Reward Pool:</span>
               <span className="text-white font-mono font-bold">{netPool.toFixed(4)} BNB</span>
             </div>
 
-            <div className="flex items-center gap-2 bg-red-900/30 border border-red-700/50 rounded-lg px-4 py-3 min-w-[280px]">
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-              <span className="text-red-400 text-sm font-medium">Remaining Time for Daily Reset:</span>
+            <div className="flex items-center gap-2 bg-purple-900/20 border border-purple-700/40 rounded-lg px-4 py-3 min-w-[280px]">
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
+              <span className="text-purple-300 text-sm font-medium">Remaining Time for Daily Reset:</span>
               <span className="text-white font-mono font-bold">
                 {timer.hours}h {timer.minutes}m {timer.seconds}s
               </span>
@@ -277,8 +277,8 @@ export function LeaderboardSection() {
           </div>
         </div>
 
-        <div className="border border-gray-800 rounded-xl overflow-hidden">
-          <div className="hidden md:grid grid-cols-14 gap-4 px-4 py-3 bg-gray-900/50 border-b border-gray-800 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+        <div className="border border-purple-500/20 rounded-xl overflow-hidden">
+          <div className="hidden md:grid grid-cols-14 gap-4 px-4 py-3 bg-[#0f0f1f]/80 border-b border-purple-500/20 text-xs uppercase tracking-wider text-gray-500 font-semibold">
             <div className="col-span-1 text-center">Rank</div>
             <div className="col-span-1">Racer</div>
             <div className="col-span-4">Wallet ID</div>
@@ -287,7 +287,7 @@ export function LeaderboardSection() {
             <div className="col-span-3 text-right">Reward Pool</div>
           </div>
 
-          <div className="grid md:hidden grid-cols-12 gap-2 px-3 py-3 bg-gray-900/50 border-b border-gray-800 text-[10px] uppercase tracking-wider text-gray-500 font-semibold">
+          <div className="grid md:hidden grid-cols-12 gap-2 px-3 py-3 bg-[#0f0f1f]/80 border-b border-purple-500/20 text-[10px] uppercase tracking-wider text-gray-500 font-semibold">
             <div className="col-span-1 text-center">#</div>
             <div className="col-span-3 text-center">Wallet</div>
             <div className="col-span-2 text-center">Games</div>
@@ -296,15 +296,15 @@ export function LeaderboardSection() {
           </div>
 
           <div
-            className="divide-y divide-gray-800/50 max-h-[1100px] overflow-y-auto leaderboard-scroll"
+            className="divide-y divide-purple-500/10 max-h-[1100px] overflow-y-auto leaderboard-scroll"
             style={{
               scrollbarWidth: "thin",
-              scrollbarColor: "#D4AF37 #1a1a1a",
+              scrollbarColor: "#9333ea #0f0f1f",
             }}
           >
             {loading ? (
               <div className="flex items-center justify-center py-20">
-                <div className="text-[#D4AF37] text-lg">Loading leaderboard...</div>
+                <div className="text-purple-300 text-lg">Loading leaderboard...</div>
               </div>
             ) : leaderboard.length === 0 ? (
               <div className="flex items-center justify-center py-20">
@@ -347,7 +347,7 @@ export function LeaderboardSection() {
 
                       <div className="col-span-3 text-center">
                         <div className="flex flex-col">
-                          <span className="text-[#D4AF37] font-bold text-base">{formatScore(racer.boosted_score)}</span>
+                          <span className="text-purple-300 font-bold text-base">{formatScore(racer.boosted_score)}</span>
                           {racer.games_played > 0 && racer.boosted_score !== racer.best_score && (
                             <span className="text-gray-500 text-xs line-through">{formatScore(racer.best_score)}</span>
                           )}
@@ -355,7 +355,7 @@ export function LeaderboardSection() {
                       </div>
 
                       <div className="col-span-3 text-right">
-                        <span className="text-[#D4AF37] font-semibold text-base">{reward.toFixed(4)} BNB</span>
+                        <span className="text-purple-300 font-semibold text-base">{reward.toFixed(4)} BNB</span>
                       </div>
                     </div>
 
@@ -386,11 +386,11 @@ export function LeaderboardSection() {
                       </div>
 
                       <div className="col-span-3 text-center">
-                        <span className="text-[#D4AF37] font-bold text-xs">{formatScore(racer.boosted_score)}</span>
+                        <span className="text-purple-300 font-bold text-xs">{formatScore(racer.boosted_score)}</span>
                       </div>
 
                       <div className="col-span-3 text-right">
-                        <span className="text-[#D4AF37] font-semibold text-xs">{reward.toFixed(4)} BNB</span>
+                        <span className="text-purple-300 font-semibold text-xs">{reward.toFixed(4)} BNB</span>
                       </div>
                     </div>
                   </div>
