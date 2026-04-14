@@ -1,22 +1,18 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import { Playfair_Display } from "next/font/google"
-import { Cinzel } from "next/font/google"
+import { Orbitron, Rajdhani } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { TimerProvider } from "@/lib/timer-context"
 import { PoolProvider } from "@/lib/pool-context"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
-const _playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700"] })
-const _cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "700", "900"] })
+const _orbitron = Orbitron({ subsets: ["latin"], weight: ["400", "500", "700", "900"] })
+const _rajdhani = Rajdhani({ subsets: ["latin"], weight: ["400", "500", "600", "700"] })
 
 export const metadata: Metadata = {
-  title: "Lumexia | Blockchain Racing Game on BSC",
+  title: "Lumexia: Solana Edition | Web3 Racing Game",
   description:
-    "Race for glory in Lumexia - the first high-fidelity racing simulator on the Binance Smart Chain. Top the leaderboards and earn $LMX airdrops.",
+    "Dominate the tracks in the fastest Web3 racing game on Solana. Earn every race, every day.",
   generator: "v0.app",
   icons: {
     icon: [

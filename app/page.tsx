@@ -1,24 +1,18 @@
 "use client"
 
-import { Header } from "@/components/header"
-import { HeroSection } from "@/components/hero-section"
-import { TokenStats } from "@/components/token-stats"
-import { FeaturesGrid } from "@/components/features-grid"
-import { StrategySection } from "@/components/strategy-section"
+import { HeroSplit } from "@/components/hero-split"
 import { LeaderboardSection } from "@/components/leaderboard-section"
+import { StrategySection } from "@/components/strategy-section"
 import { FaqSection } from "@/components/faq-section"
 import { CommunitySection } from "@/components/community-section"
 import { Footer } from "@/components/footer"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Header />
+    <div className="min-h-screen text-white" style={{ backgroundColor: "#0b0914" }}>
+      <HeroSplit />
       <main>
-        <HeroSection />
-        <TokenStats />
         <LeaderboardSection />
-        <FeaturesGrid />
         <StrategySection />
         <FaqSection />
         <CommunitySection />
