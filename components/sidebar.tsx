@@ -43,10 +43,11 @@ export function Sidebar() {
       <aside
         className={`
           fixed md:relative z-40
-          w-[280px] h-[calc(100vh-48px)] 
+          w-[280px] h-[calc(100vh-48px)]
+          left-3 top-3 md:left-0 md:top-0
           flex flex-col gap-4
           transition-transform duration-300
-          ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          ${mobileMenuOpen ? "translate-x-0" : "-translate-x-[320px] md:translate-x-0"}
         `}
       >
         {/* Logo Section - Separate Border */}

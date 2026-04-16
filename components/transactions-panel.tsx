@@ -69,22 +69,22 @@ export function TransactionsPanel() {
   return (
     <section id="transactions" className="flex-1 min-h-[300px] rounded-2xl neon-border-box flex flex-col overflow-hidden">
       {/* Panel Header */}
-      <div className="px-8 py-6 border-b border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <h2 className="font-serif font-bold text-xl text-[#00f0ff] tracking-wider neon-text-cyan uppercase">
+      <div className="px-4 md:px-8 py-4 md:py-6 border-b border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+        <h2 className="font-serif font-bold text-lg md:text-xl text-[#00f0ff] tracking-wider neon-text-cyan uppercase">
           Recent Transactions
         </h2>
         
-        <div className="flex flex-col md:flex-row items-stretch gap-3">
-          <div className="flex items-center gap-2 glass-panel border border-[#00f0ff]/30 rounded-lg px-4 py-2">
-            <Coins className="w-4 h-4 text-[#00f0ff]" />
-            <span className="text-[#00f0ff] text-sm font-medium">Daily Pool:</span>
-            <span className="text-white font-mono font-bold text-sm">{netPool.toFixed(4)} LMX</span>
+        <div className="flex flex-row items-stretch gap-2 md:gap-3">
+          <div className="flex items-center gap-1.5 md:gap-2 glass-panel border border-[#00f0ff]/30 rounded-lg px-2.5 md:px-4 py-1.5 md:py-2">
+            <Coins className="w-3 h-3 md:w-4 md:h-4 text-[#00f0ff]" />
+            <span className="text-[#00f0ff] text-xs md:text-sm font-medium">Pool:</span>
+            <span className="text-white font-mono font-bold text-xs md:text-sm">{netPool.toFixed(4)} LMX</span>
           </div>
 
-          <div className="flex items-center gap-2 glass-panel border border-[#ff3366]/30 rounded-lg px-4 py-2">
-            <div className="w-2 h-2 bg-[#ff3366] rounded-full animate-pulse" />
-            <span className="text-[#ff3366] text-sm font-medium">Reset:</span>
-            <span className="text-white font-mono font-bold text-sm">
+          <div className="flex items-center gap-1.5 md:gap-2 glass-panel border border-[#ff3366]/30 rounded-lg px-2.5 md:px-4 py-1.5 md:py-2">
+            <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#ff3366] rounded-full animate-pulse" />
+            <span className="text-[#ff3366] text-xs md:text-sm font-medium">Reset:</span>
+            <span className="text-white font-mono font-bold text-xs md:text-sm">
               {timer.hours}h {timer.minutes}m {timer.seconds}s
             </span>
           </div>
@@ -92,42 +92,42 @@ export function TransactionsPanel() {
       </div>
 
       {/* Transactions List */}
-      <div className="flex-1 overflow-y-auto px-8 py-4 flex flex-col gap-2">
+      <div className="flex-1 overflow-y-auto px-3 md:px-8 py-3 md:py-4 flex flex-col gap-2">
         {transactions.map((tx) => (
           <div
             key={tx.id}
-            className="flex items-center justify-between py-4 border-b border-white/5 hover:bg-white/5 transition-colors rounded-lg px-4 -mx-4 group cursor-pointer"
+            className="flex items-center justify-between py-3 md:py-4 border-b border-white/5 hover:bg-white/5 transition-colors rounded-lg px-2 md:px-4 -mx-2 md:-mx-4 group cursor-pointer gap-2 md:gap-4"
           >
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
               <div
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors ${
+                className={`w-8 h-8 md:w-10 md:h-10 rounded-full border flex items-center justify-center transition-colors ${
                   tx.type === "reward"
                     ? "border-[#00f0ff]/50 bg-[#00f0ff]/10 group-hover:bg-[#00f0ff]/20"
                     : "border-[#9d00ff]/50 bg-[#9d00ff]/10 group-hover:bg-[#9d00ff]/20"
                 }`}
               >
                 {tx.type === "reward" ? (
-                  <Play className={`h-5 w-5 ${tx.type === "reward" ? "text-[#00f0ff]" : "text-[#9d00ff]"}`} />
+                  <Play className={`h-4 w-4 md:h-5 md:w-5 ${tx.type === "reward" ? "text-[#00f0ff]" : "text-[#9d00ff]"}`} />
                 ) : (
-                  <ArrowLeftRight className="h-5 w-5 text-[#9d00ff]" />
+                  <ArrowLeftRight className="h-4 w-4 md:h-5 md:w-5 text-[#9d00ff]" />
                 )}
               </div>
-              <div>
-                <div className="font-semibold text-white">{tx.title}</div>
-                <div className="text-sm text-[#a19bb8]">{tx.description}</div>
+              <div className="min-w-0">
+                <div className="font-semibold text-white text-sm md:text-base truncate">{tx.title}</div>
+                <div className="text-xs md:text-sm text-[#a19bb8] truncate">{tx.description}</div>
               </div>
             </div>
 
-            <div className="text-sm text-[#a19bb8] flex-1 text-center hidden md:block">
+            <div className="text-sm text-[#a19bb8] flex-1 text-center hidden lg:block">
               {tx.detail}
             </div>
 
-            <div className="text-sm text-[#a19bb8] w-24 text-right">
+            <div className="text-xs md:text-sm text-[#a19bb8] hidden sm:block flex-shrink-0">
               {tx.time}
             </div>
 
             <div
-              className={`font-bold w-28 text-right ${
+              className={`font-bold text-right text-sm md:text-base flex-shrink-0 ${
                 tx.isPositive ? "text-[#00ff66]" : "text-[#ff3366]"
               }`}
             >
