@@ -38,17 +38,27 @@ export function DashboardHero() {
 
   return (
     <section className="relative h-[380px] rounded-2xl overflow-hidden neon-border-box group flex-shrink-0">
-      {/* Hero Background Image */}
+      {/* Hero Background Image - F1 Racing in Neon City */}
       <div
-        className="absolute inset-0 bg-cover bg-center z-0"
+        className="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-105"
         style={{
-          backgroundImage: `url('/images/lighthouse-bg.jpg')`,
+          backgroundImage: `url('/images/hero-racing-bg.jpg')`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "center right",
         }}
       >
-        {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080414] via-[#080414]/80 to-transparent" />
+        {/* Overlay Gradient for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#080414] via-[#080414]/70 to-transparent" />
+        {/* Racing flag pattern overlay */}
+        <div className="absolute inset-0 opacity-5" style={{
+          backgroundImage: `repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 20px,
+            rgba(255,255,255,0.03) 20px,
+            rgba(255,255,255,0.03) 40px
+          )`
+        }} />
       </div>
 
       {/* Price Tag */}
