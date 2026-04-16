@@ -1,29 +1,39 @@
 "use client"
 
-import { Header } from "@/components/header"
-import { HeroSection } from "@/components/hero-section"
-import { TokenStats } from "@/components/token-stats"
+import { Sidebar } from "@/components/sidebar"
+import { DashboardHero } from "@/components/dashboard-hero"
+import { TransactionsPanel } from "@/components/transactions-panel"
+import { LeaderboardSection } from "@/components/leaderboard-section"
 import { FeaturesGrid } from "@/components/features-grid"
 import { StrategySection } from "@/components/strategy-section"
-import { LeaderboardSection } from "@/components/leaderboard-section"
 import { FaqSection } from "@/components/faq-section"
 import { CommunitySection } from "@/components/community-section"
 import { Footer } from "@/components/footer"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Header />
-      <main>
-        <HeroSection />
-        <TokenStats />
-        <LeaderboardSection />
-        <FeaturesGrid />
-        <StrategySection />
-        <FaqSection />
-        <CommunitySection />
+    <div className="min-h-screen bg-[#080414] text-white flex p-6 gap-6 antialiased selection:bg-[#9d00ff] selection:text-white overflow-x-hidden">
+      {/* Sidebar Navigation */}
+      <Sidebar />
+
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col gap-6 z-10 overflow-y-auto pb-6 md:pl-0 pl-0">
+        {/* Dashboard Hero Section */}
+        <DashboardHero />
+
+        {/* Transactions Panel */}
+        <TransactionsPanel />
+
+        {/* Additional Sections */}
+        <div className="space-y-0">
+          <LeaderboardSection />
+          <FeaturesGrid />
+          <StrategySection />
+          <FaqSection />
+          <CommunitySection />
+          <Footer />
+        </div>
       </main>
-      <Footer />
     </div>
   )
 }

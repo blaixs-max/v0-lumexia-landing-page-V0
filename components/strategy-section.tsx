@@ -87,7 +87,7 @@ export function StrategySection() {
   const [activePhase, setActivePhase] = useState(1)
 
   return (
-    <section id="strategy" className="py-24 bg-gray-950">
+    <section id="strategy" className="py-10 bg-transparent">
       <style jsx>{`
         @keyframes flickerPhase1 {
           0%, 100% { 
@@ -204,19 +204,19 @@ export function StrategySection() {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="neon-border-box p-6 md:p-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl sm:text-5xl font-black text-[#D4AF37] mb-4 tracking-orbitron neon-text gold-underline">
+        <div className="text-center mb-10">
+          <h2 className="font-serif text-3xl sm:text-4xl font-black text-[#00f0ff] mb-4 tracking-orbitron neon-text-cyan">
             PROJECT STRATEGY
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto mt-6 text-sm">
+          <p className="text-[#a19bb8] max-w-2xl mx-auto mt-4 text-sm">
             This is our roadmap for creating the ultimate blockchain racing ecosystem. Click on a phase to see the
             planned activities for it in detail.
           </p>
         </div>
 
-        <div className="border border-gray-700 rounded-2xl p-6 sm:p-8 bg-gray-900/30 overflow-hidden">
+        <div className="overflow-hidden">
           {/* Phase Selector */}
           <div className="relative flex items-center justify-center mb-12 px-4">
             <div className="relative z-10 flex items-center w-full max-w-2xl">
