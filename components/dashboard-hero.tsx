@@ -54,25 +54,25 @@ export function DashboardHero() {
       </div>
 
       {/* Bottom Section - Buttons on left, Icons on right (Mobile) / Icons only on desktop */}
-      <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-auto md:right-6 z-20 flex items-end justify-between md:justify-end gap-3">
+      <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-auto md:right-6 z-20 flex items-end justify-between md:justify-end gap-2">
         {/* Mobile Buttons - Only visible on mobile */}
-        <div className="flex flex-col gap-2 md:hidden">
+        <div className="flex flex-col gap-2 md:hidden flex-1 max-w-[200px]">
           <button
             onClick={handleStartGame}
-            className="bg-gradient-to-r from-[#9d00ff] to-[#00f0ff] text-white font-bold py-2 px-5 rounded-full shadow-[0_0_15px_rgba(176,38,255,0.6)] text-xs"
+            className="w-full bg-gradient-to-r from-[#9d00ff] to-[#00f0ff] text-white font-bold py-2.5 px-6 rounded-full shadow-[0_0_15px_rgba(176,38,255,0.6)] text-sm"
           >
             START GAME
           </button>
           <button
             onClick={handleExploreGames}
-            className="bg-transparent text-[#00f0ff] font-bold py-2 px-5 rounded-full border-2 border-[#00f0ff] text-xs"
+            className="w-full bg-transparent text-[#00f0ff] font-bold py-2.5 px-6 rounded-full border-2 border-[#00f0ff] text-sm"
           >
             DAILY RANKING
           </button>
         </div>
 
         {/* Gaming Icons */}
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
           {/* Racing Flag Icon */}
           <div className="glass-panel p-2 md:p-2.5 rounded-lg border border-[#9d00ff]/30 shadow-neon-purple">
             <Flag className="w-4 h-4 md:w-5 md:h-5 text-[#9d00ff]" />
