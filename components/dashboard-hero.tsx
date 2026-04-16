@@ -114,13 +114,13 @@ export function DashboardHero() {
             onClick={handleStartGame}
             className="bg-gradient-to-r from-[#9d00ff] to-[#00f0ff] text-white font-bold py-3 px-8 rounded-full shadow-[0_0_15px_rgba(176,38,255,0.6)] hover:shadow-[0_0_25px_rgba(176,38,255,0.8)] transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
           >
-            CONNECT WALLET
+            START GAME
           </button>
           <button
             onClick={handleExploreGames}
             className="bg-transparent text-[#00f0ff] font-bold py-3 px-8 rounded-full border-2 border-[#00f0ff] shadow-neon-cyan hover:bg-[#00f0ff] hover:text-white transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
           >
-            EXPLORE GAMES
+            DAILY RANKING
           </button>
         </div>
       </div>
