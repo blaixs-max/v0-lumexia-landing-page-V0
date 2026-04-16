@@ -6,7 +6,7 @@ import { Gamepad2, Bot, ImageIcon, Gift, Coins, Users, Globe, Layers, ShieldChec
 const phases = [
   {
     id: 1,
-    color: "#FEF08A",
+    color: "#FFD700",
     steps: [
       {
         icon: Coins,
@@ -31,7 +31,7 @@ const phases = [
   },
   {
     id: 2,
-    color: "#FACC15",
+    color: "#9d00ff",
     steps: [
       {
         icon: Users,
@@ -47,7 +47,7 @@ const phases = [
   },
   {
     id: 3,
-    color: "#F59E0B",
+    color: "#00f0ff",
     steps: [
       {
         icon: Gamepad2,
@@ -66,7 +66,7 @@ const phases = [
   },
   {
     id: 4,
-    color: "#EA580C",
+    color: "#ff6b00",
     steps: [
       {
         icon: Globe,
@@ -87,78 +87,46 @@ export function StrategySection() {
   const [activePhase, setActivePhase] = useState(1)
 
   return (
-    <section id="strategy" className="py-24 bg-gray-950">
+    <section id="strategy" className="py-10 bg-transparent">
       <style jsx>{`
         @keyframes flickerPhase1 {
           0%, 100% { 
-            box-shadow: 0 0 20px #FEF08A, 0 0 40px #FEF08A80, 0 0 60px #FACC1540;
+            box-shadow: 0 0 20px #FFD700, 0 0 40px #FFD70080, 0 0 60px #FFD70040;
             transform: scale(1.1);
           }
-          25% { 
-            box-shadow: 0 0 25px #FACC15, 0 0 50px #FEF08A80, 0 0 70px #FACC1560;
-            transform: scale(1.12);
-          }
           50% { 
-            box-shadow: 0 0 30px #FACC15, 0 0 55px #FEF08A80, 0 0 80px #FACC1540;
+            box-shadow: 0 0 30px #FFD700, 0 0 55px #FFD70080, 0 0 80px #FFD70040;
             transform: scale(1.08);
-          }
-          75% { 
-            box-shadow: 0 0 22px #FACC15, 0 0 45px #FEF08A80, 0 0 65px #FACC1550;
-            transform: scale(1.11);
           }
         }
         @keyframes flickerPhase2 {
           0%, 100% { 
-            box-shadow: 0 0 20px #FACC15, 0 0 40px #FACC1580, 0 0 60px #F59E0B40;
+            box-shadow: 0 0 20px #9d00ff, 0 0 40px #9d00ff80, 0 0 60px #9d00ff40;
             transform: scale(1.1);
           }
-          25% { 
-            box-shadow: 0 0 25px #F59E0B, 0 0 50px #FACC1580, 0 0 70px #F59E0B60;
-            transform: scale(1.12);
-          }
           50% { 
-            box-shadow: 0 0 30px #FACC15, 0 0 55px #F59E0B80, 0 0 80px #F59E0B40;
+            box-shadow: 0 0 30px #9d00ff, 0 0 55px #9d00ff80, 0 0 80px #9d00ff40;
             transform: scale(1.08);
-          }
-          75% { 
-            box-shadow: 0 0 22px #F59E0B, 0 0 45px #FACC1580, 0 0 65px #F59E0B50;
-            transform: scale(1.11);
           }
         }
         @keyframes flickerPhase3 {
           0%, 100% { 
-            box-shadow: 0 0 20px #F59E0B, 0 0 40px #F59E0B80, 0 0 60px #EA580C40;
+            box-shadow: 0 0 20px #00f0ff, 0 0 40px #00f0ff80, 0 0 60px #00f0ff40;
             transform: scale(1.1);
           }
-          25% { 
-            box-shadow: 0 0 25px #EA580C, 0 0 50px #F59E0B80, 0 0 70px #EA580C60;
-            transform: scale(1.12);
-          }
           50% { 
-            box-shadow: 0 0 30px #F59E0B, 0 0 55px #EA580C80, 0 0 80px #EA580C40;
+            box-shadow: 0 0 30px #00f0ff, 0 0 55px #00f0ff80, 0 0 80px #00f0ff40;
             transform: scale(1.08);
-          }
-          75% { 
-            box-shadow: 0 0 22px #EA580C, 0 0 45px #F59E0B80, 0 0 65px #EA580C50;
-            transform: scale(1.11);
           }
         }
         @keyframes flickerPhase4 {
           0%, 100% { 
-            box-shadow: 0 0 20px #EA580C, 0 0 40px #EA580C80, 0 0 60px #F9731640;
+            box-shadow: 0 0 20px #ff6b00, 0 0 40px #ff6b0080, 0 0 60px #ff6b0040;
             transform: scale(1.1);
           }
-          25% { 
-            box-shadow: 0 0 25px #F97316, 0 0 50px #EA580C80, 0 0 70px #F9731660;
-            transform: scale(1.12);
-          }
           50% { 
-            box-shadow: 0 0 30px #EA580C, 0 0 55px #F9731680, 0 0 80px #F9731640;
+            box-shadow: 0 0 30px #ff6b00, 0 0 55px #ff6b0080, 0 0 80px #ff6b0040;
             transform: scale(1.08);
-          }
-          75% { 
-            box-shadow: 0 0 22px #F97316, 0 0 45px #EA580C80, 0 0 65px #F9731650;
-            transform: scale(1.11);
           }
         }
         @keyframes innerFlicker {
@@ -168,20 +136,12 @@ export function StrategySection() {
         }
         @keyframes cardFireGlow {
           0%, 100% { 
-            box-shadow: 0 0 10px #F59E0B, 0 0 20px #F59E0B80, 0 0 30px #EA580C40, inset 0 0 10px #F59E0B20;
-            border-color: #F59E0B;
-          }
-          25% { 
-            box-shadow: 0 0 15px #EA580C, 0 0 25px #F59E0B80, 0 0 35px #EA580C60, inset 0 0 15px #EA580C20;
-            border-color: #EA580C;
+            box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff80, 0 0 30px #9d00ff40, inset 0 0 10px #00f0ff20;
+            border-color: #00f0ff;
           }
           50% { 
-            box-shadow: 0 0 20px #F97316, 0 0 30px #EA580C80, 0 0 40px #F9731640, inset 0 0 20px #F9731620;
-            border-color: #F97316;
-          }
-          75% { 
-            box-shadow: 0 0 12px #F59E0B, 0 0 22px #F9731680, 0 0 32px #F59E0B50, inset 0 0 12px #F59E0B20;
-            border-color: #FACC15;
+            box-shadow: 0 0 20px #9d00ff, 0 0 30px #9d00ff80, 0 0 40px #00f0ff40, inset 0 0 20px #9d00ff20;
+            border-color: #9d00ff;
           }
         }
         .fire-phase-1 {
@@ -204,19 +164,19 @@ export function StrategySection() {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="neon-border-box p-6 md:p-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl sm:text-5xl font-black text-[#D4AF37] mb-4 tracking-orbitron neon-text gold-underline">
+        <div className="text-center mb-10">
+          <h2 className="font-serif text-3xl sm:text-4xl font-black text-[#00f0ff] mb-4 tracking-orbitron neon-text-cyan">
             PROJECT STRATEGY
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto mt-6 text-sm">
+          <p className="text-[#a19bb8] max-w-2xl mx-auto mt-4 text-sm">
             This is our roadmap for creating the ultimate blockchain racing ecosystem. Click on a phase to see the
             planned activities for it in detail.
           </p>
         </div>
 
-        <div className="border border-gray-700 rounded-2xl p-6 sm:p-8 bg-gray-900/30 overflow-hidden">
+        <div className="overflow-hidden">
           {/* Phase Selector */}
           <div className="relative flex items-center justify-center mb-12 px-4">
             <div className="relative z-10 flex items-center w-full max-w-2xl">
@@ -231,7 +191,7 @@ export function StrategySection() {
                       Phase
                     </span>
                     <div
-                      className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold transition-all duration-300 bg-gray-950 ${
+                      className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold transition-all duration-300 bg-[#080414] ${
                         activePhase === phase.id ? `fire-phase-${phase.id}` : "opacity-70 hover:opacity-100"
                       }`}
                       style={{
@@ -269,17 +229,22 @@ export function StrategySection() {
               ?.steps.map((step, index) => (
                 <div
                   key={index}
-                  className={`group relative p-6 rounded-xl bg-black border transition-all duration-300 overflow-hidden ${
-                    step.hasFire ? "card-fire" : "border-gray-800 hover:border-[#FFD700]/40"
+                  className={`group relative p-6 rounded-xl bg-[#080414] border transition-all duration-300 overflow-hidden ${
+                    step.hasFire ? "card-fire" : "border-white/10 hover:border-[#00f0ff]/40"
                   }`}
                 >
                   {/* Glow effect on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#FFD700]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#9d00ff]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                   <div className="relative z-10 flex flex-col h-full">
                     <div className="flex items-center justify-between mb-5">
-                      <div className="w-14 h-14 rounded-xl bg-[#FFD700]/10 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
-                        <step.icon className="w-7 h-7 text-[#FFD700]" />
+                      <div 
+                        className="w-14 h-14 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0"
+                        style={{
+                          backgroundColor: `${phases[activePhase - 1].color}15`,
+                        }}
+                      >
+                        <step.icon className="w-7 h-7" style={{ color: phases[activePhase - 1].color }} />
                       </div>
                       <div
                         className="px-4 py-2 rounded-full text-sm font-bold"
@@ -294,18 +259,18 @@ export function StrategySection() {
                     </div>
 
                     <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
-                    <p className="text-gray-400 leading-relaxed flex-grow">{step.description}</p>
+                    <p className="text-[#a19bb8] leading-relaxed flex-grow">{step.description}</p>
 
                     {step.status === "done" && (
-                      <div className="flex justify-center mt-4 pt-4 border-t border-gray-800">
-                        <span className="px-4 py-1.5 rounded-full text-sm font-bold bg-green-500/20 text-green-400 border border-green-500/40">
+                      <div className="flex justify-center mt-4 pt-4 border-t border-white/10">
+                        <span className="px-4 py-1.5 rounded-full text-sm font-bold bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/40">
                           Done
                         </span>
                       </div>
                     )}
                     {step.status === "in-progress" && (
-                      <div className="flex justify-center mt-4 pt-4 border-t border-gray-800">
-                        <span className="px-4 py-1.5 rounded-full text-sm font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/40">
+                      <div className="flex justify-center mt-4 pt-4 border-t border-white/10">
+                        <span className="px-4 py-1.5 rounded-full text-sm font-bold bg-[#FFD700]/20 text-[#FFD700] border border-[#FFD700]/40">
                           In-Progress
                         </span>
                       </div>
