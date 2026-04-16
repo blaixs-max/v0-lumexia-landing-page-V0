@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Gamepad2, Clock, Trophy, LayoutGrid, Map, HelpCircle, Menu, X } from "lucide-react"
+import Image from "next/image"
 
 const navLinks = [
   { name: "Start Game", href: "https://game.lumexia.net", icon: Gamepad2, external: true, active: true },
@@ -49,16 +50,15 @@ export function Sidebar() {
         `}
       >
         {/* Logo Section */}
-        <div className="px-8 py-10 flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#00f0ff] to-[#9d00ff] rounded-lg flex items-center justify-center p-1">
-            <svg className="w-full h-full text-white" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 11H20M4 15H14M10 7H20" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
-            </svg>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-serif font-bold text-xl leading-tight tracking-wider text-white">LUMEXIA</span>
-            <span className="font-serif font-bold text-lg leading-tight tracking-wider text-[#a19bb8]">RACING HUB</span>
-          </div>
+        <div className="px-6 py-8 flex items-center justify-center">
+          <Image
+            src="/images/lumexia-logo.png"
+            alt="Lumexia Racing Game"
+            width={220}
+            height={80}
+            className="object-contain"
+            priority
+          />
         </div>
 
         {/* Navigation Links */}
