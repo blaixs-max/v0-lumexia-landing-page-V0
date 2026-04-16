@@ -122,6 +122,12 @@ export function LeaderboardSection() {
       try {
         const supabase = getSupabase()
 
+        // If Supabase is not configured, show empty state
+        if (!supabase) {
+          setLoading(false)
+          return
+        }
+
         const { data, error } = await supabase
           .from("daily_leaderboard")
           .select("*")

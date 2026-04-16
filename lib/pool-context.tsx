@@ -31,6 +31,12 @@ export function PoolProvider({ children }: { children: ReactNode }) {
     try {
       const supabase = getSupabase()
 
+      // If Supabase is not configured, use default values
+      if (!supabase) {
+        setLoading(false)
+        return
+      }
+
       const today = new Date()
       today.setUTCHours(0, 0, 0, 0)
       const todayISO = today.toISOString()
@@ -60,6 +66,10 @@ export function PoolProvider({ children }: { children: ReactNode }) {
     fetchPoolValue()
 
     const supabase = getSupabase()
+    
+    // Skip realtime subscription if Supabase is not configured
+    if (!supabase) return
+
     const channel = supabase
       .channel("pool_scores_changes")
       .on(
