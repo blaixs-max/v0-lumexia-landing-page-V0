@@ -56,16 +56,16 @@ export function DashboardHero() {
       {/* Bottom Section - Buttons on left, Icons on right (Mobile) / Icons only on desktop */}
       <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-auto md:right-6 z-20 flex items-end justify-between md:justify-end gap-2">
         {/* Mobile Buttons - Only visible on mobile */}
-        <div className="flex flex-col gap-2 md:hidden flex-1 max-w-[200px]">
+        <div className="flex flex-col gap-1.5 md:hidden flex-1 max-w-[160px]">
           <button
             onClick={handleStartGame}
-            className="w-full bg-gradient-to-r from-[#9d00ff] to-[#00f0ff] text-white font-bold py-2.5 px-6 rounded-full shadow-[0_0_15px_rgba(176,38,255,0.6)] text-sm"
+            className="w-full bg-gradient-to-r from-[#9d00ff] to-[#00f0ff] text-white font-bold py-2 px-4 rounded-full shadow-[0_0_15px_rgba(176,38,255,0.6)] text-xs"
           >
             START GAME
           </button>
           <button
             onClick={handleExploreGames}
-            className="w-full bg-transparent text-[#00f0ff] font-bold py-2.5 px-6 rounded-full border-2 border-[#00f0ff] text-sm"
+            className="w-full bg-transparent text-[#00f0ff] font-bold py-2 px-4 rounded-full border-2 border-[#00f0ff] text-xs"
           >
             DAILY RANKING
           </button>
