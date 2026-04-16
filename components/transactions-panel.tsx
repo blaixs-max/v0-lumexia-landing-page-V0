@@ -24,7 +24,7 @@ const sampleTransactions: Transaction[] = [
     type: "reward",
     title: "Game Reward",
     description: "Race completion bonus",
-    detail: "Received 0.015 BNB from Lumexia",
+    detail: "Received 0.015 LMX from Lumexia",
     time: "2 mins ago",
     amount: 0.015,
     isPositive: true,
@@ -32,9 +32,9 @@ const sampleTransactions: Transaction[] = [
   {
     id: "2",
     type: "transfer",
-    title: "BNB Transfer",
+    title: "LMX Transfer",
     description: "Sent transfer to wallet",
-    detail: "Sent 0.025 BNB to PancakeSwap",
+    detail: "Sent 0.025 LMX to PancakeSwap",
     time: "15 mins ago",
     amount: 0.025,
     isPositive: false,
@@ -44,7 +44,7 @@ const sampleTransactions: Transaction[] = [
     type: "reward",
     title: "Game Reward",
     description: "Daily leaderboard prize",
-    detail: "Received 0.015 BNB from Lumexia",
+    detail: "Received 0.015 LMX from Lumexia",
     time: "15 mins ago",
     amount: 0.015,
     isPositive: true,
@@ -52,9 +52,9 @@ const sampleTransactions: Transaction[] = [
   {
     id: "4",
     type: "transfer",
-    title: "BNB Transfer",
+    title: "LMX Transfer",
     description: "Sent transfer to wallet",
-    detail: "Received 0.015 BNB from Lumexia",
+    detail: "Received 0.015 LMX from Lumexia",
     time: "15 mins ago",
     amount: 0.015,
     isPositive: true,
@@ -78,7 +78,7 @@ export function TransactionsPanel() {
           <div className="flex items-center gap-2 glass-panel border border-[#00f0ff]/30 rounded-lg px-4 py-2">
             <Coins className="w-4 h-4 text-[#00f0ff]" />
             <span className="text-[#00f0ff] text-sm font-medium">Daily Pool:</span>
-            <span className="text-white font-mono font-bold text-sm">{netPool.toFixed(4)} BNB</span>
+            <span className="text-white font-mono font-bold text-sm">{netPool.toFixed(4)} LMX</span>
           </div>
 
           <div className="flex items-center gap-2 glass-panel border border-[#ff3366]/30 rounded-lg px-4 py-2">
@@ -131,7 +131,7 @@ export function TransactionsPanel() {
                 tx.isPositive ? "text-[#00ff66]" : "text-[#ff3366]"
               }`}
             >
-              {tx.isPositive ? "" : "-"}{tx.amount.toFixed(2)} BNB
+              {tx.isPositive ? "" : "-"}{tx.amount.toFixed(2)} LMX
             </div>
           </div>
         ))}

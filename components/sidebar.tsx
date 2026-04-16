@@ -44,13 +44,13 @@ export function Sidebar() {
         className={`
           fixed md:relative z-40
           w-[280px] h-[calc(100vh-48px)] 
-          rounded-2xl flex flex-col neon-border-box
+          flex flex-col gap-4
           transition-transform duration-300
           ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
         `}
       >
-        {/* Logo Section */}
-        <div className="px-4 py-8 flex items-center justify-center">
+        {/* Logo Section - Separate Border */}
+        <div className="neon-border-box rounded-2xl px-4 py-6 flex items-center justify-center">
           <Image
             src="/images/lumexia-logo.png"
             alt="Lumexia Racing Game"
@@ -61,8 +61,8 @@ export function Sidebar() {
           />
         </div>
 
-        {/* Navigation Links */}
-        <nav className="flex-1 flex flex-col gap-2 px-0 py-4">
+        {/* Navigation Links - Separate Border */}
+        <nav className="neon-border-box rounded-2xl flex-1 flex flex-col gap-1 py-4 overflow-hidden">
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -71,22 +71,22 @@ export function Sidebar() {
               rel={link.external ? "noopener noreferrer" : undefined}
               onClick={() => setMobileMenuOpen(false)}
               className={`
-                flex items-center gap-4 px-8 py-4 transition-all duration-300 group
+                flex items-center gap-4 px-6 py-3.5 transition-all duration-300 group mx-2 rounded-lg
                 ${link.active 
-                  ? "nav-item-active" 
+                  ? "bg-[#00f0ff]/10 border-l-4 border-[#00f0ff]" 
                   : "hover:bg-white/5"
                 }
               `}
             >
               <link.icon
-                className={`h-6 w-6 transition-colors ${
+                className={`h-5 w-5 transition-colors ${
                   link.active 
                     ? "text-[#00f0ff]" 
                     : "text-[#9d00ff] group-hover:text-[#00f0ff]"
                 }`}
               />
               <span
-                className={`font-medium transition-colors ${
+                className={`font-medium text-sm transition-colors ${
                   link.active 
                     ? "text-[#00f0ff]" 
                     : "text-[#a19bb8] group-hover:text-white"
@@ -96,8 +96,6 @@ export function Sidebar() {
               </span>
             </a>
           ))}
-
-
         </nav>
       </aside>
     </>

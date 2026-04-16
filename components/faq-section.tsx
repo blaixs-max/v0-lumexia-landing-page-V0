@@ -21,7 +21,7 @@ const faqs = [
   {
     question: "How do I earn tokens?",
     answer:
-      "Finish in the top 100 on the daily leaderboard to earn automatic $BNB airdrops. Payouts are executed via secure smart contracts at the end of each day (00:00 UTC). The higher your rank, the more you earn.",
+      "Finish in the top 100 on the daily leaderboard to earn automatic $LMX airdrops. Payouts are executed via secure smart contracts at the end of each day (00:00 UTC). The higher your rank, the more you earn.",
   },
   {
     question: "I have a problem, how can I contact you?",

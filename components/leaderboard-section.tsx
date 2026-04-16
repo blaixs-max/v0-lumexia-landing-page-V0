@@ -59,7 +59,7 @@ function calculateReward(rank: number): number {
 }
 
 function formatReward(reward: number) {
-  return `${reward.toLocaleString()} $BNB`
+  return `${reward.toLocaleString()} $LMX`
 }
 
 function getSharePoints(rank: number): number {
@@ -258,7 +258,7 @@ export function LeaderboardSection() {
               <span className="text-[#00f0ff] neon-text-cyan">RANKING</span>
             </h2>
             <p className="text-[#a19bb8] text-sm md:text-base">
-              Top 100 Racers receive automated <span className="text-[#00f0ff]">$BNB</span> airdrops every{" "}
+              Top 100 Racers receive automated <span className="text-[#00f0ff]">$LMX</span> airdrops every{" "}
               <span className="text-white font-semibold">24h</span>. Showing Top 100 contenders.
             </p>
           </div>
@@ -267,7 +267,7 @@ export function LeaderboardSection() {
             <div className="flex items-center gap-2 glass-panel border border-[#00f0ff]/30 rounded-lg px-4 py-3 min-w-[200px]">
               <Coins className="w-5 h-5 text-[#00f0ff]" />
               <span className="text-[#00f0ff] text-sm font-medium">Pool:</span>
-              <span className="text-white font-mono font-bold">{netPool.toFixed(4)} BNB</span>
+              <span className="text-white font-mono font-bold">{netPool.toFixed(4)} LMX</span>
             </div>
 
             <div className="flex items-center gap-2 glass-panel border border-[#ff3366]/30 rounded-lg px-4 py-3 min-w-[200px]">
@@ -358,7 +358,7 @@ export function LeaderboardSection() {
                       </div>
 
                       <div className="col-span-3 text-right">
-                        <span className="text-[#00ff66] font-semibold text-base">{reward.toFixed(4)} BNB</span>
+                        <span className="text-[#00ff66] font-semibold text-base">{reward.toFixed(4)} LMX</span>
                       </div>
                     </div>
 
@@ -393,7 +393,7 @@ export function LeaderboardSection() {
                       </div>
 
                       <div className="col-span-3 text-right">
-                        <span className="text-[#00ff66] font-semibold text-xs">{reward.toFixed(4)} BNB</span>
+                        <span className="text-[#00ff66] font-semibold text-xs">{reward.toFixed(4)} LMX</span>
                       </div>
                     </div>
                   </div>
