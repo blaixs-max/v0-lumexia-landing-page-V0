@@ -37,7 +37,7 @@ export function DashboardHero() {
   }
 
   return (
-    <section className="relative h-[380px] rounded-2xl overflow-hidden neon-border-box group flex-shrink-0">
+    <section className="relative h-[380px] rounded-2xl neon-border-box group flex-shrink-0 overflow-hidden">
       {/* Hero Background Image - F1 Racing in Neon City */}
       <div
         className="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-105"
