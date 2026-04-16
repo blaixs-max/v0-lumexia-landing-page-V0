@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Gamepad2 } from "lucide-react"
+import { Gamepad2, Flag } from "lucide-react"
 
 export function DashboardHero() {
   const [price, setPrice] = useState<number | null>(null)
@@ -59,6 +59,31 @@ export function DashboardHero() {
             rgba(255,255,255,0.03) 40px
           )`
         }} />
+      </div>
+
+      {/* Decorative Gaming Icons - Bottom Right */}
+      <div className="absolute bottom-6 right-6 z-20 flex items-center gap-3">
+        {/* Racing Flag Icon */}
+        <div className="glass-panel p-2.5 rounded-lg border border-[#9d00ff]/30 shadow-neon-purple">
+          <Flag className="w-5 h-5 text-[#9d00ff]" />
+        </div>
+        {/* Gamepad Icon - PlayStation style */}
+        <div className="glass-panel p-2.5 rounded-lg border border-[#00f0ff]/30 shadow-neon-cyan">
+          <Gamepad2 className="w-5 h-5 text-[#00f0ff]" />
+        </div>
+        {/* Checkered Flag SVG */}
+        <div className="glass-panel p-2.5 rounded-lg border border-[#FFD700]/30" style={{ boxShadow: '0 0 10px rgba(255, 215, 0, 0.3)' }}>
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="4" height="4" fill="#FFD700" />
+            <rect x="11" y="3" width="4" height="4" fill="#FFD700" />
+            <rect x="7" y="7" width="4" height="4" fill="#FFD700" />
+            <rect x="15" y="7" width="4" height="4" fill="#FFD700" />
+            <rect x="3" y="11" width="4" height="4" fill="#FFD700" />
+            <rect x="11" y="11" width="4" height="4" fill="#FFD700" />
+            <rect x="7" y="15" width="4" height="4" fill="#FFD700" />
+            <rect x="15" y="15" width="4" height="4" fill="#FFD700" />
+          </svg>
+        </div>
       </div>
 
       {/* Price Tag */}
