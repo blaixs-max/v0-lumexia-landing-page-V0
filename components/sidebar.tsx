@@ -1,15 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { Home, Gamepad2, TrendingUp, Wallet, Clock, Settings, Menu, X } from "lucide-react"
-import Image from "next/image"
+import { Gamepad2, Clock, Trophy, LayoutGrid, Map, HelpCircle, Menu, X } from "lucide-react"
 
 const navLinks = [
-  { name: "Dashboard", href: "#", icon: Home, active: true },
-  { name: "Games", href: "https://game.lumexia.net", icon: Gamepad2, external: true },
-  { name: "Staking", href: "#strategy", icon: TrendingUp },
-  { name: "Assets", href: "#leaderboard", icon: Wallet },
-  { name: "Transactions", href: "#community", icon: Clock },
+  { name: "Start Game", href: "https://game.lumexia.net", icon: Gamepad2, external: true, active: true },
+  { name: "Recent Transactions", href: "#transactions", icon: Clock },
+  { name: "Daily Ranking", href: "#leaderboard", icon: Trophy },
+  { name: "Platform Features", href: "#features", icon: LayoutGrid },
+  { name: "Project Strategy", href: "#strategy", icon: Map },
+  { name: "FAQ", href: "#faq", icon: HelpCircle },
 ]
 
 export function Sidebar() {
@@ -97,17 +97,7 @@ export function Sidebar() {
             </a>
           ))}
 
-          {/* Settings at bottom */}
-          <a
-            href="#faq"
-            onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-4 px-8 py-4 transition-all duration-300 group hover:bg-white/5 mt-auto mb-4"
-          >
-            <Settings className="h-6 w-6 text-[#9d00ff] group-hover:text-[#00f0ff] transition-colors" />
-            <span className="font-medium text-[#a19bb8] group-hover:text-white transition-colors">
-              Settings
-            </span>
-          </a>
+
         </nav>
       </aside>
     </>

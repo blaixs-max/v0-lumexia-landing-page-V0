@@ -37,7 +37,7 @@ const features = [
 
 export function FeaturesGrid() {
   return (
-    <section className="py-10 bg-transparent relative">
+    <section id="features" className="py-10 bg-transparent relative">
       <div className="neon-border-box p-6 md:p-8">
         {/* Section Header */}
         <div className="text-center mb-10">

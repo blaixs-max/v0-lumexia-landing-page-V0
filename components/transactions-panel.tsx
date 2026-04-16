@@ -67,7 +67,7 @@ export function TransactionsPanel() {
   const timer = useTimer()
 
   return (
-    <section className="flex-1 min-h-[300px] rounded-2xl neon-border-box flex flex-col overflow-hidden">
+    <section id="transactions" className="flex-1 min-h-[300px] rounded-2xl neon-border-box flex flex-col overflow-hidden">
       {/* Panel Header */}
       <div className="px-8 py-6 border-b border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h2 className="font-serif font-bold text-xl text-[#00f0ff] tracking-wider neon-text-cyan uppercase">
