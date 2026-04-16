@@ -104,9 +104,9 @@ export function DashboardHero() {
       {/* Hero Content */}
       <div className="relative z-10 flex flex-col justify-center h-full px-12 max-w-2xl">
         <h1 className="font-serif font-bold text-4xl md:text-5xl leading-tight mb-2 tracking-wide uppercase text-white drop-shadow-lg">
-          RACE FOR
+          PLAY RACING GAME
           <br />
-          <span className="text-[#00f0ff] neon-text-cyan">LUMEXIA GLORY.</span>
+          <span className="text-[#00f0ff] neon-text-cyan">EARN COIN.</span>
         </h1>
 
         <div className="flex gap-4 mt-8">
