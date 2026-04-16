@@ -50,12 +50,12 @@ export function Sidebar() {
         `}
       >
         {/* Logo Section */}
-        <div className="px-6 py-8 flex items-center justify-center">
+        <div className="px-4 py-8 flex items-center justify-center">
           <Image
             src="/images/lumexia-logo.png"
             alt="Lumexia Racing Game"
-            width={220}
-            height={80}
+            width={260}
+            height={95}
             className="object-contain"
             priority
           />
