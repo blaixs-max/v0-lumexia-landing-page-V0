@@ -47,7 +47,13 @@ export function Header() {
         <div className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
           <a href="https://lumexia.net" className="relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
-            <Image src="/images/lumexia-logo.png" alt="Lumexia Logo" fill className="object-contain" priority />
+            <Image
+              src="/images/lumexia-logo.png"
+              alt="Lumexia — Blockchain Racing Game on BSC"
+              fill
+              className="object-contain"
+              priority
+            />
           </a>
 
           {/* Contract Address — Desktop */}
