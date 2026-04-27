@@ -1,4 +1,6 @@
 export function Footer() {
+  const year = new Date().getFullYear()
+
   return (
     <footer className="mt-10 neon-border-box p-6">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -9,20 +11,7 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <p className="text-[#a19bb8] text-xs tracking-wide">© 2025 Lumexia. All rights reserved.</p>
-
-        {/* Links */}
-        <div className="flex items-center gap-6">
-          {["Terms", "Privacy", "Docs"].map((label) => (
-            <a
-              key={label}
-              href="#"
-              className="text-xs text-[#a19bb8] hover:text-[#00f0ff] transition-colors duration-200 tracking-wide"
-            >
-              {label}
-            </a>
-          ))}
-        </div>
+        <p className="text-[#a19bb8] text-xs tracking-wide">© {year} Lumexia. All rights reserved.</p>
       </div>
     </footer>
   )
