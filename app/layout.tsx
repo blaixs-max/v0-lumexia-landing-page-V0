@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { TimerProvider } from "@/lib/timer-context"
 import { PoolProvider } from "@/lib/pool-context"
 import { StructuredData } from "@/components/structured-data"
+import { TOKEN_CONFIG } from "@/lib/token-config"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"], display: "swap" })
@@ -18,9 +19,8 @@ const _syncopate = Syncopate({ subsets: ["latin"], weight: ["400", "700"], displ
 
 const SITE_URL = "https://lumexia.net"
 const SITE_NAME = "Lumexia"
-const SITE_TITLE = "Lumexia | Blockchain Racing Game on BSC"
-const SITE_DESCRIPTION =
-  "Race for glory in Lumexia — the high-fidelity blockchain racing game on Binance Smart Chain. Climb the daily leaderboard, top the top 100, and earn automatic $LMX airdrops."
+const SITE_TITLE = `Lumexia | ${TOKEN_CONFIG.chain} Racing Game with $${TOKEN_CONFIG.symbol} Rewards`
+const SITE_DESCRIPTION = `Race for glory in Lumexia — the high-fidelity blockchain racing game on ${TOKEN_CONFIG.chain}. Climb the daily leaderboard, top the top 100, and earn automatic $${TOKEN_CONFIG.symbol} airdrops.`
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -33,19 +33,22 @@ export const metadata: Metadata = {
   generator: "Next.js",
   keywords: [
     "Lumexia",
-    "$LMX",
-    "LMX token",
+    `$${TOKEN_CONFIG.symbol}`,
+    `${TOKEN_CONFIG.symbol} token`,
     "blockchain racing game",
-    "BSC racing game",
-    "Binance Smart Chain game",
+    `${TOKEN_CONFIG.chain} racing game`,
+    `${TOKEN_CONFIG.chain} game`,
     "play to earn",
     "P2E racing",
     "crypto racing game",
     "GameFi",
     "Web3 game",
-    "BNB airdrop",
+    "SOL airdrop",
     "racing leaderboard",
     "skill based crypto game",
+    "Phantom wallet",
+    "Solflare wallet",
+    "pump.fun",
   ],
   authors: [{ name: "Lumexia", url: SITE_URL }],
   creator: "Lumexia",

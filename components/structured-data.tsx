@@ -1,7 +1,8 @@
+import { TOKEN_CONFIG } from "@/lib/token-config"
+
 const SITE_URL = "https://lumexia.net"
 const SITE_NAME = "Lumexia"
-const SITE_DESCRIPTION =
-  "Race for glory in Lumexia — the high-fidelity blockchain racing game on Binance Smart Chain. Climb the daily leaderboard, top the top 100, and earn automatic $LMX airdrops."
+const SITE_DESCRIPTION = `Race for glory in Lumexia — the high-fidelity blockchain racing game on ${TOKEN_CONFIG.chain}. Climb the daily leaderboard, top the top 100, and earn automatic $${TOKEN_CONFIG.symbol} airdrops.`
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -67,7 +68,7 @@ const faqSchema = {
       name: "How do I connect my wallet?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "On PC, install the MetaMask browser extension, press the Connect Wallet button on Lumexia, and approve the connection in your wallet. On mobile, install the MetaMask app, press Connect Wallet — your wallet app will open automatically. Approve the request and return to the game when you see the confirmation that permissions are granted and the network has switched to BNB Smart Chain.",
+        text: "On PC, install the Phantom (or Solflare) browser extension, press the Connect Wallet button on Lumexia, and approve the connection in your wallet. On mobile, install the Phantom app, press Connect Wallet — your wallet app will open automatically. Approve the request and return to the game when you see the confirmation that permissions are granted on Solana mainnet.",
       },
     },
     {
@@ -75,15 +76,15 @@ const faqSchema = {
       name: "How do I play the game?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Connect a BSC-compatible wallet (MetaMask, Trust Wallet, etc.), choose a game mode (Classic or Double or Nothing), join a daily team, get credits, and start racing. On mobile, tap the screen to steer and press the NITRO button for speed. On PC, use arrow keys to move and SPACE for nitro.",
+        text: "Connect a Solana-compatible wallet (Phantom, Solflare, Coinbase Wallet, Trust Wallet), choose a game mode (Classic or Double or Nothing), join a daily team, get credits, and start racing. On mobile, tap the screen to steer and press the NITRO button for speed. On PC, use arrow keys to move and SPACE for nitro.",
       },
     },
     {
       "@type": "Question",
-      name: "Where can I buy $LMX tokens?",
+      name: `Where can I buy $${TOKEN_CONFIG.symbol} tokens?`,
       acceptedAnswer: {
         "@type": "Answer",
-        text: "$LMX tokens are available on PancakeSwap. Connect your wallet, ensure you have BNB for gas fees, and swap for $LMX using our official contract address. Always verify the contract address on our official channels to avoid scams.",
+        text: `$${TOKEN_CONFIG.symbol} tokens are available on Jupiter (Solana DEX aggregator) and pump.fun. Connect your Solana wallet, ensure you have SOL for transaction fees, and swap for $${TOKEN_CONFIG.symbol}. Always verify the contract address on our official channels to avoid scams.`,
       },
     },
     {
@@ -91,7 +92,7 @@ const faqSchema = {
       name: "How do I earn tokens?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Finish in the top 100 on the daily leaderboard to earn automatic $LMX airdrops. Payouts are executed via secure smart contracts at the end of each day (00:00 UTC). The higher your rank, the more you earn.",
+        text: `Finish in the top 100 on the daily leaderboard to earn automatic $${TOKEN_CONFIG.symbol} rewards. Payouts are executed at the end of each day (00:00 UTC). The higher your rank, the more you earn.`,
       },
     },
     {
