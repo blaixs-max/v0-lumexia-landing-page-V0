@@ -69,26 +69,37 @@ export function PoolProvider({ children }: { children: ReactNode }) {
     fetchPoolValue()
 
     const supabase = getSupabase()
-    
+
     // Skip realtime subscription if Supabase is not configured
     if (!supabase) return
+
+    // Debounce burst inserts (anti-cheat reject + retry storms, batch
+    // submissions, etc.) — collapse multiple INSERTs within 1s into a
+    // single fetchPoolValue call.
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null
+    const onScoreInsert = () => {
+      if (debounceTimer) clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => {
+        fetchPoolValue()
+        debounceTimer = null
+      }, 1000)
+    }
 
     const channel = supabase
       .channel("pool_scores_changes")
       .on(
         "postgres_changes",
         {
-          event: "*",
+          event: "INSERT",
           schema: "public",
           table: "scores",
         },
-        () => {
-          fetchPoolValue()
-        },
+        onScoreInsert,
       )
       .subscribe()
 
     return () => {
+      if (debounceTimer) clearTimeout(debounceTimer)
       supabase.removeChannel(channel)
     }
   }, [])
