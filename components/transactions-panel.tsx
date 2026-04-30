@@ -84,6 +84,18 @@ export function TransactionsPanel() {
 
     fetchRecent()
 
+    // Debounce burst inserts (verify-payment retries, simultaneous
+    // confirmations) — collapse multiple INSERTs within 1s into a
+    // single fetchRecent call.
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null
+    const onTxInsert = () => {
+      if (debounceTimer) clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => {
+        fetchRecent()
+        debounceTimer = null
+      }, 1000)
+    }
+
     const channel = supabase
       .channel("recent_transactions_changes")
       .on(
@@ -93,14 +105,13 @@ export function TransactionsPanel() {
           schema: "public",
           table: "transactions",
         },
-        () => {
-          fetchRecent()
-        },
+        onTxInsert,
       )
       .subscribe()
 
     return () => {
       cancelled = true
+      if (debounceTimer) clearTimeout(debounceTimer)
       supabase.removeChannel(channel)
     }
   }, [])
