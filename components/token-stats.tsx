@@ -103,17 +103,17 @@ export function TokenStats() {
       const newTickerData: TickerItem[] = [
         tokenData,
         {
-          symbol: "BNB/USDT",
-          price: cgData.binancecoin?.usd?.toFixed(2) || "0.00",
-          change: cgData.binancecoin?.usd_24h_change || 0,
+          symbol: "SOL/USD",
+          price: cgData.solana?.usd?.toFixed(2) || "0.00",
+          change: cgData.solana?.usd_24h_change || 0,
         },
         {
-          symbol: "BTC/USDT",
+          symbol: "BTC/USD",
           price: cgData.bitcoin?.usd?.toLocaleString() || "0",
           change: cgData.bitcoin?.usd_24h_change || 0,
         },
         {
-          symbol: "ETH/USDT",
+          symbol: "ETH/USD",
           price: cgData.ethereum?.usd?.toLocaleString() || "0",
           change: cgData.ethereum?.usd_24h_change || 0,
         },
