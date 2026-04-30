@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Wallet, Gamepad2, Users, Coins, Monitor, Smartphone } from "lucide-react"
+import { TOKEN_CONFIG } from "@/lib/token-config"
 
 const faqs = [
   {
@@ -14,14 +15,12 @@ const faqs = [
     answer: "detailed_guide",
   },
   {
-    question: "Where can I buy $LMX tokens?",
-    answer:
-      "$LMX tokens are available on PancakeSwap. Connect your wallet, ensure you have BNB for gas fees, and swap for $LMX using our official contract address. Always verify the contract address on our official channels to avoid scams.",
+    question: `Where can I buy $${TOKEN_CONFIG.symbol} tokens?`,
+    answer: `$${TOKEN_CONFIG.symbol} tokens are available on Jupiter (Solana DEX aggregator) and pump.fun. Connect your Solana wallet, ensure you have SOL for transaction fees, and swap for $${TOKEN_CONFIG.symbol}. Always verify the contract address on our official channels to avoid scams.`,
   },
   {
     question: "How do I earn tokens?",
-    answer:
-      "Finish in the top 100 on the daily leaderboard to earn automatic $LMX airdrops. Payouts are executed via secure smart contracts at the end of each day (00:00 UTC). The higher your rank, the more you earn.",
+    answer: `Finish in the top 100 on the daily leaderboard to earn automatic $${TOKEN_CONFIG.symbol} rewards. Payouts are executed at the end of each day (00:00 UTC). The higher your rank, the more you earn.`,
   },
   {
     question: "I have a problem, how can I contact you?",
@@ -34,7 +33,7 @@ const gameSteps = [
   {
     icon: Wallet,
     title: "Connect Your Wallet",
-    description: "Connect your BSC-compatible wallet (MetaMask, Trust Wallet, etc.)",
+    description: "Connect your Solana-compatible wallet (Phantom, Solflare, Coinbase, Trust)",
   },
   {
     icon: Gamepad2,
@@ -92,7 +91,7 @@ const mobileConnectionSteps = [
   {
     step: 5,
     description:
-      'If you still receive a message saying "Open MetaMask app" when you return to the app (game), press the Open button and wait until you see the message "Permissions granted, network changed, you can now return to the app."',
+      'If you still receive a message saying "Open Phantom app" when you return to the app (game), press the Open button and wait until you see the message "Permissions granted, you can now return to the app."',
   },
 ]
 
@@ -107,7 +106,7 @@ function DetailedWalletGuide() {
           </div>
           <div>
             <h3 className="text-[#00f0ff] font-bold text-lg uppercase">For PC Connection</h3>
-            <p className="text-[#a19bb8] text-sm">MetaMask Extension must be installed</p>
+            <p className="text-[#a19bb8] text-sm">Phantom or Solflare extension must be installed</p>
           </div>
         </div>
 
@@ -131,7 +130,7 @@ function DetailedWalletGuide() {
           </div>
           <div>
             <h3 className="text-[#9d00ff] font-bold text-lg uppercase">For Mobile Connection</h3>
-            <p className="text-[#a19bb8] text-sm">MetaMask App must be installed</p>
+            <p className="text-[#a19bb8] text-sm">Phantom app must be installed</p>
           </div>
         </div>
 
