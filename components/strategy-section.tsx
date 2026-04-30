@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Gamepad2, Bot, ImageIcon, Gift, Coins, Users, Globe, Layers, ShieldCheck } from "lucide-react"
+import { TOKEN_CONFIG } from "@/lib/token-config"
 
 const phases = [
   {
@@ -11,7 +12,7 @@ const phases = [
       {
         icon: Coins,
         title: "Token Launch",
-        description: "Official $LMX token launch with liquidity pools and exchange listings for seamless trading.",
+        description: `Official $${TOKEN_CONFIG.symbol} token launch on ${TOKEN_CONFIG.chain} with Jupiter / pump.fun listings for seamless trading.`,
         status: "done",
       },
       {
@@ -76,8 +77,7 @@ const phases = [
       {
         icon: ImageIcon,
         title: "NFT Integration",
-        description:
-          "Unique vehicle skins, track designs, and achievements as tradeable NFTs on the Binance Smart Chain.",
+        description: `Unique vehicle skins, track designs, and achievements as tradeable NFTs on ${TOKEN_CONFIG.chain}.`,
       },
     ],
   },
