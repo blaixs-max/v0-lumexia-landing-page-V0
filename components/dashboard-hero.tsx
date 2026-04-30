@@ -2,16 +2,14 @@
 
 import { useState } from "react"
 import { Gamepad2, Flag, Copy, Check } from "lucide-react"
-
-// Contract Address
-const CONTRACT_ADDRESS = "0x1234567890abcdef1234567890abcdef12345678"
+import { TOKEN_CONFIG, shortMint } from "@/lib/token-config"
 
 export function DashboardHero() {
   const [copied, setCopied] = useState(false)
 
   const handleCopyCA = async () => {
     try {
-      await navigator.clipboard.writeText(CONTRACT_ADDRESS)
+      await navigator.clipboard.writeText(TOKEN_CONFIG.mint)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
@@ -106,7 +104,7 @@ export function DashboardHero() {
           <path d="M4 11H20M4 15H14M10 7H20" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
         </svg>
         <span className="text-xs md:text-sm font-medium text-[#a19bb8]">
-          C.A: <span className="text-white font-mono text-[10px] md:text-xs">{CONTRACT_ADDRESS.slice(0, 6)}...{CONTRACT_ADDRESS.slice(-4)}</span>
+          C.A: <span className="text-white font-mono text-[10px] md:text-xs">{shortMint()}</span>
         </span>
         {copied ? (
           <Check className="w-3 h-3 md:w-4 md:h-4 text-[#00ff66]" />
