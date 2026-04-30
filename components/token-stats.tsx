@@ -4,8 +4,7 @@ import { useEffect, useState, useCallback } from "react"
 import { Activity, Users, Coins, BarChart3, Clock, Zap, TrendingUp, TrendingDown, RefreshCw } from "lucide-react"
 import { useTimer } from "@/lib/timer-context"
 import { usePool } from "@/lib/pool-context"
-
-const TOKEN_ADDRESS = "0xb92cc959c2434c06489d3f941391a5f1d8334444"
+import { TOKEN_CONFIG } from "@/lib/token-config"
 
 interface DexData {
   priceUsd: string
@@ -57,7 +56,7 @@ export function TokenStats() {
       const dexResult = await dexResponse.json()
       console.log("[v0] DexScreener API response:", dexResult)
 
-      let lmxData: TickerItem = { symbol: "LMX/USDT", price: "0.0000", change: 0 }
+      let tokenData: TickerItem = { symbol: `${TOKEN_CONFIG.symbol}/USD`, price: "0.0000", change: 0 }
       let pairAddress: string | null = null
 
       if (dexResult.pairs && dexResult.pairs.length > 0) {
@@ -67,8 +66,8 @@ export function TokenStats() {
 
         const price = Number.parseFloat(mainPair.priceUsd || "0")
 
-        lmxData = {
-          symbol: "LMX/USDT",
+        tokenData = {
+          symbol: `${TOKEN_CONFIG.symbol}/USD`,
           price: price < 0.01 ? price.toFixed(6) : price.toFixed(4),
           change: mainPair.priceChange?.h24 || 0,
         }
@@ -102,7 +101,7 @@ export function TokenStats() {
       const cgData = await cgResponse.json()
 
       const newTickerData: TickerItem[] = [
-        lmxData,
+        tokenData,
         {
           symbol: "BNB/USDT",
           price: cgData.binancecoin?.usd?.toFixed(2) || "0.00",
@@ -250,10 +249,10 @@ export function TokenStats() {
               <div className="h-[200px] w-full">
                 {dexData?.pairAddress ? (
                   <iframe
-                    src={`https://dexscreener.com/bsc/${dexData.pairAddress}?embed=1&theme=dark&trades=0&info=0`}
+                    src={`https://dexscreener.com/${TOKEN_CONFIG.chain.toLowerCase()}/${dexData.pairAddress}?embed=1&theme=dark&trades=0&info=0`}
                     className="w-full h-full rounded-lg"
                     style={{ border: "none" }}
-                    title="LMX Price Chart"
+                    title={`${TOKEN_CONFIG.symbol} Price Chart`}
                   />
                 ) : !dexLoading ? (
                   <div className="w-full h-full flex flex-col items-center justify-center text-gray-500 text-sm">
