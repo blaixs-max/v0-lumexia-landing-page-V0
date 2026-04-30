@@ -163,9 +163,9 @@ export function TokenStats() {
     },
     {
       label: "Daily Prize Pool",
-      value: poolLoading ? "..." : netPool.toFixed(4),
+      value: poolLoading ? "..." : netPool.toFixed(2),
       icon: Zap,
-      suffix: " BNB",
+      suffix: " USD",
     },
     { label: "Next Distribution", value: "04:32:18", icon: Clock, suffix: "", isTimer: true },
   ]

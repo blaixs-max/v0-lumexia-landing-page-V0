@@ -3,7 +3,10 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { getSupabase } from "@/lib/supabase"
 
-const CREDIT_TO_BNB = 0.0015
+// 1 game = $1 USD (matches verify-payment package pricing and
+// calculate-daily-rewards Edge Function. USD is the canonical unit;
+// the UI may convert to TOKABU using the live token price elsewhere.)
+const CREDIT_TO_USD = 1.0
 
 interface PoolContextType {
   poolValue: number
@@ -53,9 +56,9 @@ export function PoolProvider({ children }: { children: ReactNode }) {
       }
 
       const gamesPlayed = count || 0
-      const totalBNB = gamesPlayed * CREDIT_TO_BNB
+      const totalUSD = gamesPlayed * CREDIT_TO_USD
       setTotalGames(gamesPlayed)
-      setPoolValue(totalBNB)
+      setPoolValue(totalUSD)
       setLoading(false)
     } catch (err) {
       setLoading(false)
