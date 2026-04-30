@@ -1,33 +1,31 @@
 import { createBrowserClient } from "@supabase/ssr"
+import type { Database } from "@/lib/database.types"
 
 // Singleton pattern to prevent multiple client instances
-let supabaseInstance: ReturnType<typeof createBrowserClient> | null = null
+let supabaseInstance: ReturnType<typeof createBrowserClient<Database>> | null = null
 
 export function getSupabase() {
   if (!supabaseInstance) {
-    const supabaseUrl = process.env.NEXT_PUBLIC_LEADERBOARD_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseKey =
-      process.env.NEXT_PUBLIC_LEADERBOARD_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-    // Return null if Supabase is not configured
+    // Sprint 3a: dropped legacy NEXT_PUBLIC_LEADERBOARD_SUPABASE_* fallback.
+    // Vercel/Netlify env panels should expose only the canonical names.
     if (!supabaseUrl || !supabaseKey) {
-      console.warn("[Supabase] Missing environment variables. Leaderboard functionality will be disabled.")
+      console.warn(
+        "[Supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. Leaderboard, transactions panel, and pool indicator will be disabled.",
+      )
       return null
     }
 
-    supabaseInstance = createBrowserClient(supabaseUrl, supabaseKey)
+    supabaseInstance = createBrowserClient<Database>(supabaseUrl, supabaseKey)
   }
   return supabaseInstance
 }
 
-// TypeScript type for daily_leaderboard table
-export type DailyLeaderboardEntry = {
-  id: string
-  wallet_address: string
-  full_wallet: string
-  best_score: number
-  best_distance: number
-  games_played_today: number
-  play_date: string
-  created_at: string
-}
+// Convenience row-type aliases. Add more here as components consume new tables.
+export type DailyLeaderboardEntry = Database["public"]["Tables"]["daily_leaderboard"]["Row"]
+export type Transaction = Database["public"]["Tables"]["transactions"]["Row"]
+export type Score = Database["public"]["Tables"]["scores"]["Row"]
+export type User = Database["public"]["Tables"]["users"]["Row"]
+export type RewardPoolDistribution = Database["public"]["Tables"]["reward_pool_distribution"]["Row"]
