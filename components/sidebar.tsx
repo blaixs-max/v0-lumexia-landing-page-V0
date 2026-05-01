@@ -7,7 +7,7 @@ import Image from "next/image"
 const navLinks = [
   { name: "Start Game", href: "https://game.lumexia.net", icon: Gamepad2, external: true, active: true },
   { name: "Recent Transactions", href: "#transactions", icon: Clock },
-  { name: "Daily Ranking", href: "#leaderboard", icon: Trophy },
+  { name: "Cycle Ranking", href: "#leaderboard", icon: Trophy },
   { name: "Platform Features", href: "#features", icon: LayoutGrid },
   { name: "Project Strategy", href: "#strategy", icon: Map },
   { name: "FAQ", href: "#faq", icon: HelpCircle },

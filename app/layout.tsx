@@ -20,7 +20,7 @@ const _syncopate = Syncopate({ subsets: ["latin"], weight: ["400", "700"], displ
 const SITE_URL = "https://lumexia.net"
 const SITE_NAME = "Lumexia"
 const SITE_TITLE = `Lumexia | ${TOKEN_CONFIG.chain} Racing Game with $${TOKEN_CONFIG.symbol} Rewards`
-const SITE_DESCRIPTION = `Race for glory in Lumexia — the high-fidelity blockchain racing game on ${TOKEN_CONFIG.chain}. Climb the daily leaderboard, top the top 100, and earn automatic $${TOKEN_CONFIG.symbol} airdrops.`
+const SITE_DESCRIPTION = `Race for glory in Lumexia — the high-fidelity blockchain racing game on ${TOKEN_CONFIG.chain}. Climb the 48-hour cycle leaderboard, top the top 100, and earn automatic $${TOKEN_CONFIG.symbol} airdrops.`
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

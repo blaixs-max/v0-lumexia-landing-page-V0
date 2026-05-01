@@ -8,6 +8,19 @@ import { getSupabase } from "@/lib/supabase"
 // the UI may convert to TOKABU using the live token price elsewhere.)
 const CREDIT_TO_USD = 1.0
 
+// 48h cycle anchor — keep in sync with lib/timer-context.tsx and the
+// racing repo's migration 20260501160000_cycle_48h.sql.
+const CYCLE_ANCHOR_DATE = "2026-05-01"
+const MS_PER_DAY = 86_400_000
+const MS_PER_CYCLE = 2 * MS_PER_DAY
+
+function currentCycleStart(now: Date): Date {
+  const anchor = new Date(`${CYCLE_ANCHOR_DATE}T00:00:00Z`)
+  const elapsed = now.getTime() - anchor.getTime()
+  const cyclesPassed = Math.floor(elapsed / MS_PER_CYCLE)
+  return new Date(anchor.getTime() + cyclesPassed * MS_PER_CYCLE)
+}
+
 interface PoolContextType {
   poolValue: number
   netPool: number
@@ -40,15 +53,13 @@ export function PoolProvider({ children }: { children: ReactNode }) {
         return
       }
 
-      const today = new Date()
-      today.setUTCHours(0, 0, 0, 0)
-      const todayISO = today.toISOString()
+      const cycleStartIso = currentCycleStart(new Date()).toISOString()
 
-      // Count total games played today (each row = 1 game)
+      // Count games played within the current 48h cycle (each row = 1 game).
       const { count, error } = await supabase
         .from("scores")
         .select("*", { count: "exact", head: true })
-        .gte("created_at", todayISO)
+        .gte("created_at", cycleStartIso)
 
       if (error) {
         setLoading(false)
