@@ -1,8 +1,9 @@
 import { ImageResponse } from "next/og"
+import { TOKEN_CONFIG } from "@/lib/token-config"
 
 export const runtime = "edge"
 
-export const alt = "Lumexia — Blockchain Racing Game on BSC"
+export const alt = `Lumexia — Blockchain Racing Game on ${TOKEN_CONFIG.chain}`
 export const size = {
   width: 1200,
   height: 630,
@@ -99,7 +100,7 @@ export default async function Image() {
               lineHeight: 1.3,
             }}
           >
-            High-fidelity blockchain racing game on BSC. Top the daily leaderboard, earn $LMX airdrops.
+            High-fidelity blockchain racing game on {TOKEN_CONFIG.chain}. Top the 48-hour cycle leaderboard, earn ${TOKEN_CONFIG.symbol} airdrops.
           </div>
         </div>
 
@@ -123,7 +124,7 @@ export default async function Image() {
               background: "rgba(0, 240, 255, 0.08)",
             }}
           >
-            $LMX Token
+            ${TOKEN_CONFIG.symbol} Token
           </span>
           <span
             style={{
@@ -134,7 +135,7 @@ export default async function Image() {
               background: "rgba(157, 0, 255, 0.08)",
             }}
           >
-            Binance Smart Chain
+            {TOKEN_CONFIG.chain}
           </span>
           <span
             style={{

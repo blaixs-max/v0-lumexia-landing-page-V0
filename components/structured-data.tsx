@@ -2,7 +2,7 @@ import { TOKEN_CONFIG } from "@/lib/token-config"
 
 const SITE_URL = "https://lumexia.net"
 const SITE_NAME = "Lumexia"
-const SITE_DESCRIPTION = `Race for glory in Lumexia — the high-fidelity blockchain racing game on ${TOKEN_CONFIG.chain}. Climb the daily leaderboard, top the top 100, and earn automatic $${TOKEN_CONFIG.symbol} airdrops.`
+const SITE_DESCRIPTION = `Race for glory in Lumexia — the high-fidelity blockchain racing game on ${TOKEN_CONFIG.chain}. Climb the 48-hour cycle leaderboard, top the top 100, and earn automatic $${TOKEN_CONFIG.symbol} airdrops.`
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -92,7 +92,7 @@ const faqSchema = {
       name: "How do I earn tokens?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: `Finish in the top 100 on the daily leaderboard to earn automatic $${TOKEN_CONFIG.symbol} rewards. Payouts are executed at the end of each day (00:00 UTC). The higher your rank, the more you earn.`,
+        text: `Finish in the top 100 on the 48-hour cycle leaderboard to earn automatic $${TOKEN_CONFIG.symbol} rewards. Payouts are executed at the end of each 48-hour cycle (00:00 UTC every other day). The higher your rank, the more you earn.`,
       },
     },
     {

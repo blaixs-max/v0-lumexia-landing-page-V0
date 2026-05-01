@@ -20,15 +20,25 @@ export function useTimer() {
   return useContext(TimerContext)
 }
 
+// 48-hour cycle anchor — must match the Edge Function and DB trigger.
+// See racing repo: supabase/migrations/20260501160000_cycle_48h.sql.
+const CYCLE_ANCHOR_DATE = "2026-05-01"
+const MS_PER_DAY = 86_400_000
+const MS_PER_CYCLE = 2 * MS_PER_DAY
+
+// Returns the UTC timestamp at which the current 48h cycle ends (= start of
+// the next cycle). Cycles tick at 00:00 UTC every other day from the anchor.
+function nextCycleEnd(now: Date): Date {
+  const anchor = new Date(`${CYCLE_ANCHOR_DATE}T00:00:00Z`)
+  const elapsed = now.getTime() - anchor.getTime()
+  const cyclesPassed = Math.floor(elapsed / MS_PER_CYCLE)
+  return new Date(anchor.getTime() + (cyclesPassed + 1) * MS_PER_CYCLE)
+}
+
 function calculateTimeLeft() {
   const now = new Date()
-  const utcNow = new Date(now.toISOString())
-
-  // Next midnight UTC
-  const nextMidnight = new Date(utcNow)
-  nextMidnight.setUTCHours(24, 0, 0, 0)
-
-  const diff = nextMidnight.getTime() - utcNow.getTime()
+  const cycleEnd = nextCycleEnd(now)
+  const diff = Math.max(0, cycleEnd.getTime() - now.getTime())
 
   const hours = Math.floor(diff / (1000 * 60 * 60))
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))

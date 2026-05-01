@@ -254,12 +254,12 @@ export function LeaderboardSection() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h2 className="font-serif font-black text-2xl md:text-3xl mb-2 tracking-orbitron">
-              <span className="text-white">DAILY </span>
+              <span className="text-white">CYCLE </span>
               <span className="text-[#00f0ff] neon-text-cyan">RANKING</span>
             </h2>
             <p className="text-[#a19bb8] text-sm md:text-base">
-              Top 100 Racers receive automated <span className="text-[#00f0ff]">$LMX</span> airdrops every{" "}
-              <span className="text-white font-semibold">24h</span>. Showing Top 100 contenders.
+              Top 100 Racers receive automated <span className="text-[#00f0ff]">$TOKABU</span> airdrops every{" "}
+              <span className="text-white font-semibold">48h</span>. Showing Top 100 contenders.
             </p>
           </div>
 
@@ -267,7 +267,7 @@ export function LeaderboardSection() {
             <div className="flex items-center gap-2 glass-panel border border-[#00f0ff]/30 rounded-lg px-4 py-3 min-w-[200px]">
               <Coins className="w-5 h-5 text-[#00f0ff]" />
               <span className="text-[#00f0ff] text-sm font-medium">Pool:</span>
-              <span className="text-white font-mono font-bold">{netPool.toFixed(4)} LMX</span>
+              <span className="text-white font-mono font-bold">${netPool.toFixed(2)}</span>
             </div>
 
             <div className="flex items-center gap-2 glass-panel border border-[#ff3366]/30 rounded-lg px-4 py-3 min-w-[200px]">

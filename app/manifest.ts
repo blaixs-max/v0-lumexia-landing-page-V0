@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next"
+import { TOKEN_CONFIG } from "@/lib/token-config"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Lumexia | Blockchain Racing Game on BSC",
+    name: `Lumexia | Blockchain Racing Game on ${TOKEN_CONFIG.chain}`,
     short_name: "Lumexia",
-    description:
-      "Race for glory in Lumexia — the high-fidelity blockchain racing game on Binance Smart Chain. Top the daily leaderboard and earn $LMX airdrops.",
+    description: `Race for glory in Lumexia — the high-fidelity blockchain racing game on ${TOKEN_CONFIG.chain}. Top the 48-hour cycle leaderboard and earn $${TOKEN_CONFIG.symbol} airdrops.`,
     start_url: "/",
     display: "standalone",
     orientation: "portrait",

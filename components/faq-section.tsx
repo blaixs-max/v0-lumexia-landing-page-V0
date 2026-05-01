@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     question: "How do I earn tokens?",
-    answer: `Finish in the top 100 on the daily leaderboard to earn automatic $${TOKEN_CONFIG.symbol} rewards. Payouts are executed at the end of each day (00:00 UTC). The higher your rank, the more you earn.`,
+    answer: `Finish in the top 100 on the 48-hour cycle leaderboard to earn automatic $${TOKEN_CONFIG.symbol} rewards. Payouts are executed at the end of each 48-hour cycle (00:00 UTC every other day). The higher your rank, the more you earn.`,
   },
   {
     question: "I have a problem, how can I contact you?",
@@ -42,8 +42,8 @@ const gameSteps = [
   },
   {
     icon: Users,
-    title: "Select Daily Team",
-    description: "Join a team - the team with the most points each day wins an extra prize!",
+    title: "Select Cycle Team",
+    description: "Join a team - the team with the most points each 48-hour cycle wins an extra prize!",
   },
   {
     icon: Coins,
