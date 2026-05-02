@@ -10,7 +10,7 @@ const formatSegment = (n: number) => String(n).padStart(2, "0")
 
 function DigitBox({ digit }: { digit: string }) {
   return (
-    <div className="relative w-9 h-12 md:w-12 md:h-16 rounded-md flex items-center justify-center font-mono font-black text-white text-2xl md:text-4xl glass-panel border border-[#00f0ff]/40 shadow-neon-cyan">
+    <div className="relative w-7 h-9 md:w-9 md:h-12 rounded-md flex items-center justify-center font-mono font-black text-white text-lg md:text-2xl glass-panel border border-[#00f0ff]/40 shadow-neon-cyan">
       <span className="absolute inset-x-0 top-1/2 h-px bg-[#00f0ff]/20" />
       {digit}
     </div>
@@ -85,7 +85,7 @@ export function DashboardHero() {
   const secondsStr = formatSegment(timer.seconds)
 
   return (
-    <section className="relative min-h-[760px] md:min-h-[600px] rounded-2xl neon-border-box group flex-shrink-0 overflow-hidden mt-14 md:mt-0">
+    <section className="relative min-h-[560px] md:min-h-[440px] rounded-2xl neon-border-box group flex-shrink-0 overflow-hidden mt-14 md:mt-0">
       {/* Hero Background Image - F1 Racing in Neon City */}
       <div
         className="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-105"
@@ -168,25 +168,25 @@ export function DashboardHero() {
       </div>
 
       {/* Hero Content (title + buttons + dashboard panels) */}
-      <div className="relative z-10 flex flex-col h-full px-4 md:px-12 pt-20 md:pt-16 pb-6 md:pb-8 gap-6 md:gap-8">
+      <div className="relative z-10 flex flex-col h-full px-4 md:px-10 pt-16 md:pt-14 pb-4 md:pb-5 gap-4 md:gap-5">
         {/* Title + Buttons */}
-        <div className="flex flex-col gap-4 max-w-2xl">
-          <h1 className="font-serif font-bold text-3xl md:text-5xl leading-tight tracking-wide uppercase text-white drop-shadow-lg">
+        <div className="flex flex-col gap-3 max-w-2xl">
+          <h1 className="font-serif font-bold text-2xl md:text-4xl leading-tight tracking-wide uppercase text-white drop-shadow-lg">
             PLAY RACING GAME
             <br />
             <span className="text-[#00f0ff] neon-text-cyan">EARN COIN.</span>
           </h1>
 
-          <div className="flex flex-row gap-3 md:gap-4 mt-2 md:mt-4">
+          <div className="flex flex-row gap-3 md:gap-4 mt-1 md:mt-2">
             <button
               onClick={handleStartGame}
-              className="bg-gradient-to-r from-[#9d00ff] to-[#00f0ff] text-white font-bold py-2.5 md:py-3 px-5 md:px-8 rounded-full shadow-[0_0_15px_rgba(176,38,255,0.6)] hover:shadow-[0_0_25px_rgba(176,38,255,0.8)] transition-all duration-300 transform hover:-translate-y-1 cursor-pointer text-sm md:text-base"
+              className="bg-gradient-to-r from-[#9d00ff] to-[#00f0ff] text-white font-bold py-2 md:py-2.5 px-5 md:px-7 rounded-full shadow-[0_0_15px_rgba(176,38,255,0.6)] hover:shadow-[0_0_25px_rgba(176,38,255,0.8)] transition-all duration-300 transform hover:-translate-y-1 cursor-pointer text-sm"
             >
               START GAME
             </button>
             <button
               onClick={handleExploreGames}
-              className="bg-transparent text-[#00f0ff] font-bold py-2.5 md:py-3 px-5 md:px-8 rounded-full border-2 border-[#00f0ff] shadow-neon-cyan hover:bg-[#00f0ff] hover:text-white transition-all duration-300 transform hover:-translate-y-1 cursor-pointer text-sm md:text-base"
+              className="bg-transparent text-[#00f0ff] font-bold py-2 md:py-2.5 px-5 md:px-7 rounded-full border-2 border-[#00f0ff] shadow-neon-cyan hover:bg-[#00f0ff] hover:text-white transition-all duration-300 transform hover:-translate-y-1 cursor-pointer text-sm"
             >
               CYCLE RANKING
             </button>
@@ -194,76 +194,76 @@ export function DashboardHero() {
         </div>
 
         {/* Pool Dashboard Panels */}
-        <div className="mt-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mt-auto grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* Pool Value Panel */}
-          <div className="glass-panel rounded-2xl border border-[#00f0ff]/30 shadow-neon-cyan p-4 md:p-6 flex items-center gap-4 md:gap-6">
+          <div className="glass-panel rounded-2xl border border-[#00f0ff]/30 shadow-neon-cyan p-3 md:p-4 flex items-center gap-3 md:gap-4">
             {/* Glowing test-tube icon */}
             <div className="relative flex-shrink-0">
               <div className="absolute inset-0 rounded-full bg-[#9d00ff]/20 blur-2xl" />
-              <div className="relative w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-[#9d00ff]/20 to-[#00f0ff]/10 border border-[#9d00ff]/40 flex items-center justify-center shadow-[0_0_25px_rgba(157,0,255,0.5)]">
-                <FlaskConical className="w-7 h-7 md:w-10 md:h-10 text-[#00f0ff]" strokeWidth={1.6} />
+              <div className="relative w-11 h-11 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-[#9d00ff]/20 to-[#00f0ff]/10 border border-[#9d00ff]/40 flex items-center justify-center shadow-[0_0_20px_rgba(157,0,255,0.5)]">
+                <FlaskConical className="w-5 h-5 md:w-7 md:h-7 text-[#00f0ff]" strokeWidth={1.6} />
               </div>
             </div>
 
             <div className="flex-1 min-w-0">
-              <div className="text-white font-serif font-bold text-lg md:text-2xl tracking-wide">
+              <div className="text-white font-serif font-bold text-sm md:text-lg tracking-wide leading-none">
                 Pool Value
               </div>
-              <div className="flex items-baseline gap-2 mt-1">
-                <span className="font-mono font-black text-3xl md:text-5xl text-white drop-shadow-[0_0_15px_rgba(0,240,255,0.5)]">
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="font-mono font-black text-xl md:text-3xl text-white drop-shadow-[0_0_15px_rgba(0,240,255,0.5)]">
                   ${netPool.toFixed(2)}
                 </span>
-                <span className="text-[#00f0ff] font-bold text-base md:text-xl tracking-widest">USD</span>
+                <span className="text-[#00f0ff] font-bold text-xs md:text-sm tracking-widest">USD</span>
               </div>
 
               {/* TOKABU equivalents */}
-              <div className="mt-2 md:mt-3 inline-flex items-center gap-2 glass-panel border border-[#00f0ff]/20 rounded-full px-3 py-1 text-xs md:text-sm">
+              <div className="mt-1.5 inline-flex items-center gap-1.5 glass-panel border border-[#00f0ff]/20 rounded-full px-2 py-0.5 text-[10px] md:text-xs">
                 <span className="text-[#a19bb8] font-mono">
                   ${poolValue.toFixed(2)} {TOKEN_CONFIG.symbol}
                 </span>
-                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-[#00f0ff]" />
+                <ArrowRight className="w-3 h-3 text-[#00f0ff]" />
                 <span className="text-white font-mono font-semibold">
                   {grossPoolTokabu !== null ? grossPoolTokabu.toFixed(2) : "—"} {TOKEN_CONFIG.symbol}
                 </span>
                 {netPoolTokabu !== null && (
-                  <ArrowUp className="w-3 h-3 md:w-4 md:h-4 text-[#00ff66]" />
+                  <ArrowUp className="w-3 h-3 text-[#00ff66]" />
                 )}
               </div>
             </div>
           </div>
 
           {/* Pool Reset Panel */}
-          <div className="glass-panel rounded-2xl border border-[#00f0ff]/30 shadow-neon-cyan p-4 md:p-6 flex flex-col gap-3">
+          <div className="glass-panel rounded-2xl border border-[#00f0ff]/30 shadow-neon-cyan p-3 md:p-4 flex flex-col gap-2">
             {/* Top: Label + decorative icons */}
             <div className="flex items-center justify-between">
-              <div className="text-white font-serif font-bold text-lg md:text-2xl tracking-wide">
+              <div className="text-white font-serif font-bold text-sm md:text-lg tracking-wide leading-none">
                 Pool Reset
               </div>
-              <div className="flex items-center gap-2">
-                <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-[#00f0ff]/20 to-[#9d00ff]/10 border border-[#00f0ff]/40 flex items-center justify-center shadow-[0_0_15px_rgba(0,240,255,0.4)]">
+              <div className="flex items-center gap-1.5">
+                <div className="relative w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-[#00f0ff]/20 to-[#9d00ff]/10 border border-[#00f0ff]/40 flex items-center justify-center shadow-[0_0_12px_rgba(0,240,255,0.4)]">
                   <div className="absolute inset-1 rounded-full border border-[#00f0ff]/30" />
-                  <div className="absolute w-1 h-1 bg-[#00f0ff] rounded-full top-1.5" />
+                  <div className="absolute w-1 h-1 bg-[#00f0ff] rounded-full top-1" />
                 </div>
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-[#9d00ff]/20 to-[#00f0ff]/10 border border-[#9d00ff]/40 flex items-center justify-center shadow-[0_0_15px_rgba(157,0,255,0.4)]">
-                  <Timer className="w-5 h-5 md:w-6 md:h-6 text-[#9d00ff]" strokeWidth={1.8} />
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-[#9d00ff]/20 to-[#00f0ff]/10 border border-[#9d00ff]/40 flex items-center justify-center shadow-[0_0_12px_rgba(157,0,255,0.4)]">
+                  <Timer className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#9d00ff]" strokeWidth={1.8} />
                 </div>
               </div>
             </div>
 
             {/* Countdown segments */}
-            <div className="flex items-center justify-center gap-1 md:gap-2 py-1">
+            <div className="flex items-center justify-center gap-1 md:gap-1.5">
               <CountdownSegments value={hoursStr} />
-              <span className="font-mono font-black text-2xl md:text-4xl text-[#00f0ff]">:</span>
+              <span className="font-mono font-black text-lg md:text-2xl text-[#00f0ff]">:</span>
               <CountdownSegments value={minutesStr} />
-              <span className="font-mono font-black text-2xl md:text-4xl text-[#00f0ff]">:</span>
+              <span className="font-mono font-black text-lg md:text-2xl text-[#00f0ff]">:</span>
               <CountdownSegments value={secondsStr} />
             </div>
 
             {/* Gradient progress line */}
-            <div className="h-1 w-full rounded-full bg-gradient-to-r from-[#00f0ff] via-[#9d00ff] to-[#ff3366] opacity-80 shadow-[0_0_10px_rgba(0,240,255,0.5)]" />
+            <div className="h-0.5 w-full rounded-full bg-gradient-to-r from-[#00f0ff] via-[#9d00ff] to-[#ff3366] opacity-80 shadow-[0_0_8px_rgba(0,240,255,0.5)]" />
 
             {/* Subtitle */}
-            <div className="text-center text-xs md:text-sm text-[#a19bb8] tracking-wide">
+            <div className="text-center text-[10px] md:text-xs text-[#a19bb8] tracking-wide leading-none">
               Time until next distribution
             </div>
           </div>
