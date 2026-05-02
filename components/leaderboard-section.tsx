@@ -6,6 +6,22 @@ import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 import { useTimer } from "@/lib/timer-context"
 import { usePool } from "@/lib/pool-context"
 
+// 48-hour cycle window — mirrors supabase/functions/calculate-daily-rewards/index.ts.
+// The anchor MUST stay in sync with migration 20260501160000_cycle_48h.sql; do not
+// change unless the trigger function and Edge Function change in the same release.
+const CYCLE_ANCHOR_DATE = "2026-05-01"
+const MS_PER_DAY = 86_400_000
+
+function getCycleWindow() {
+  const now = new Date()
+  const anchor = new Date(`${CYCLE_ANCHOR_DATE}T00:00:00Z`)
+  const daysSinceAnchor = Math.floor((now.getTime() - anchor.getTime()) / MS_PER_DAY)
+  const cycleStartDay = daysSinceAnchor - (daysSinceAnchor % 2)
+  const cycleStart = new Date(anchor.getTime() + cycleStartDay * MS_PER_DAY).toISOString()
+  const cycleEnd = new Date(anchor.getTime() + (cycleStartDay + 2) * MS_PER_DAY).toISOString()
+  return { cycleStart, cycleEnd }
+}
+
 // Avatar placeholder colors
 const avatarColors = [
   "bg-gradient-to-br from-yellow-500 to-orange-600",
@@ -116,6 +132,33 @@ export function LeaderboardSection() {
     totalShares: number
     unitValue: number
   }>({ netPool: 0, totalShares: 0, unitValue: 0 })
+  const [solPriceUsd, setSolPriceUsd] = useState<number | null>(null)
+
+  // Fetch SOL/USD price (CoinGecko via /api/ticker). The reward column shows
+  // an LMX figure (USD-equivalent) plus a live SOL conversion underneath.
+  useEffect(() => {
+    let aborted = false
+    async function fetchSolPrice() {
+      try {
+        const res = await fetch("/api/ticker")
+        if (!res.ok) return
+        const data = await res.json()
+        const sol = data?.solana?.usd
+        if (sol && !aborted) {
+          const p = Number.parseFloat(String(sol))
+          if (Number.isFinite(p) && p > 0) setSolPriceUsd(p)
+        }
+      } catch {
+        /* ignore — reward row falls back to LMX-only render */
+      }
+    }
+    fetchSolPrice()
+    const interval = setInterval(fetchSolPrice, 60_000)
+    return () => {
+      aborted = true
+      clearInterval(interval)
+    }
+  }, [])
 
   useEffect(() => {
     async function fetchLeaderboard() {
@@ -138,7 +181,7 @@ export function LeaderboardSection() {
           return
         }
 
-        const today = new Date().toISOString().split("T")[0]
+        const { cycleStart, cycleEnd } = getCycleWindow()
 
         const leaderboardWithGames: LeaderboardWithGames[] = await Promise.all(
           (data || []).map(async (player) => {
@@ -146,12 +189,15 @@ export function LeaderboardSection() {
               .from("scores")
               .select("*", { count: "exact", head: true })
               .eq("wallet_address", player.wallet_address)
-              .gte("created_at", `${today}T00:00:00`)
-              .lt("created_at", `${today}T23:59:59`)
+              .gte("created_at", cycleStart)
+              .lt("created_at", cycleEnd)
 
             const gamesPlayed = count || 0
-            const boostPercentage = gamesPlayed / 100 // 1 game = 1%
-            const boostedScore = Math.round(player.best_score * (1 + boostPercentage))
+            // Mirrors calculate-daily-rewards Edge Function: extra games beyond
+            // the first add a percent each. 1 game = +0%, 2 games = +2%,
+            // 3 games = +3%, ... (no bonus for a single play).
+            const bonusPercent = gamesPlayed >= 2 ? gamesPlayed : 0
+            const boostedScore = Math.round(player.best_score * (1 + bonusPercent / 100))
 
             return {
               ...player,
@@ -183,18 +229,21 @@ export function LeaderboardSection() {
                 .limit(100)
 
               if (!refetchError && updatedData) {
+                // Recompute the cycle window each time — a long-lived browser
+                // session can outlast a cycle boundary, and we want fresh data.
+                const { cycleStart: rtCycleStart, cycleEnd: rtCycleEnd } = getCycleWindow()
                 const updatedWithGames: LeaderboardWithGames[] = await Promise.all(
                   updatedData.map(async (player) => {
                     const { count } = await supabase
                       .from("scores")
                       .select("*", { count: "exact", head: true })
                       .eq("wallet_address", player.wallet_address)
-                      .gte("created_at", `${today}T00:00:00`)
-                      .lt("created_at", `${today}T23:59:59`)
+                      .gte("created_at", rtCycleStart)
+                      .lt("created_at", rtCycleEnd)
 
                     const gamesPlayed = count || 0
-                    const boostPercentage = gamesPlayed / 100
-                    const boostedScore = Math.round(player.best_score * (1 + boostPercentage))
+                    const bonusPercent = gamesPlayed >= 2 ? gamesPlayed : 0
+                    const boostedScore = Math.round(player.best_score * (1 + bonusPercent / 100))
 
                     return {
                       ...player,
@@ -342,7 +391,7 @@ export function LeaderboardSection() {
                         <div className="flex items-center justify-center gap-2">
                           <Gamepad2 className="w-4 h-4 text-gray-400" />
                           <span className="text-white font-bold">{racer.games_played}</span>
-                          {racer.games_played > 0 && (
+                          {racer.games_played >= 2 && (
                             <span className="text-green-400 text-xs font-medium">+{racer.games_played}%</span>
                           )}
                         </div>
@@ -351,14 +400,21 @@ export function LeaderboardSection() {
                       <div className="col-span-3 text-center">
                         <div className="flex flex-col">
                           <span className="text-[#00f0ff] font-bold text-base">{formatScore(racer.boosted_score)}</span>
-                          {racer.games_played > 0 && racer.boosted_score !== racer.best_score && (
+                          {racer.games_played >= 2 && racer.boosted_score !== racer.best_score && (
                             <span className="text-[#a19bb8] text-xs line-through">{formatScore(racer.best_score)}</span>
                           )}
                         </div>
                       </div>
 
                       <div className="col-span-3 text-right">
-                        <span className="text-[#00ff66] font-semibold text-base">{reward.toFixed(4)} LMX</span>
+                        <div className="flex flex-col items-end">
+                          <span className="text-[#00ff66] font-semibold text-base">{reward.toFixed(2)} LMX</span>
+                          {solPriceUsd !== null && solPriceUsd > 0 && (
+                            <span className="text-[#a19bb8] text-[10px] font-mono">
+                              ≈ {(reward / solPriceUsd).toFixed(4)} SOL
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
 
@@ -382,7 +438,7 @@ export function LeaderboardSection() {
                       <div className="col-span-2 text-center">
                         <div className="flex flex-col items-center">
                           <span className="text-white font-bold text-xs">{racer.games_played}</span>
-                          {racer.games_played > 0 && (
+                          {racer.games_played >= 2 && (
                             <span className="text-green-400 text-[10px]">+{racer.games_played}%</span>
                           )}
                         </div>
@@ -393,7 +449,14 @@ export function LeaderboardSection() {
                       </div>
 
                       <div className="col-span-3 text-right">
-                        <span className="text-[#00ff66] font-semibold text-xs">{reward.toFixed(4)} LMX</span>
+                        <div className="flex flex-col items-end">
+                          <span className="text-[#00ff66] font-semibold text-xs">{reward.toFixed(2)} LMX</span>
+                          {solPriceUsd !== null && solPriceUsd > 0 && (
+                            <span className="text-[#a19bb8] text-[9px] font-mono">
+                              ≈ {(reward / solPriceUsd).toFixed(4)} SOL
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
