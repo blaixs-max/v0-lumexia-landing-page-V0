@@ -65,7 +65,7 @@ export function DashboardHero() {
             onClick={handleExploreGames}
             className="w-full bg-transparent text-[#00f0ff] font-bold py-2 px-4 rounded-full border-2 border-[#00f0ff] text-xs"
           >
-            DAILY RANKING
+            CYCLE RANKING
           </button>
         </div>
 
@@ -133,7 +133,7 @@ export function DashboardHero() {
             onClick={handleExploreGames}
             className="bg-transparent text-[#00f0ff] font-bold py-3 px-8 rounded-full border-2 border-[#00f0ff] shadow-neon-cyan hover:bg-[#00f0ff] hover:text-white transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
           >
-            DAILY RANKING
+            CYCLE RANKING
           </button>
         </div>
       </div>
