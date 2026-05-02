@@ -21,12 +21,14 @@ export default function Home() {
         {/* Dashboard Hero Section */}
         <DashboardHero />
 
+        {/* Cycle Ranking — moved above Recent Transactions per user request */}
+        <LeaderboardSection />
+
         {/* Transactions Panel */}
         <TransactionsPanel />
 
         {/* Additional Sections */}
         <div className="space-y-0">
-          <LeaderboardSection />
           <FeaturesGrid />
           <StrategySection />
           <FaqSection />

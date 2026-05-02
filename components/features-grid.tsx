@@ -3,9 +3,9 @@ import { Shield, Scale, Flame, Vault, ShieldCheck, PiggyBank } from "lucide-reac
 const features = [
   {
     icon: Shield,
-    title: "Daily Reward Distribution",
+    title: "Cycle Reward Distribution",
     description:
-      "The top 100 players with the highest scores each day share the prize pool accumulated by the end of the day among themselves through an automated system managed by a secure and smart contract. (Our process is absolutely cheat-proof.)",
+      "The top 100 players with the highest scores in each 48-hour cycle share the prize pool accumulated during that cycle through an automated system managed by a secure and smart contract. (Our process is absolutely cheat-proof.)",
   },
   {
     icon: Scale,
@@ -31,7 +31,7 @@ const features = [
     icon: PiggyBank,
     title: "Revenue Model",
     description:
-      "92.5% of the total daily reward pool will be distributed along with fair share method on each game day. Remaining 7.5% of the reward pool kept in treasury for Marketing & Weekly Burns.",
+      "92.5% of each cycle's reward pool is distributed via a fair-share method at the end of every 48-hour cycle. The remaining 7.5% is kept in treasury for Marketing & Weekly Burns.",
   },
 ]
 
