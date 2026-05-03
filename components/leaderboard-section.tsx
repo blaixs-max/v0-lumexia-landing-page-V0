@@ -322,24 +322,24 @@ export function LeaderboardSection() {
             const ringRadius = 20
             const ringCircumference = 2 * Math.PI * ringRadius
             return (
-              <div className="grid grid-cols-2 gap-3 md:gap-4 mt-4 md:mt-0 md:max-w-[480px] md:flex-shrink-0">
+              <div className="grid grid-cols-2 gap-2.5 md:gap-4 mt-4 md:mt-0 md:max-w-[480px] md:flex-shrink-0">
                 {/* POOL CARD */}
-                <div className="group relative glass-panel rounded-2xl border border-[#00f0ff]/30 shadow-neon-cyan p-4 md:p-5 overflow-hidden hover:shadow-[0_0_30px_rgba(0,240,255,0.55)] transition-shadow duration-300">
+                <div className="group relative glass-panel rounded-2xl border border-[#00f0ff]/30 shadow-neon-cyan p-3 md:p-5 overflow-hidden hover:shadow-[0_0_30px_rgba(0,240,255,0.55)] transition-shadow duration-300">
                   <div className="absolute inset-0 bg-gradient-to-br from-[#9d00ff]/15 via-transparent to-[#00f0ff]/10 pointer-events-none" />
                   <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-[#00f0ff]/20 blur-3xl pointer-events-none" />
 
-                  <div className="relative flex flex-col h-full">
-                    <span className="text-[#a19bb8] text-[10px] md:text-xs tracking-[0.25em] uppercase font-semibold mb-2">
+                  <div className="relative flex flex-col">
+                    <span className="text-[#a19bb8] text-[10px] md:text-xs tracking-[0.25em] uppercase font-semibold mb-1.5 md:mb-2">
                       Pool
                     </span>
-                    <div className="flex items-end justify-between gap-2 flex-1">
-                      <span className="font-serif font-black text-3xl md:text-4xl text-white drop-shadow-[0_0_15px_rgba(0,240,255,0.6)] leading-none">
+                    <div className="flex items-end justify-between gap-1.5 md:gap-2">
+                      <span className="font-serif font-black text-xl md:text-4xl text-white drop-shadow-[0_0_15px_rgba(0,240,255,0.6)] leading-none whitespace-nowrap">
                         ${netPool.toFixed(2)}
                       </span>
                       <div className="relative flex-shrink-0">
                         <div className="absolute inset-0 rounded-full bg-[#00f0ff]/40 blur-xl" />
-                        <div className="relative w-11 h-11 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-[#00f0ff]/30 via-[#9d00ff]/20 to-[#00f0ff]/30 border border-[#00f0ff]/50 flex items-center justify-center shadow-[inset_0_0_15px_rgba(0,240,255,0.4)]">
-                          <Coins className="w-5 h-5 md:w-6 md:h-6 text-[#00f0ff]" strokeWidth={2} />
+                        <div className="relative w-8 h-8 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-[#00f0ff]/30 via-[#9d00ff]/20 to-[#00f0ff]/30 border border-[#00f0ff]/50 flex items-center justify-center shadow-[inset_0_0_15px_rgba(0,240,255,0.4)]">
+                          <Coins className="w-4 h-4 md:w-6 md:h-6 text-[#00f0ff]" strokeWidth={2} />
                         </div>
                       </div>
                     </div>
@@ -347,28 +347,28 @@ export function LeaderboardSection() {
                 </div>
 
                 {/* RESET CARD */}
-                <div className="group relative glass-panel rounded-2xl border border-[#ff3366]/30 shadow-[0_0_20px_rgba(255,51,102,0.25)] p-4 md:p-5 overflow-hidden hover:shadow-[0_0_30px_rgba(255,51,102,0.45)] transition-shadow duration-300">
+                <div className="group relative glass-panel rounded-2xl border border-[#ff3366]/30 shadow-[0_0_20px_rgba(255,51,102,0.25)] p-3 md:p-5 overflow-hidden hover:shadow-[0_0_30px_rgba(255,51,102,0.45)] transition-shadow duration-300">
                   <div className="absolute inset-0 bg-gradient-to-br from-[#ff3366]/15 via-transparent to-[#9d00ff]/10 pointer-events-none" />
                   <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-[#ff3366]/20 blur-3xl pointer-events-none" />
 
-                  <div className="relative flex flex-col h-full">
-                    <span className="text-[#a19bb8] text-[10px] md:text-xs tracking-[0.25em] uppercase font-semibold mb-2">
+                  <div className="relative flex flex-col">
+                    <span className="text-[#a19bb8] text-[10px] md:text-xs tracking-[0.25em] uppercase font-semibold mb-1.5 md:mb-2">
                       Reset
                     </span>
-                    <div className="flex items-end justify-between gap-2 flex-1">
-                      <div className="flex flex-col leading-none">
-                        <span className="font-mono font-bold text-2xl md:text-3xl text-white drop-shadow-[0_0_12px_rgba(255,51,102,0.5)]">
+                    <div className="flex items-end justify-between gap-1.5 md:gap-2">
+                      <div className="flex flex-col leading-none min-w-0">
+                        <span className="font-mono font-bold text-lg md:text-3xl text-white drop-shadow-[0_0_12px_rgba(255,51,102,0.5)] whitespace-nowrap">
                           {String(timer.hours).padStart(2, "0")}
-                          <span className="text-[#a19bb8] text-base md:text-lg ml-0.5">h</span>
+                          <span className="text-[#a19bb8] text-xs md:text-lg ml-0.5">h</span>
                           {" "}
                           {String(timer.minutes).padStart(2, "0")}
-                          <span className="text-[#a19bb8] text-base md:text-lg ml-0.5">m</span>
+                          <span className="text-[#a19bb8] text-xs md:text-lg ml-0.5">m</span>
                         </span>
-                        <span className="text-[#a19bb8] text-[10px] md:text-xs font-mono mt-1.5 tracking-wider">
+                        <span className="text-[#a19bb8] text-[9px] md:text-xs font-mono mt-1 md:mt-1.5 tracking-wider">
                           {String(timer.seconds).padStart(2, "0")}s remaining
                         </span>
                       </div>
-                      <div className="relative flex-shrink-0 w-11 h-11 md:w-12 md:h-12">
+                      <div className="relative flex-shrink-0 w-8 h-8 md:w-12 md:h-12">
                         <svg className="w-full h-full -rotate-90" viewBox="0 0 48 48">
                           <circle
                             cx="24"
@@ -399,7 +399,7 @@ export function LeaderboardSection() {
                           </defs>
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <Timer className="w-4 h-4 md:w-5 md:h-5 text-[#ff3366]" strokeWidth={2} />
+                          <Timer className="w-3 h-3 md:w-5 md:h-5 text-[#ff3366]" strokeWidth={2} />
                         </div>
                       </div>
                     </div>
