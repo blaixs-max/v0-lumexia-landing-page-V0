@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Trophy, Coins, Copy, Check, Gamepad2 } from "lucide-react"
+import { Trophy, Coins, Copy, Check, Gamepad2, Timer } from "lucide-react"
 import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 import { useTimer } from "@/lib/timer-context"
 import { usePool } from "@/lib/pool-context"
@@ -312,21 +312,102 @@ export function LeaderboardSection() {
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-stretch gap-4 mt-4 md:mt-0">
-            <div className="flex items-center gap-2 glass-panel border border-[#00f0ff]/30 rounded-lg px-4 py-3 min-w-[200px]">
-              <Coins className="w-5 h-5 text-[#00f0ff]" />
-              <span className="text-[#00f0ff] text-sm font-medium">Pool:</span>
-              <span className="text-white font-mono font-bold">${netPool.toFixed(2)}</span>
-            </div>
+          {/* Cycle Stats Dashboard — Pool + Reset cards.
+              Visual hierarchy: hero number left, supporting iconography right.
+              Color story: Pool = cyan/purple (winning energy), Reset = pink/purple (urgency).
+              Glassmorphism + neon glow + soft gradient overlays match the rest of lumexia.net. */}
+          {(() => {
+            const cycleSecondsLeft = timer.hours * 3600 + timer.minutes * 60 + timer.seconds
+            const cycleProgressPercent = Math.min(100, Math.max(0, (cycleSecondsLeft / (48 * 3600)) * 100))
+            const ringRadius = 20
+            const ringCircumference = 2 * Math.PI * ringRadius
+            return (
+              <div className="grid grid-cols-2 gap-2.5 md:gap-4 mt-4 md:mt-0 md:max-w-[480px] md:flex-shrink-0">
+                {/* POOL CARD */}
+                <div className="group relative glass-panel rounded-2xl border border-[#00f0ff]/30 shadow-neon-cyan p-3 md:p-5 overflow-hidden hover:shadow-[0_0_30px_rgba(0,240,255,0.55)] transition-shadow duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#9d00ff]/15 via-transparent to-[#00f0ff]/10 pointer-events-none" />
+                  <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-[#00f0ff]/20 blur-3xl pointer-events-none" />
 
-            <div className="flex items-center gap-2 glass-panel border border-[#ff3366]/30 rounded-lg px-4 py-3 min-w-[200px]">
-              <div className="w-2 h-2 bg-[#ff3366] rounded-full animate-pulse" />
-              <span className="text-[#ff3366] text-sm font-medium">Reset:</span>
-              <span className="text-white font-mono font-bold">
-                {timer.hours}h {timer.minutes}m {timer.seconds}s
-              </span>
-            </div>
-          </div>
+                  <div className="relative flex flex-col">
+                    <span className="text-[#a19bb8] text-[10px] md:text-xs tracking-[0.25em] uppercase font-semibold mb-1.5 md:mb-2">
+                      Pool
+                    </span>
+                    <div className="flex items-end justify-between gap-1.5 md:gap-2">
+                      <span className="font-serif font-black text-xl md:text-4xl text-white drop-shadow-[0_0_15px_rgba(0,240,255,0.6)] leading-none whitespace-nowrap">
+                        ${netPool.toFixed(2)}
+                      </span>
+                      <div className="relative flex-shrink-0">
+                        <div className="absolute inset-0 rounded-full bg-[#00f0ff]/40 blur-xl" />
+                        <div className="relative w-8 h-8 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-[#00f0ff]/30 via-[#9d00ff]/20 to-[#00f0ff]/30 border border-[#00f0ff]/50 flex items-center justify-center shadow-[inset_0_0_15px_rgba(0,240,255,0.4)]">
+                          <Coins className="w-4 h-4 md:w-6 md:h-6 text-[#00f0ff]" strokeWidth={2} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* RESET CARD */}
+                <div className="group relative glass-panel rounded-2xl border border-[#ff3366]/30 shadow-[0_0_20px_rgba(255,51,102,0.25)] p-3 md:p-5 overflow-hidden hover:shadow-[0_0_30px_rgba(255,51,102,0.45)] transition-shadow duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#ff3366]/15 via-transparent to-[#9d00ff]/10 pointer-events-none" />
+                  <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-[#ff3366]/20 blur-3xl pointer-events-none" />
+
+                  <div className="relative flex flex-col">
+                    <span className="text-[#a19bb8] text-[10px] md:text-xs tracking-[0.25em] uppercase font-semibold mb-1.5 md:mb-2">
+                      Reset
+                    </span>
+                    <div className="flex items-end justify-between gap-1.5 md:gap-2">
+                      <div className="flex flex-col leading-none min-w-0">
+                        <span className="font-mono font-bold text-lg md:text-3xl text-white drop-shadow-[0_0_12px_rgba(255,51,102,0.5)] whitespace-nowrap">
+                          {String(timer.hours).padStart(2, "0")}
+                          <span className="text-[#a19bb8] text-xs md:text-lg ml-0.5">h</span>
+                          {" "}
+                          {String(timer.minutes).padStart(2, "0")}
+                          <span className="text-[#a19bb8] text-xs md:text-lg ml-0.5">m</span>
+                        </span>
+                        <span className="text-[#a19bb8] text-[9px] md:text-xs font-mono mt-1 md:mt-1.5 tracking-wider">
+                          {String(timer.seconds).padStart(2, "0")}s remaining
+                        </span>
+                      </div>
+                      <div className="relative flex-shrink-0 w-8 h-8 md:w-12 md:h-12">
+                        <svg className="w-full h-full -rotate-90" viewBox="0 0 48 48">
+                          <circle
+                            cx="24"
+                            cy="24"
+                            r={ringRadius}
+                            stroke="rgba(255,51,102,0.15)"
+                            strokeWidth="3"
+                            fill="none"
+                          />
+                          <circle
+                            cx="24"
+                            cy="24"
+                            r={ringRadius}
+                            stroke="url(#cycleResetGradient)"
+                            strokeWidth="3"
+                            fill="none"
+                            strokeDasharray={ringCircumference}
+                            strokeDashoffset={ringCircumference * (1 - cycleProgressPercent / 100)}
+                            strokeLinecap="round"
+                            style={{ transition: "stroke-dashoffset 0.5s ease" }}
+                          />
+                          <defs>
+                            <linearGradient id="cycleResetGradient" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#00f0ff" />
+                              <stop offset="50%" stopColor="#9d00ff" />
+                              <stop offset="100%" stopColor="#ff3366" />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Timer className="w-3 h-3 md:w-5 md:h-5 text-[#ff3366]" strokeWidth={2} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
         </div>
 
         <div className="border border-white/10 rounded-xl overflow-hidden bg-[#080414]/50">
