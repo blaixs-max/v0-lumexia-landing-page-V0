@@ -1,4 +1,4 @@
-// Single source of truth for the payment token (TOKABU on Solana).
+// Single source of truth for the payment token (LMX on Solana).
 //
 // Mirrors the racing game's src/solana.config.js TOKEN_CONFIG so both
 // projects stay in sync. When the active token changes, update both
@@ -7,16 +7,19 @@
 //   - TOKEN_SYMBOL
 //   - TOKEN_DECIMALS
 //   - PAYMENT_RECEIVER (or PAYMENT_RECEIVER_ADDRESS)
+//
+// Sprint 8 token launch (2026-05-09): TOKABU → LMX. Re-launch on the
+// same day moved the mint from 4U24...pump to ELaSG...pump.
 
 export const TOKEN_CONFIG = {
-  symbol: "TOKABU",
-  mint: "H8xQ6poBjB9DTPMDTKWzWPrnxu4bDEhybxiouF8Ppump",
+  symbol: "LMX",
+  mint: "ELaSGbXf6KMcw9wzyLgG78Tef6BLrHwkGpH5euLSpump",
   decimals: 6,
   chain: "Solana",
   explorerUrl:
-    "https://solscan.io/token/H8xQ6poBjB9DTPMDTKWzWPrnxu4bDEhybxiouF8Ppump",
+    "https://solscan.io/token/ELaSGbXf6KMcw9wzyLgG78Tef6BLrHwkGpH5euLSpump",
   pumpFunUrl:
-    "https://pump.fun/coin/H8xQ6poBjB9DTPMDTKWzWPrnxu4bDEhybxiouF8Ppump",
+    "https://pump.fun/coin/ELaSGbXf6KMcw9wzyLgG78Tef6BLrHwkGpH5euLSpump",
   // Solana SPL Token program ID (same for all standard SPL tokens)
   programId: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
 } as const;

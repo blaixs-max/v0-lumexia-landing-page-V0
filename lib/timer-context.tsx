@@ -21,8 +21,9 @@ export function useTimer() {
 }
 
 // 48-hour cycle anchor — must match the Edge Function and DB trigger.
-// See racing repo: supabase/migrations/20260501160000_cycle_48h.sql.
-const CYCLE_ANCHOR_DATE = "2026-05-01"
+// Sprint 8 token launch reset moved the anchor to 2026-05-09. See
+// racing repo: supabase/migrations/20260509200000_cycle_reset_token_launch.sql.
+const CYCLE_ANCHOR_DATE = "2026-05-09"
 const MS_PER_DAY = 86_400_000
 const MS_PER_CYCLE = 2 * MS_PER_DAY
 
