@@ -9,8 +9,9 @@ import { getSupabase } from "@/lib/supabase"
 const CREDIT_TO_USD = 1.0
 
 // 48h cycle anchor — keep in sync with lib/timer-context.tsx and the
-// racing repo's migration 20260501160000_cycle_48h.sql.
-const CYCLE_ANCHOR_DATE = "2026-05-01"
+// racing repo. Sprint 8 token launch reset moved the anchor to 2026-05-09;
+// see racing repo migration 20260509200000_cycle_reset_token_launch.sql.
+const CYCLE_ANCHOR_DATE = "2026-05-09"
 const MS_PER_DAY = 86_400_000
 const MS_PER_CYCLE = 2 * MS_PER_DAY
 

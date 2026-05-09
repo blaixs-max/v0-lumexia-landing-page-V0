@@ -5,11 +5,13 @@ import { Trophy, Coins, Copy, Check, Gamepad2, Timer } from "lucide-react"
 import { getSupabase, type DailyLeaderboardEntry } from "@/lib/supabase"
 import { useTimer } from "@/lib/timer-context"
 import { usePool } from "@/lib/pool-context"
+import { TOKEN_CONFIG } from "@/lib/token-config"
 
 // 48-hour cycle window — mirrors supabase/functions/calculate-daily-rewards/index.ts.
-// The anchor MUST stay in sync with migration 20260501160000_cycle_48h.sql; do not
-// change unless the trigger function and Edge Function change in the same release.
-const CYCLE_ANCHOR_DATE = "2026-05-01"
+// Sprint 8 token launch reset moved the anchor to 2026-05-09; see racing repo
+// migration 20260509200000_cycle_reset_token_launch.sql. Do not change unless
+// the trigger function and Edge Function change in the same release.
+const CYCLE_ANCHOR_DATE = "2026-05-09"
 const MS_PER_DAY = 86_400_000
 
 function getCycleWindow() {
@@ -307,7 +309,7 @@ export function LeaderboardSection() {
               <span className="text-[#00f0ff] neon-text-cyan">RANKING</span>
             </h2>
             <p className="text-[#a19bb8] text-sm md:text-base">
-              Top 100 Racers receive automated <span className="text-[#00f0ff]">$TOKABU</span> airdrops every{" "}
+              Top 100 Racers receive automated <span className="text-[#00f0ff]">${TOKEN_CONFIG.symbol}</span> airdrops every{" "}
               <span className="text-white font-semibold">48h</span>. Showing Top 100 contenders.
             </p>
           </div>
