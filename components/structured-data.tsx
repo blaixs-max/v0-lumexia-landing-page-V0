@@ -62,6 +62,7 @@ const videoGameSchema = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": `${SITE_URL}/#faq`,
   mainEntity: [
     {
       "@type": "Question",
@@ -106,25 +107,26 @@ const faqSchema = {
   ],
 }
 
+// All schemas merged into a single JSON-LD root using `@graph`. Google
+// prefers this pattern: one script tag, one `@context`, multiple typed
+// nodes related via `@id`. Fixes the Search Console "FAQPage alanı
+// yineleniyor" warning that appears when validators see multiple top-
+// level schemas as separate documents on the same page.
+const graphSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    // Strip per-schema "@context" to keep a single canonical context.
+    ...[organizationSchema, websiteSchema, videoGameSchema, faqSchema].map(
+      ({ "@context": _ctx, ...rest }) => rest,
+    ),
+  ],
+}
+
 export function StructuredData() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoGameSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(graphSchema) }}
+    />
   )
 }
